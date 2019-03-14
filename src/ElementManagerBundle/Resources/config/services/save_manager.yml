@@ -1,0 +1,23 @@
+services:
+    ElementManagerBundle\SaveManager\NamingScheme\ExpressionNamingScheme:
+        arguments:
+            - '@coreshop.expression_language'
+
+    ElementManagerBundle\SaveManager\ValidationSaveHandler:
+        arguments:
+            - '@validator'
+
+    ElementManagerBundle\SaveManager\DuplicationSaveHandler:
+        arguments:
+            - '@duplication_checker'
+
+    ElementManagerBundle\EventListener\ObjectEventListener:
+        arguments:
+            - '@ElementManagerBundle\SaveManager\ObjectSaveManagers'
+        tags:
+            - { name: kernel.event_listener, event: pimcore.dataobject.preUpdate, method: onPreUpdate }
+            - { name: kernel.event_listener, event: pimcore.dataobject.postUpdate, method: onPostUpdate }
+            - { name: kernel.event_listener, event: pimcore.dataobject.preAdd, method: onPreAdd }
+            - { name: kernel.event_listener, event: pimcore.dataobject.postAdd, method: onPostAdd }
+            - { name: kernel.event_listener, event: pimcore.dataobject.preDelete, method: onPreDelete }
+            - { name: kernel.event_listener, event: pimcore.dataobject.postDelete, method: onPostDelete }

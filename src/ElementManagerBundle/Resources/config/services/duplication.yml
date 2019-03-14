@@ -1,0 +1,57 @@
+parameters:
+    duplication_checker.cache.prefix: ''
+    duplication_checker.cache.file: '%kernel.cache_dir%/duplication.php'
+
+services:
+    duplication_checker.cache:
+        parent: cache.system
+        tags:
+            - { name: cache.pool }
+
+    duplication_checker.validator:
+        class: Symfony\Component\Validator\Validator\ValidatorInterface
+        public: false
+        factory: 'duplication_checker.builder:getValidator'
+
+    duplication_checker.builder:
+        class: Symfony\Component\Validator\ValidatorBuilder
+        public: false
+        calls:
+            -   method: setConstraintValidatorFactory
+                arguments:
+                    - '@duplication_checker.validator_factory'
+
+    duplication_checker.validator_factory:
+        class: ElementManagerBundle\DuplicateChecker\ContainerConstraintValidatorFactory
+        public: false
+        arguments:
+            - ''
+
+    duplication_checker.mapping.cache_warmer:
+        class: Symfony\Bundle\FrameworkBundle\CacheWarmer\ValidatorCacheWarmer
+        public: false
+        arguments:
+            - '@duplication_checker.builder'
+            - '%duplication_checker.cache.file%'
+            - '@duplication_checker.cache'
+        tags:
+            - { name: kernel.cache_warmer }
+
+    duplication_checker.mapping.cache.symfony.php_array:
+        class: Symfony\Component\Cache\Adapter\PhpArrayAdapter
+        public: false
+        factory: Symfony\Component\Cache\Adapter\PhpArrayAdapter:create
+        arguments:
+            - '%duplication_checker.cache.file%'
+            - '@duplication_checker.cache'
+
+    duplication_checker.mapping.cache.symfony:
+        class: Symfony\Component\Validator\Mapping\Cache\Psr6Cache
+        public: false
+        arguments:
+            - '@duplication_checker.mapping.cache.symfony.php_array'
+
+    duplication_checker:
+        class: ElementManagerBundle\DuplicateChecker\DuplicateService
+        arguments:
+            - '@duplication_checker.validator'
