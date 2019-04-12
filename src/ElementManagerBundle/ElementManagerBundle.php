@@ -14,14 +14,36 @@
 
 namespace ElementManagerBundle;
 
-use Pimcore\Extension\Bundle\AbstractPimcoreBundle;
+use CoreShop\Bundle\ResourceBundle\AbstractResourceBundle;
+use CoreShop\Bundle\ResourceBundle\CoreShopResourceBundle;
+use ElementManagerBundle\DependencyInjection\CompilerPass\AddDataTransformersPass;
+use ElementManagerBundle\DependencyInjection\CompilerPass\AddSimilarityCheckerPass;
 use Pimcore\Extension\Bundle\Traits\PackageVersionTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Validator\DependencyInjection\AddConstraintValidatorsPass;
 
-class ElementManagerBundle extends AbstractPimcoreBundle
+class ElementManagerBundle extends AbstractResourceBundle
 {
     use PackageVersionTrait;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSupportedDrivers()
+    {
+        return [
+            CoreShopResourceBundle::DRIVER_DOCTRINE_ORM,
+        ];
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getModelNamespace()
+    {
+        return 'ElementManagerBundle\Model';
+    }
 
     /**
      * {@inheritdoc}
@@ -31,6 +53,8 @@ class ElementManagerBundle extends AbstractPimcoreBundle
         parent::build($builder);
 
         $builder->addCompilerPass(new AddConstraintValidatorsPass('duplication_checker.validator_factory', 'duplication_checker.constraint_validator'));
+        $builder->addCompilerPass(new AddDataTransformersPass());
+        $builder->addCompilerPass(new AddSimilarityCheckerPass());
     }
 
     /**

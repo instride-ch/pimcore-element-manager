@@ -1,0 +1,29 @@
+services:
+    ElementManagerBundle\DuplicateIndex\DataTransformer\ContainerDataTransformerFactory:
+        arguments:
+            - []
+
+    ElementManagerBundle\DuplicateIndex\Similarity\ContainerSimilarityCheckerFactory:
+        arguments:
+            - []
+
+    ElementManagerBundle\DuplicateIndex\DataTransformer\DataTransformerFactoryInterface: '@ElementManagerBundle\DuplicateIndex\DataTransformer\ContainerDataTransformerFactory'
+    ElementManagerBundle\DuplicateIndex\Similarity\SimilarityCheckerFactoryInterface: '@ElementManagerBundle\DuplicateIndex\Similarity\ContainerSimilarityCheckerFactory'
+
+    ElementManagerBundle\DuplicateIndex\DuplicatesIndexWorker:
+        arguments:
+            - '@ElementManagerBundle\DuplicateIndex\DataTransformer\DataTransformerFactoryInterface'
+            - '@doctrine.orm.entity_manager'
+            - '@element_manager.repository.duplicate'
+            - '@element_manager.repository.duplicate_object'
+            - '@element_manager.factory.duplicate'
+            - '@element_manager.factory.duplicate_object'
+
+    ElementManagerBundle\DuplicateIndex\DuplicateFinder:
+        arguments:
+            - '@ElementManagerBundle\DuplicateIndex\Similarity\SimilarityCheckerFactoryInterface'
+            - '@element_manager.repository.duplicate'
+            - '@element_manager.repository.duplicate_object'
+            - '@element_manager.repository.potential_duplicate'
+            - '@doctrine.orm.entity_manager'
+            - '@element_manager.factory.potential_duplicate'

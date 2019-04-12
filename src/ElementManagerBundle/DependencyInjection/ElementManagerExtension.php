@@ -14,6 +14,11 @@
 
 namespace ElementManagerBundle\DependencyInjection;
 
+use CoreShop\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractModelExtension;
+use ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadata;
+use ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadata;
+use ElementManagerBundle\Metadata\DuplicatesIndex\Metadata;
+use ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry;
 use ElementManagerBundle\SaveManager\DuplicationSaveHandler;
 use ElementManagerBundle\SaveManager\NamingSchemeSaveHandler;
 use ElementManagerBundle\SaveManager\ObjectSaveManagers;
@@ -22,12 +27,11 @@ use Symfony\Component\Config\Resource\DirectoryResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Finder\Finder;
 
-class ElementManagerExtension extends Extension
+class ElementManagerExtension extends AbstractModelExtension
 {
     /**
      * {@inheritdoc}
@@ -39,60 +43,73 @@ class ElementManagerExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        //$loader->load('services.yml');
+        $loader->load('services.yml');
+        $loader->load('services/data_transformer.yml');
+        $loader->load('services/similarity_checker.yml');
+        $loader->load('services/commands.yml');
+
+        $this->registerResources('element_manager', $config['driver'], $config['resources'], $container);
 
         $this->registerDuplicationCheckerConfiguration($config['duplication'] ?? [], $container, $loader);
-        $this->registerSaveManagerConfiguration($config['save_manager'] ?? [], $container, $loader);
+
+        $objectSaveManagers = new Definition(ObjectSaveManagers::class);
+        $container->setDefinition(ObjectSaveManagers::class, $objectSaveManagers);
+
+        $container->setDefinition(MetadataRegistry::class, new Definition(MetadataRegistry::class));
+
+        foreach ($config['classes'] as $className => $classConfig) {
+            $this->registerSaveManagerConfiguration($container,  $className, $classConfig ?? [], $loader);
+            $this->registerDuplicateIndexConfiguration($container, $className, $classConfig['duplicates_index'] ?? []);
+        }
     }
 
-    private function registerSaveManagerConfiguration(array $config, ContainerBuilder $container, Loader\YamlFileLoader $loader)
+    private function registerSaveManagerConfiguration(ContainerBuilder $container, string $className, array $config, Loader\YamlFileLoader $loader)
     {
         $loader->load('services/save_manager.yml');
 
-        $objectSaveManagers = new Definition(ObjectSaveManagers::class);
+        $definition = new Definition($config['save_manager_class']);
 
-        foreach ($config as $class => $classConfig)
-        {
-            $definition = new Definition($classConfig['class']);
+        $options = [
+            'naming_scheme' => $config['naming_scheme']['options'],
+            'duplicates' => $config['duplicates']['options'],
+            'validations' => $config['validations']['options']
+        ];
 
-            $options = [
-                'naming_scheme' => $classConfig['naming_scheme']['options'],
-                'duplicates' => $classConfig['duplicates']['options'],
-                'validations' => $classConfig['validations']['options']
-            ];
+        if ($config['naming_scheme']['enabled']) {
+            $namingDefinition = new Definition(NamingSchemeSaveHandler::class, [
+                new Reference($config['naming_scheme']['service'])
+            ]);
 
-            if ($classConfig['naming_scheme']['enabled']) {
-                $namingDefinition = new Definition(NamingSchemeSaveHandler::class, [
-                    new Reference($classConfig['naming_scheme']['service'])
-                ]);
+            $namingDefinition->setPrivate(true);
+            $container->setDefinition(sprintf('save_manager.naming_scheme.%s', strtolower($className)), $namingDefinition);
 
-                $namingDefinition->setPrivate(true);
-                $container->setDefinition(sprintf('save_manager.naming_scheme.%s', strtolower($class)), $namingDefinition);
-
-                $definition->addMethodCall('addSaveHandler', [new Reference(sprintf('save_manager.naming_scheme.%s', strtolower($class)))]);
-            }
-
-            if ($classConfig['validations']['enabled_on_save']) {
-                $definition->addMethodCall('addSaveHandler', [new Reference(ValidationSaveHandler::class)]);
-            }
-
-            if ($classConfig['duplicates']['enabled_on_save']) {
-                $definition->addMethodCall('addSaveHandler', [new Reference(DuplicationSaveHandler::class)]);
-            }
-
-            foreach ($classConfig['save_handlers'] as $saveHandler) {
-                $definition->addMethodCall('addSaveHandler', [new Reference($saveHandler)]);
-            }
-
-
-            $definition->addMethodCall('setOptions', [$options]);
-
-            $container->setDefinition(sprintf('save_manager.%s', strtolower($class)), $definition);
-
-            $objectSaveManagers->addMethodCall('addSaveManager', [$class, new Reference(sprintf('save_manager.%s', strtolower($class)))]);
+            $definition->addMethodCall('addSaveHandler', [new Reference(sprintf('save_manager.naming_scheme.%s', strtolower($className)))]);
         }
 
-        $container->setDefinition(ObjectSaveManagers::class, $objectSaveManagers);
+        if ($config['validations']['enabled_on_save']) {
+            $definition->addMethodCall('addSaveHandler', [new Reference(ValidationSaveHandler::class)]);
+        }
+
+        if ($config['duplicates']['enabled_on_save']) {
+            $definition->addMethodCall('addSaveHandler', [new Reference(DuplicationSaveHandler::class)]);
+        }
+
+        if ($config['save_handlers']) {
+            foreach ($config['save_handlers'] as $saveHandler) {
+                $definition->addMethodCall('addSaveHandler', [new Reference($saveHandler)]);
+            }
+        }
+
+        $definition->addMethodCall('setOptions', [$options]);
+
+        $container->setDefinition(sprintf('save_manager.%s', strtolower($className)), $definition);
+
+        $container->getDefinition(ObjectSaveManagers::class)->addMethodCall('addSaveManager',
+            [
+                $className,
+                new Reference(sprintf('save_manager.%s', strtolower($className)))
+            ]
+        );
     }
 
     private function registerDuplicationCheckerConfiguration(array $config, ContainerBuilder $container, Loader\YamlFileLoader $loader)
@@ -174,5 +191,58 @@ class ElementManagerExtension extends Extension
                 throw new \RuntimeException(sprintf('Could not open file or directory "%s".', $path));
             }
         }
+    }
+
+    private function registerDuplicateIndexConfiguration(ContainerBuilder $container, string $className, array $config)
+    {
+        if (!$config['enabled']) {
+            return;
+        }
+
+        $groups = [];
+
+        foreach ($config['groups'] as $groupName => $group) {
+            $fields = [];
+
+            foreach ($group['fields'] as $fieldName => $fieldConfig) {
+                $fieldMetaData = new Definition(FieldMetadata::class, [
+                    $fieldName, $fieldConfig
+                ]);
+                $fieldMetaData->setPrivate(true);
+
+                $fieldId = sprintf('element_manager.metadata.%s.%s.%s',
+                    strtolower($className),
+                    strtolower($groupName),
+                    strtolower($fieldName)
+                );
+
+                $container->setDefinition($fieldId, $fieldMetaData);
+
+                $fields[] = new Reference($fieldId);
+            }
+
+            $groupMetaData = new Definition(GroupMetadata::class, [$groupName, $fields]);
+            $groupMetaData->setPrivate(true);
+
+            $groupId = sprintf('element_manager.metadata.%s.%s',
+                strtolower($className),
+                strtolower($groupName)
+            );
+
+            $container->setDefinition($groupId, $groupMetaData);
+            $groups[] = new Reference($groupId);
+        }
+
+        if (count($groups) === 0) {
+            return;
+        }
+
+        $metadata = new Definition(Metadata::class, [$className, $groups]);
+
+        $container->setDefinition(sprintf('element_manager.metadata.%s', strtolower($className)), $metadata);
+
+        $container->getDefinition(MetadataRegistry::class)->addMethodCall('register', [
+            new Reference(sprintf('element_manager.metadata.%s', strtolower($className)))
+        ]);
     }
 }

@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        public: true
+
+    ElementManagerBundle\Command\IndexCommand:
+        arguments:
+          - '@ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry'
+          - '@ElementManagerBundle\DuplicateIndex\DuplicatesIndexWorker'
+          - '@ElementManagerBundle\DuplicateIndex\DuplicateFinder'
+          - '@event_dispatcher'
+        tags:
+          - { name: console.command, command: 'element_manager:duplicate-index' }

@@ -1,0 +1,21 @@
+ElementManagerBundle\Model\DuplicateFalsePositive:
+    type: mappedSuperclass
+    table: element_manager_duplicate_false_positive
+    fields:
+        id:
+            type: integer
+            column: id
+            id: true
+            generator:
+                strategy: AUTO
+        creationDate:
+            type: date
+            gedmo:
+                timestampable:
+                    on: create
+        modificationDate:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update

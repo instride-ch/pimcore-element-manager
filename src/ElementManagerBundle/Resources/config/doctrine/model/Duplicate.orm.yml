@@ -1,0 +1,57 @@
+ElementManagerBundle\Model\Duplicate:
+    type: mappedSuperclass
+    table: element_manager_duplicate
+    fields:
+        id:
+            type: integer
+            column: id
+            id: true
+            generator:
+                strategy: AUTO
+        className:
+            column: className
+            type: string
+        group:
+            column: metadataGroup
+            type: string
+        data:
+            column: active
+            type: array
+        object:
+            column: object
+            type: pimcoreObject
+        md5:
+            column: md5
+            type: string
+        fields:
+            column: fields
+            type: array
+        fieldsCrc:
+            column: fieldsCrc
+            type: integer
+        soundex:
+            column: soundex
+            type: string
+            nullable: true
+        metaphone:
+            column: metaphone
+            type: string
+            nullable: true
+        creationDate:
+            type: date
+            gedmo:
+                timestampable:
+                    on: create
+        modificationDate:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+    oneToMany:
+        objects:
+            targetEntity: ElementManagerBundle\Model\DuplicateObjectInterface
+            orphanRemoval: true
+            mappedBy: duplicate
+            cascade: [ persist ]
+            fetch: EAGER

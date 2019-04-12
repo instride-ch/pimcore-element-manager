@@ -1,0 +1,40 @@
+ElementManagerBundle\Model\PotentialDuplicate:
+    type: mappedSuperclass
+    table: element_manager_potential_duplicate
+    fields:
+        id:
+            type: integer
+            column: id
+            id: true
+            generator:
+                strategy: AUTO
+        creationDate:
+            type: date
+            gedmo:
+                timestampable:
+                    on: create
+        modificationDate:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        duplicateFrom:
+            targetEntity: ElementManagerBundle\Model\DuplicateObjectInterface
+            inversedBy: objects
+            joinColumn:
+                name: duplicate_from_id
+                referencedColumnName: id
+                onDelete: CASCADE
+                onUpdate: CASCADE
+            cascade: [ all ]
+        duplicateTo:
+            targetEntity: ElementManagerBundle\Model\DuplicateObjectInterface
+            inversedBy: objects
+            joinColumn:
+                name: duplicate_to_id
+                referencedColumnName: id
+                onDelete: CASCADE
+                onUpdate: CASCADE
+            cascade: [ all ]

@@ -14,6 +14,19 @@
 
 namespace ElementManagerBundle\DependencyInjection;
 
+use CoreShop\Bundle\ResourceBundle\CoreShopResourceBundle;
+use CoreShop\Component\Resource\Factory\Factory;
+use ElementManagerBundle\Model\Duplicate;
+use ElementManagerBundle\Model\DuplicateFalsePositive;
+use ElementManagerBundle\Model\DuplicateFalsePositiveInterface;
+use ElementManagerBundle\Model\DuplicateInterface;
+use ElementManagerBundle\Model\DuplicateObject;
+use ElementManagerBundle\Model\DuplicateObjectInterface;
+use ElementManagerBundle\Model\PotentialDuplicate;
+use ElementManagerBundle\Model\PotentialDuplicateInterface;
+use ElementManagerBundle\Repository\DuplicateObjectRepository;
+use ElementManagerBundle\Repository\DuplicateRepository;
+use ElementManagerBundle\Repository\PotentialDuplicateRepository;
 use ElementManagerBundle\SaveManager\NamingScheme\ExpressionNamingScheme;
 use ElementManagerBundle\SaveManager\ObjectSaveManager;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -30,8 +43,14 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('element_manager');
 
+        $rootNode
+            ->children()
+                ->scalarNode('driver')->defaultValue(CoreShopResourceBundle::DRIVER_DOCTRINE_ORM)->end()
+            ->end();
+
         $this->addDuplicationSection($rootNode);
         $this->addSaveManagerSection($rootNode);
+        $this->addModelsSection($rootNode);
 
         return $treeBuilder;
     }
@@ -40,12 +59,12 @@ class Configuration implements ConfigurationInterface
     {
         $rootNode
             ->children()
-                ->arrayNode('save_manager')
+                ->arrayNode('classes')
                     ->useAttributeAsKey('class')
                     ->arrayPrototype()
                         ->addDefaultsIfNotSet()
                         ->children()
-                            ->scalarNode('class')->defaultValue(ObjectSaveManager::class)->end()
+                            ->scalarNode('save_manager_class')->defaultValue(ObjectSaveManager::class)->end()
                             ->arrayNode('naming_scheme')
                                 ->children()
                                     ->scalarNode('service')->defaultValue(ExpressionNamingScheme::class)->end()
@@ -82,6 +101,23 @@ class Configuration implements ConfigurationInterface
                                     ->end()
                                 ->end()
                             ->end()
+                            ->arrayNode('duplicates_index')
+                                ->children()
+                                    ->booleanNode('enabled')->defaultFalse()->end()
+                                    ->arrayNode('groups')
+                                        ->useAttributeAsKey('name')
+                                        ->arrayPrototype()
+                                            ->children()
+                                                ->scalarNode('name')->end()
+                                                ->arrayNode('fields')
+                                                    ->useAttributeAsKey('name')
+                                                    ->variablePrototype()->end()
+                                                ->end()
+                                            ->end()
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
                             ->arrayNode('save_handlers')
                                 ->useAttributeAsKey('service')
                                 ->prototype('scalar')->end()
@@ -90,7 +126,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
-        ;
+        ->end();
     }
 
     private function addDuplicationSection(ArrayNodeDefinition $rootNode)
@@ -114,5 +150,84 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
         ;
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addModelsSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->children()
+                ->arrayNode('resources')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('duplicate')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(Duplicate::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(DuplicateInterface::class)->cannotBeEmpty()->end()
+                                        //->scalarNode('admin_controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->defaultValue(DuplicateRepository::class)->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('duplicate_false_positive')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(DuplicateFalsePositive::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(DuplicateFalsePositiveInterface::class)->cannotBeEmpty()->end()
+                                        //->scalarNode('admin_controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->cannotBeEmpty()->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('duplicate_object')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(DuplicateObject::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(DuplicateObjectInterface::class)->cannotBeEmpty()->end()
+                                        //->scalarNode('admin_controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->defaultValue(DuplicateObjectRepository::class)->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('potential_duplicate')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(PotentialDuplicate::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(PotentialDuplicateInterface::class)->cannotBeEmpty()->end()
+                                        //->scalarNode('admin_controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->defaultValue(PotentialDuplicateRepository::class)->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
     }
 }

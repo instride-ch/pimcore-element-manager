@@ -91,7 +91,7 @@ class ObjectSaveManager implements ObjectSaveManagerInterface
      */
     public function validateOnSave(Concrete $object, bool $withDuplicatesCheck = true): bool
     {
-        //TODO
+        return true;
     }
 
     /**

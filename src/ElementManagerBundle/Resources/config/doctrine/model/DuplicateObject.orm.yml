@@ -1,0 +1,34 @@
+ElementManagerBundle\Model\DuplicateObject:
+    type: mappedSuperclass
+    table: element_manager_duplicate_object
+    fields:
+        id:
+            type: integer
+            column: id
+            id: true
+            generator:
+                strategy: AUTO
+        object:
+            column: object
+            type: pimcoreObject
+        creationDate:
+            type: date
+            gedmo:
+                timestampable:
+                    on: create
+        modificationDate:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        duplicate:
+            targetEntity: ElementManagerBundle\Model\DuplicateInterface
+            inversedBy: objects
+            joinColumn:
+                name: duplicate_id
+                referencedColumnName: id
+                onDelete: CASCADE
+                onUpdate: CASCADE
+            cascade: [ all ]
