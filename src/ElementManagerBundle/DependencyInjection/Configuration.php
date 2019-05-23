@@ -12,23 +12,23 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\DependencyInjection;
+namespace WVision\Bundle\ElementManagerBundle\DependencyInjection;
 
 use CoreShop\Bundle\ResourceBundle\CoreShopResourceBundle;
 use CoreShop\Component\Resource\Factory\Factory;
-use ElementManagerBundle\Model\Duplicate;
-use ElementManagerBundle\Model\DuplicateFalsePositive;
-use ElementManagerBundle\Model\DuplicateFalsePositiveInterface;
-use ElementManagerBundle\Model\DuplicateInterface;
-use ElementManagerBundle\Model\DuplicateObject;
-use ElementManagerBundle\Model\DuplicateObjectInterface;
-use ElementManagerBundle\Model\PotentialDuplicate;
-use ElementManagerBundle\Model\PotentialDuplicateInterface;
-use ElementManagerBundle\Repository\DuplicateObjectRepository;
-use ElementManagerBundle\Repository\DuplicateRepository;
-use ElementManagerBundle\Repository\PotentialDuplicateRepository;
-use ElementManagerBundle\SaveManager\NamingScheme\ExpressionNamingScheme;
-use ElementManagerBundle\SaveManager\ObjectSaveManager;
+use WVision\Bundle\ElementManagerBundle\Model\Duplicate;
+use WVision\Bundle\ElementManagerBundle\Model\DuplicateFalsePositive;
+use WVision\Bundle\ElementManagerBundle\Model\DuplicateFalsePositiveInterface;
+use WVision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
+use WVision\Bundle\ElementManagerBundle\Model\DuplicateObject;
+use WVision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface;
+use WVision\Bundle\ElementManagerBundle\Model\PotentialDuplicate;
+use WVision\Bundle\ElementManagerBundle\Model\PotentialDuplicateInterface;
+use WVision\Bundle\ElementManagerBundle\Repository\DuplicateObjectRepository;
+use WVision\Bundle\ElementManagerBundle\Repository\DuplicateRepository;
+use WVision\Bundle\ElementManagerBundle\Repository\PotentialDuplicateRepository;
+use WVision\Bundle\ElementManagerBundle\SaveManager\NamingScheme\ExpressionNamingScheme;
+use WVision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManager;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

@@ -12,9 +12,9 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\SaveManager;
+namespace WVision\Bundle\ElementManagerBundle\SaveManager;
 
-use ElementManagerBundle\SaveManager\NamingScheme\NamingSchemeInterface;
+use WVision\Bundle\ElementManagerBundle\SaveManager\NamingScheme\NamingSchemeInterface;
 use Pimcore\Model\DataObject\Concrete;
 
 final class NamingSchemeSaveHandler extends AbstractObjectSaveHandler

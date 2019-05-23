@@ -1,4 +1,4 @@
 services:
-    ElementManagerBundle\DuplicateIndex\DataTransformer\SimpleDataTransformer:
+    WVision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\SimpleDataTransformer:
         tags:
-            - { name: element_manager.data_transformer, type: simple_text }
+            - { name: wvision_element_manager.data_transformer, type: simple_text }

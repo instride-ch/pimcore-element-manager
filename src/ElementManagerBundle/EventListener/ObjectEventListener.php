@@ -12,9 +12,9 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\EventListener;
+namespace WVision\Bundle\ElementManagerBundle\EventListener;
 
-use ElementManagerBundle\SaveManager\ObjectSaveManagers;
+use WVision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManagers;
 use Pimcore\Event\Model\DataObjectEvent;
 use Pimcore\Event\Model\ElementEventInterface;
 use Pimcore\Model\DataObject;

@@ -31,13 +31,13 @@
   },
   "autoload": {
     "psr-4": {
-      "ElementManagerBundle\\": "src/ElementManagerBundle"
+      "WVision\\Bundle\\ElementManagerBundle\\": "src/ElementManagerBundle"
     }
   },
   "extra": {
     "pimcore": {
       "bundles": [
-        "ElementManagerBundle\\ElementManagerBundle"
+        "WVision\\Bundle\\ElementManagerBundle\\ElementManagerBundle"
       ]
     },
     "branch-alias": {

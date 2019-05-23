@@ -12,10 +12,10 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\Repository;
+namespace WVision\Bundle\ElementManagerBundle\Repository;
 
 use CoreShop\Component\Resource\Repository\RepositoryInterface;
-use ElementManagerBundle\Model\DuplicateInterface;
+use WVision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
 use Pimcore\Model\DataObject\Concrete;
 
 interface DuplicateRepositoryInterface extends RepositoryInterface

@@ -12,7 +12,7 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\SaveManager\NamingScheme;
+namespace WVision\Bundle\ElementManagerBundle\SaveManager\NamingScheme;
 
 use Pimcore\Model\DataObject\Concrete;
 

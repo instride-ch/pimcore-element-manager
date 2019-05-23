@@ -12,7 +12,7 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\DuplicateChecker\Constraints\Normalizer;
+namespace WVision\Bundle\ElementManagerBundle\DuplicateChecker\Constraints\Normalizer;
 
 use Pimcore\Model\DataObject;
 use Pimcore\Model\Element\ElementInterface;

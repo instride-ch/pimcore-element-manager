@@ -12,9 +12,9 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\DuplicateChecker\Constraints;
+namespace WVision\Bundle\ElementManagerBundle\DuplicateChecker\Constraints;
 
-use ElementManagerBundle\DuplicateChecker\DuplicateValidatorInterface;
+use WVision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateValidatorInterface;
 use Symfony\Component\Validator\ConstraintValidator;
 
 abstract class DuplicateConstraintValidator extends ConstraintValidator implements DuplicateValidatorInterface

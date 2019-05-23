@@ -12,16 +12,16 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\Command;
+namespace WVision\Bundle\ElementManagerBundle\Command;
 
 use CoreShop\Component\Index\Model\IndexInterface;
 use CoreShop\Component\Index\Service\IndexUpdaterServiceInterface;
 use CoreShop\Component\Pimcore\BatchProcessing\BatchListing;
 use CoreShop\Component\Resource\Repository\RepositoryInterface;
-use ElementManagerBundle\DuplicateIndex\DuplicateFinderInterface;
-use ElementManagerBundle\DuplicateIndex\DuplicatesIndexWorkerInterface;
-use ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
-use ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistryInterface;
+use WVision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicateFinderInterface;
+use WVision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicatesIndexWorkerInterface;
+use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
+use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistryInterface;
 use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\Listing;
 use Symfony\Component\Console\Command\Command;

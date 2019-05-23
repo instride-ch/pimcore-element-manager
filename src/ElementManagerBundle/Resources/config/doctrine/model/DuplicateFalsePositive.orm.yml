@@ -1,6 +1,6 @@
-ElementManagerBundle\Model\DuplicateFalsePositive:
+WVision\Bundle\ElementManagerBundle\Model\DuplicateFalsePositive:
     type: mappedSuperclass
-    table: element_manager_duplicate_false_positive
+    table: wvision_element_manager_duplicate_false_positive
     fields:
         id:
             type: integer

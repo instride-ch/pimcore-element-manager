@@ -1,6 +1,6 @@
-ElementManagerBundle\Model\PotentialDuplicate:
+WVision\Bundle\ElementManagerBundle\Model\PotentialDuplicate:
     type: mappedSuperclass
-    table: element_manager_potential_duplicate
+    table: wvision_element_manager_potential_duplicate
     fields:
         id:
             type: integer
@@ -21,7 +21,7 @@ ElementManagerBundle\Model\PotentialDuplicate:
                     on: update
     manyToOne:
         duplicateFrom:
-            targetEntity: ElementManagerBundle\Model\DuplicateObjectInterface
+            targetEntity: WVision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface
             inversedBy: objects
             joinColumn:
                 name: duplicate_from_id
@@ -30,7 +30,7 @@ ElementManagerBundle\Model\PotentialDuplicate:
                 onUpdate: CASCADE
             cascade: [ all ]
         duplicateTo:
-            targetEntity: ElementManagerBundle\Model\DuplicateObjectInterface
+            targetEntity: WVision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface
             inversedBy: objects
             joinColumn:
                 name: duplicate_to_id

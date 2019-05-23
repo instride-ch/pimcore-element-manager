@@ -12,9 +12,9 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\DuplicateIndex;
+namespace WVision\Bundle\ElementManagerBundle\DuplicateIndex;
 
-use ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
+use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
 use Pimcore\Model\DataObject\Concrete;
 
 interface DuplicatesIndexWorkerInterface

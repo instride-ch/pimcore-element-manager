@@ -12,13 +12,16 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\DuplicateChecker\Constraints;
+namespace WVision\Bundle\ElementManagerBundle\DuplicateChecker\Constraints;
 
-use ElementManagerBundle\DuplicateChecker\DuplicateConstraint;
+use WVision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateConstraint;
 
 class Fields extends DuplicateConstraint
 {
     public $message = 'Element with same fields found';
+
+    public $trim = false;
+
     public $fields;
 
     public function getDefaultOption()

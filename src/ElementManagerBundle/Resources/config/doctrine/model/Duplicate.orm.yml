@@ -1,6 +1,6 @@
-ElementManagerBundle\Model\Duplicate:
+WVision\Bundle\ElementManagerBundle\Model\Duplicate:
     type: mappedSuperclass
-    table: element_manager_duplicate
+    table: wvision_element_manager_duplicate
     fields:
         id:
             type: integer
@@ -50,7 +50,7 @@ ElementManagerBundle\Model\Duplicate:
                     on: update
     oneToMany:
         objects:
-            targetEntity: ElementManagerBundle\Model\DuplicateObjectInterface
+            targetEntity: WVision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface
             orphanRemoval: true
             mappedBy: duplicate
             cascade: [ persist ]

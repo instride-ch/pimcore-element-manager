@@ -12,12 +12,12 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle;
+namespace WVision\Bundle\ElementManagerBundle;
 
 use CoreShop\Bundle\ResourceBundle\AbstractResourceBundle;
 use CoreShop\Bundle\ResourceBundle\CoreShopResourceBundle;
-use ElementManagerBundle\DependencyInjection\CompilerPass\AddDataTransformersPass;
-use ElementManagerBundle\DependencyInjection\CompilerPass\AddSimilarityCheckerPass;
+use WVision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddDataTransformersPass;
+use WVision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddSimilarityCheckerPass;
 use Pimcore\Extension\Bundle\Traits\PackageVersionTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Validator\DependencyInjection\AddConstraintValidatorsPass;
@@ -42,7 +42,7 @@ class ElementManagerBundle extends AbstractResourceBundle
      */
     protected function getModelNamespace()
     {
-        return 'ElementManagerBundle\Model';
+        return 'WVision\Bundle\ElementManagerBundle\Model';
     }
 
     /**

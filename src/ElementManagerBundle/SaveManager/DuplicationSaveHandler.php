@@ -12,11 +12,11 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\SaveManager;
+namespace WVision\Bundle\ElementManagerBundle\SaveManager;
 
-use CommonBundle\ObjectManager\SaveValidator\Exception\DuplicatesException;
-use ElementManagerBundle\DuplicateChecker\DuplicateServiceInterface;
+use WVision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateServiceInterface;
 use Pimcore\Model\DataObject\Concrete;
+use WVision\Bundle\ElementManagerBundle\Exception\DuplicatesException;
 
 final class DuplicationSaveHandler extends AbstractObjectSaveHandler
 {
@@ -38,10 +38,10 @@ final class DuplicationSaveHandler extends AbstractObjectSaveHandler
      */
     public function preSave(Concrete $object, array $options): void
     {
-        $result = $this->duplicateService->findDuplicates($object, [$options['group']]);
+        $result = $this->duplicateService->findDuplicates($object, $options['group'] ? [$options['group']] : null);
 
         if (count($result) > 0) {
-            $duplicatesException = new DuplicatesException();
+            $duplicatesException = new DuplicatesException(sprintf('Duplicates of Object %s found', $object->getClassName()));
             $duplicatesException->setDuplicates($result);
 
             throw $duplicatesException;

@@ -12,17 +12,17 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\DependencyInjection;
+namespace WVision\Bundle\ElementManagerBundle\DependencyInjection;
 
 use CoreShop\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractModelExtension;
-use ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadata;
-use ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadata;
-use ElementManagerBundle\Metadata\DuplicatesIndex\Metadata;
-use ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry;
-use ElementManagerBundle\SaveManager\DuplicationSaveHandler;
-use ElementManagerBundle\SaveManager\NamingSchemeSaveHandler;
-use ElementManagerBundle\SaveManager\ObjectSaveManagers;
-use ElementManagerBundle\SaveManager\ValidationSaveHandler;
+use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadata;
+use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadata;
+use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\Metadata;
+use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry;
+use WVision\Bundle\ElementManagerBundle\SaveManager\DuplicationSaveHandler;
+use WVision\Bundle\ElementManagerBundle\SaveManager\NamingSchemeSaveHandler;
+use WVision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManagers;
+use WVision\Bundle\ElementManagerBundle\SaveManager\ValidationSaveHandler;
 use Symfony\Component\Config\Resource\DirectoryResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -48,7 +48,7 @@ class ElementManagerExtension extends AbstractModelExtension
         $loader->load('services/similarity_checker.yml');
         $loader->load('services/commands.yml');
 
-        $this->registerResources('element_manager', $config['driver'], $config['resources'], $container);
+        $this->registerResources('wvision_element_manager', $config['driver'], $config['resources'], $container);
 
         $this->registerDuplicationCheckerConfiguration($config['duplication'] ?? [], $container, $loader);
 
@@ -130,7 +130,7 @@ class ElementManagerExtension extends AbstractModelExtension
         }
 
         if (!$container->getParameter('kernel.debug')) {
-            $duplicationBuilder->addMethodCall('setMetadataCache', [new Reference('element_manager.duplication.mapping.cache.symfony')]);
+            $duplicationBuilder->addMethodCall('setMetadataCache', [new Reference('wvision_element_manager.duplication.mapping.cache.symfony')]);
         }
     }
 
@@ -210,7 +210,7 @@ class ElementManagerExtension extends AbstractModelExtension
                 ]);
                 $fieldMetaData->setPrivate(true);
 
-                $fieldId = sprintf('element_manager.metadata.%s.%s.%s',
+                $fieldId = sprintf('wvision_element_manager.metadata.%s.%s.%s',
                     strtolower($className),
                     strtolower($groupName),
                     strtolower($fieldName)
@@ -224,7 +224,7 @@ class ElementManagerExtension extends AbstractModelExtension
             $groupMetaData = new Definition(GroupMetadata::class, [$groupName, $fields]);
             $groupMetaData->setPrivate(true);
 
-            $groupId = sprintf('element_manager.metadata.%s.%s',
+            $groupId = sprintf('wvision_element_manager.metadata.%s.%s',
                 strtolower($className),
                 strtolower($groupName)
             );
@@ -239,10 +239,10 @@ class ElementManagerExtension extends AbstractModelExtension
 
         $metadata = new Definition(Metadata::class, [$className, $groups]);
 
-        $container->setDefinition(sprintf('element_manager.metadata.%s', strtolower($className)), $metadata);
+        $container->setDefinition(sprintf('wvision_element_manager.metadata.%s', strtolower($className)), $metadata);
 
         $container->getDefinition(MetadataRegistry::class)->addMethodCall('register', [
-            new Reference(sprintf('element_manager.metadata.%s', strtolower($className)))
+            new Reference(sprintf('wvision_element_manager.metadata.%s', strtolower($className)))
         ]);
     }
 }

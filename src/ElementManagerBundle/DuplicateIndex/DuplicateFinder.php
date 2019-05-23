@@ -12,19 +12,19 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\DuplicateIndex;
+namespace WVision\Bundle\ElementManagerBundle\DuplicateIndex;
 
 use CoreShop\Component\Resource\Factory\FactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use ElementManagerBundle\DuplicateIndex\Similarity\SimilarityCheckerFactoryInterface;
-use ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadataInterface;
-use ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
-use ElementManagerBundle\Model\DuplicateInterface;
-use ElementManagerBundle\Model\DuplicateObjectInterface;
-use ElementManagerBundle\Model\PotentialDuplicateInterface;
-use ElementManagerBundle\Repository\DuplicateObjectRepositoryInterface;
-use ElementManagerBundle\Repository\DuplicateRepositoryInterface;
-use ElementManagerBundle\Repository\PotentialDuplicateRepositoryInterface;
+use WVision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity\SimilarityCheckerFactoryInterface;
+use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadataInterface;
+use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
+use WVision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
+use WVision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface;
+use WVision\Bundle\ElementManagerBundle\Model\PotentialDuplicateInterface;
+use WVision\Bundle\ElementManagerBundle\Repository\DuplicateObjectRepositoryInterface;
+use WVision\Bundle\ElementManagerBundle\Repository\DuplicateRepositoryInterface;
+use WVision\Bundle\ElementManagerBundle\Repository\PotentialDuplicateRepositoryInterface;
 
 class DuplicateFinder implements DuplicateFinderInterface
 {

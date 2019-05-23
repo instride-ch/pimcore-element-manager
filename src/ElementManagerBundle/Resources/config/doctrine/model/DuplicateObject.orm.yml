@@ -1,6 +1,6 @@
-ElementManagerBundle\Model\DuplicateObject:
+WVision\Bundle\ElementManagerBundle\Model\DuplicateObject:
     type: mappedSuperclass
-    table: element_manager_duplicate_object
+    table: wvision_element_manager_duplicate_object
     fields:
         id:
             type: integer
@@ -24,7 +24,7 @@ ElementManagerBundle\Model\DuplicateObject:
                     on: update
     manyToOne:
         duplicate:
-            targetEntity: ElementManagerBundle\Model\DuplicateInterface
+            targetEntity: WVision\Bundle\ElementManagerBundle\Model\DuplicateInterface
             inversedBy: objects
             joinColumn:
                 name: duplicate_id

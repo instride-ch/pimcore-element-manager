@@ -12,10 +12,10 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\DuplicateChecker\Constraints;
+namespace WVision\Bundle\ElementManagerBundle\DuplicateChecker\Constraints;
 
 use CoreShop\Component\Resource\Exception\UnexpectedTypeException;
-use ElementManagerBundle\DuplicateChecker\Constraints\Normalizer\CompareConditionMySqlNormalizer;
+use WVision\Bundle\ElementManagerBundle\DuplicateChecker\Constraints\Normalizer\CompareConditionMySqlNormalizer;
 use Symfony\Component\Validator\Constraint;
 use Pimcore\Model\DataObject;
 use Pimcore\Model\Element\ElementInterface;
@@ -35,7 +35,7 @@ class FieldsValidator extends DuplicateConstraintValidator
             throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\Fields');
         }
 
-        $duplicates = $this->getDuplicatesByFields($value, $constraint->fields);
+        $duplicates = $this->getDuplicatesByFields($value, $constraint->fields, $constraint->trim);
 
         if (null !== $duplicates && $duplicates->getTotalCount() > 0) {
             foreach ($duplicates->getObjects() as $duplicate) {
@@ -49,7 +49,7 @@ class FieldsValidator extends DuplicateConstraintValidator
     /**
      * {@inheritdoc}
      */
-    private function getDuplicatesByFields(DataObject\Concrete $address, array $fields, $limit = 0): ?DataObject\Listing\Concrete
+    private function getDuplicatesByFields(DataObject\Concrete $address, array $fields, bool $trim = false, $limit = 0): ?DataObject\Listing\Concrete
     {
         $data = [];
         foreach ($fields as $field) {
@@ -58,6 +58,10 @@ class FieldsValidator extends DuplicateConstraintValidator
 
             if (null === $value || '' === $value) {
                 return null;
+            }
+
+            if ($trim) {
+                $value = trim($value);
             }
 
             $data[$field] = $value;

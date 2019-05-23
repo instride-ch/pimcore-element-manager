@@ -12,18 +12,18 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace ElementManagerBundle\DuplicateIndex;
+namespace WVision\Bundle\ElementManagerBundle\DuplicateIndex;
 
 use CoreShop\Component\Resource\Factory\FactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use ElementManagerBundle\DuplicateIndex\DataTransformer\DataTransformerFactoryInterface;
-use ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadataInterface;
-use ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadataInterface;
-use ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
-use ElementManagerBundle\Model\DuplicateInterface;
-use ElementManagerBundle\Model\DuplicateObjectInterface;
-use ElementManagerBundle\Repository\DuplicateObjectRepositoryInterface;
-use ElementManagerBundle\Repository\DuplicateRepositoryInterface;
+use WVision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\DataTransformerFactoryInterface;
+use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadataInterface;
+use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadataInterface;
+use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
+use WVision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
+use WVision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface;
+use WVision\Bundle\ElementManagerBundle\Repository\DuplicateObjectRepositoryInterface;
+use WVision\Bundle\ElementManagerBundle\Repository\DuplicateRepositoryInterface;
 use Pimcore\Model\DataObject\Concrete;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
