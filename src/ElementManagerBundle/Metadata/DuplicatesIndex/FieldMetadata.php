@@ -12,7 +12,7 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex;
+namespace Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex;
 
 class FieldMetadata implements FieldMetadataInterface
 {
@@ -28,7 +28,7 @@ class FieldMetadata implements FieldMetadataInterface
 
     /**
      * @param string $name
-     * @param array  $config
+     * @param array $config
      */
     public function __construct(string $name, array $config)
     {
@@ -37,7 +37,7 @@ class FieldMetadata implements FieldMetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName(): string
     {
@@ -45,7 +45,7 @@ class FieldMetadata implements FieldMetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasConfig(string $name): bool
     {
@@ -53,7 +53,7 @@ class FieldMetadata implements FieldMetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConfig(string $name)
     {
@@ -65,15 +65,15 @@ class FieldMetadata implements FieldMetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSimilarityIdentifier(): ?string
     {
         return $this->hasConfig('similarity') ? $this->getConfig('similarity') : null;
     }
 
-   /**
-     * {@inheritDoc}
+    /**
+     * {@inheritdoc}
      */
     public function getTransformerIdentifier(): ?string
     {
@@ -81,15 +81,15 @@ class FieldMetadata implements FieldMetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getMetaphone(): bool
     {
         return $this->hasConfig('metaphone') ? $this->getConfig('metaphone') : null;
     }
 
-        /**
-     * {@inheritDoc}
+    /**
+     * {@inheritdoc}
      */
     public function getSoundex(): bool
     {

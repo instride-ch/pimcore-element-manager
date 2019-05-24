@@ -12,13 +12,12 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\EventListener;
+namespace Wvision\Bundle\ElementManagerBundle\EventListener;
 
-use WVision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManagers;
+use Wvision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManagers;
 use Pimcore\Event\Model\DataObjectEvent;
 use Pimcore\Event\Model\ElementEventInterface;
 use Pimcore\Model\DataObject;
-use Pimcore\Model\Element;
 
 class ObjectEventListener
 {
@@ -37,7 +36,6 @@ class ObjectEventListener
 
     /**
      * @param ElementEventInterface $event
-     * @throws Element\ValidationException
      */
     public function onPreUpdate(ElementEventInterface $event): void
     {
@@ -78,7 +76,6 @@ class ObjectEventListener
 
     /**
      * @param ElementEventInterface $event
-     * @throws Element\ValidationException
      */
     public function onPreAdd(ElementEventInterface $event): void
     {

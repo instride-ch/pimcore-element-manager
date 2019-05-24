@@ -12,13 +12,11 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\Repository;
+namespace Wvision\Bundle\ElementManagerBundle\Repository;
 
 use CoreShop\Component\Resource\Repository\RepositoryInterface;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface;
-use WVision\Bundle\ElementManagerBundle\Model\PotentialDuplicateInterface;
-use Pimcore\Model\DataObject\Concrete;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface;
+use Wvision\Bundle\ElementManagerBundle\Model\PotentialDuplicateInterface;
 
 interface PotentialDuplicateRepositoryInterface extends RepositoryInterface
 {
@@ -29,5 +27,5 @@ interface PotentialDuplicateRepositoryInterface extends RepositoryInterface
      * @param DuplicateObjectInterface $duplicateObject2
      * @return PotentialDuplicateInterface|null
      */
-    public function findDuplication(DuplicateObjectInterface $duplicateObject1, DuplicateObjectInterface $duplicateObject2);
+    public function findDuplication(DuplicateObjectInterface $duplicateObject1, DuplicateObjectInterface $duplicateObject2): ?PotentialDuplicateInterface;
 }

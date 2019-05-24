@@ -12,24 +12,39 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\DuplicateChecker\Constraints;
+namespace Wvision\Bundle\ElementManagerBundle\DuplicateChecker\Constraints;
 
-use WVision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateConstraint;
+use Wvision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateConstraint;
 
 class Fields extends DuplicateConstraint
 {
+    /**
+     * @var string
+     */
     public $message = 'Element with same fields found';
 
+    /**
+     * @var bool
+     */
     public $trim = false;
 
+    /**
+     * @var array|null
+     */
     public $fields;
 
-    public function getDefaultOption()
+    /**
+     * @return string|null
+     */
+    public function getDefaultOption(): ?string
     {
         return 'fields';
     }
 
-    public function getRequiredOptions()
+    /**
+     * @return array
+     */
+    public function getRequiredOptions(): array
     {
         return ['fields'];
     }

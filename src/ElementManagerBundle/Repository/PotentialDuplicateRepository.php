@@ -12,16 +12,16 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\Repository;
+namespace Wvision\Bundle\ElementManagerBundle\Repository;
 
 use CoreShop\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface;
-use Pimcore\Model\DataObject\Concrete;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface;
+use Wvision\Bundle\ElementManagerBundle\Model\PotentialDuplicateInterface;
 
 class PotentialDuplicateRepository extends EntityRepository implements PotentialDuplicateRepositoryInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function deleteAll()
     {
@@ -33,9 +33,9 @@ class PotentialDuplicateRepository extends EntityRepository implements Potential
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
-    public function findDuplication(DuplicateObjectInterface $duplicateObject1, DuplicateObjectInterface $duplicateObject2)
+    public function findDuplication(DuplicateObjectInterface $duplicateObject1, DuplicateObjectInterface $duplicateObject2): ?PotentialDuplicateInterface
     {
         return $this->createQueryBuilder('o')
             ->andWhere('(o.duplicateFrom = :duplicate1 AND o.duplicateTo = :duplicate2)')

@@ -12,7 +12,7 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\SaveManager;
+namespace Wvision\Bundle\ElementManagerBundle\SaveManager;
 
 use Pimcore\Model\DataObject\Concrete;
 
@@ -23,7 +23,6 @@ abstract class AbstractObjectSaveHandler implements ObjectSaveHandlerInterface
      */
     public function preSave(Concrete $object, array $options): void
     {
-
     }
 
     /**
@@ -31,7 +30,6 @@ abstract class AbstractObjectSaveHandler implements ObjectSaveHandlerInterface
      */
     public function postSave(Concrete $object, array $options): void
     {
-
     }
 
     /**
@@ -39,7 +37,6 @@ abstract class AbstractObjectSaveHandler implements ObjectSaveHandlerInterface
      */
     public function preAdd(Concrete $object, array $options): void
     {
-
     }
 
     /**
@@ -47,7 +44,6 @@ abstract class AbstractObjectSaveHandler implements ObjectSaveHandlerInterface
      */
     public function postAdd(Concrete $object, array $options): void
     {
-
     }
 
     /**
@@ -55,7 +51,6 @@ abstract class AbstractObjectSaveHandler implements ObjectSaveHandlerInterface
      */
     public function preUpdate(Concrete $object, array $options): void
     {
-
     }
 
     /**
@@ -63,7 +58,6 @@ abstract class AbstractObjectSaveHandler implements ObjectSaveHandlerInterface
      */
     public function postUpdate(Concrete $object, array $options): void
     {
-
     }
 
     /**
@@ -71,7 +65,6 @@ abstract class AbstractObjectSaveHandler implements ObjectSaveHandlerInterface
      */
     public function preDelete(Concrete $object, array $options): void
     {
-
     }
 
     /**
@@ -79,6 +72,5 @@ abstract class AbstractObjectSaveHandler implements ObjectSaveHandlerInterface
      */
     public function postDelete(Concrete $object, array $options): void
     {
-
     }
 }

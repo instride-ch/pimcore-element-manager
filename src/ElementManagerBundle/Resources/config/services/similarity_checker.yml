@@ -1,4 +1,4 @@
 services:
-    WVision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity\SimilarText:
+    Wvision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity\SimilarText:
         tags:
             - { name: wvision_element_manager.similarity_checker, type: similar_text }

@@ -1,4 +1,4 @@
-WVision\Bundle\ElementManagerBundle\Model\DuplicateObject:
+Wvision\Bundle\ElementManagerBundle\Model\DuplicateObject:
     type: mappedSuperclass
     table: wvision_element_manager_duplicate_object
     fields:
@@ -24,7 +24,7 @@ WVision\Bundle\ElementManagerBundle\Model\DuplicateObject:
                     on: update
     manyToOne:
         duplicate:
-            targetEntity: WVision\Bundle\ElementManagerBundle\Model\DuplicateInterface
+            targetEntity: Wvision\Bundle\ElementManagerBundle\Model\DuplicateInterface
             inversedBy: objects
             joinColumn:
                 name: duplicate_id

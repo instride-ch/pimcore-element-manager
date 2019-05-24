@@ -1,19 +1,19 @@
 services:
-    WVision\Bundle\ElementManagerBundle\SaveManager\NamingScheme\ExpressionNamingScheme:
+    Wvision\Bundle\ElementManagerBundle\SaveManager\NamingScheme\ExpressionNamingScheme:
         arguments:
             - '@coreshop.expression_language'
 
-    WVision\Bundle\ElementManagerBundle\SaveManager\ValidationSaveHandler:
+    Wvision\Bundle\ElementManagerBundle\SaveManager\ValidationSaveHandler:
         arguments:
             - '@validator'
 
-    WVision\Bundle\ElementManagerBundle\SaveManager\DuplicationSaveHandler:
+    Wvision\Bundle\ElementManagerBundle\SaveManager\DuplicationSaveHandler:
         arguments:
-            - '@WVision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateServiceInterface'
+            - '@Wvision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateServiceInterface'
 
-    WVision\Bundle\ElementManagerBundle\EventListener\ObjectEventListener:
+    Wvision\Bundle\ElementManagerBundle\EventListener\ObjectEventListener:
         arguments:
-            - '@WVision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManagers'
+            - '@Wvision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManagers'
         tags:
             - { name: kernel.event_listener, event: pimcore.dataobject.preUpdate, method: onPreUpdate }
             - { name: kernel.event_listener, event: pimcore.dataobject.postUpdate, method: onPostUpdate }

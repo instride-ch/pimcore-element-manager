@@ -12,16 +12,16 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\Repository;
+namespace Wvision\Bundle\ElementManagerBundle\Repository;
 
 use CoreShop\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
 use Pimcore\Model\DataObject\Concrete;
 
 class DuplicateObjectRepository extends EntityRepository implements DuplicateObjectRepositoryInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function deleteForObject(Concrete $concrete)
     {
@@ -35,11 +35,11 @@ class DuplicateObjectRepository extends EntityRepository implements DuplicateObj
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function findByDuplicateAndAlgorithmValue(string $algorithm, string $value): array
     {
-        switch($algorithm) {
+        switch ($algorithm) {
             case 'metaphone':
                 return $this->findByDuplicateAndMetaphone($value);
             case 'soundex':
@@ -50,7 +50,7 @@ class DuplicateObjectRepository extends EntityRepository implements DuplicateObj
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function findByDuplicateAndMetaphone(string $metaphone): array
     {
@@ -65,7 +65,7 @@ class DuplicateObjectRepository extends EntityRepository implements DuplicateObj
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function findByDuplicateAndSoundex(string $soundex): array
     {
@@ -80,7 +80,7 @@ class DuplicateObjectRepository extends EntityRepository implements DuplicateObj
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function findExactMatches(string $className): array
     {
@@ -98,7 +98,7 @@ class DuplicateObjectRepository extends EntityRepository implements DuplicateObj
     }
 
      /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function findByDuplicate(DuplicateInterface $duplicate): array
     {

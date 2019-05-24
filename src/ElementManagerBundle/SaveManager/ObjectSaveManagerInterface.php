@@ -12,7 +12,7 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\SaveManager;
+namespace Wvision\Bundle\ElementManagerBundle\SaveManager;
 
 use Pimcore\Model\DataObject\Concrete;
 
@@ -58,7 +58,7 @@ interface ObjectSaveManagerInterface
     /**
      * @return ObjectSaveHandlerInterface[]
      */
-    public function getSaveHandlers();
+    public function getSaveHandlers(): array;
 
     /**
      * @param ObjectSaveHandlerInterface[] $saveHandlers

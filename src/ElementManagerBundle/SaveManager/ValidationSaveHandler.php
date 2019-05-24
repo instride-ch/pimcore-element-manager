@@ -12,7 +12,7 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\SaveManager;
+namespace Wvision\Bundle\ElementManagerBundle\SaveManager;
 
 use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\Element\ValidationException;
@@ -35,6 +35,7 @@ final class ValidationSaveHandler extends AbstractObjectSaveHandler
 
     /**
      * {@inheritdoc}
+     * @throws ValidationException
      */
     public function preSave(Concrete $object, array $options): void
     {

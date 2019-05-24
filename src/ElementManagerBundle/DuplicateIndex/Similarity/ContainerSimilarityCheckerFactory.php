@@ -12,16 +12,27 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity;
+namespace Wvision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity;
 
+use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
 
 class ContainerSimilarityCheckerFactory implements SimilarityCheckerFactoryInterface
 {
+    /**
+     * @var ContainerInterface
+     */
     private $container;
+
+    /**
+     * @var array
+     */
     private $dataTransformers;
 
+    /**
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -38,7 +49,7 @@ class ContainerSimilarityCheckerFactory implements SimilarityCheckerFactoryInter
                 $this->dataTransformers[$identifier] = $this->container->get($identifier);
             } else {
                 if (!class_exists($identifier)) {
-                    throw new \InvalidArgumentException(sprintf('Similarity "%s" does not exist.', $identifier));
+                    throw new InvalidArgumentException(sprintf('Similarity "%s" does not exist.', $identifier));
                 }
 
                 $this->dataTransformers[$identifier] = new $identifier();

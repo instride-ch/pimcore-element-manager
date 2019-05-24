@@ -12,7 +12,7 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex;
+namespace Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex;
 
 class GroupMetadata implements GroupMetadataInterface
 {
@@ -37,7 +37,7 @@ class GroupMetadata implements GroupMetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName(): string
     {
@@ -45,7 +45,7 @@ class GroupMetadata implements GroupMetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setName(string $name): void
     {
@@ -53,7 +53,7 @@ class GroupMetadata implements GroupMetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getFields(): array
     {
@@ -61,7 +61,7 @@ class GroupMetadata implements GroupMetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setFields(array $fields): void
     {
@@ -69,21 +69,23 @@ class GroupMetadata implements GroupMetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getField(string $name): ?FieldMetadataInterface
     {
-        return reset(array_filter($this->fields, function(FieldMetadataInterface $fieldMetadata) use ($name) {
+        $filteredFields = array_filter($this->fields, static function(FieldMetadataInterface $fieldMetadata) use ($name) {
             return $fieldMetadata->getName() === $name;
-        }));
+        });
+
+        return reset($filteredFields);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getFieldKeys(): array
     {
-        return array_map(function(FieldMetadataInterface $fieldMetadata) {
+        return array_map(static function(FieldMetadataInterface $fieldMetadata) {
             return $fieldMetadata->getName();
         }, $this->fields);
     }

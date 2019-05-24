@@ -12,7 +12,7 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\DuplicateChecker;
+namespace Wvision\Bundle\ElementManagerBundle\DuplicateChecker;
 
 use Pimcore\Model\Element\ElementInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
@@ -41,7 +41,7 @@ class DuplicateService implements DuplicateServiceInterface
         $result = $this->duplicateChecker->validate($element, null, $groups);
 
         if ($result->count()) {
-            return array_map(function (ConstraintViolationInterface $result) {
+            return array_map(static function (ConstraintViolationInterface $result) {
                 return $result->getInvalidValue();
             }, iterator_to_array($result));
         }

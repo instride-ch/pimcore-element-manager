@@ -12,7 +12,7 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\Model;
+namespace Wvision\Bundle\ElementManagerBundle\Model;
 
 use CoreShop\Component\Resource\Model\AbstractResource;
 use CoreShop\Component\Resource\Model\TimestampableTrait;
@@ -34,15 +34,15 @@ class PotentialDuplicate extends AbstractResource implements PotentialDuplicateI
     protected $duplicateTo;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getDuplicateFrom(): DuplicateObjectInterface
     {
@@ -50,7 +50,7 @@ class PotentialDuplicate extends AbstractResource implements PotentialDuplicateI
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setDuplicateFrom(DuplicateObjectInterface $duplicateFrom): void
     {
@@ -58,7 +58,7 @@ class PotentialDuplicate extends AbstractResource implements PotentialDuplicateI
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getDuplicateTo(): DuplicateObjectInterface
     {
@@ -66,7 +66,7 @@ class PotentialDuplicate extends AbstractResource implements PotentialDuplicateI
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setDuplicateTo(DuplicateObjectInterface $duplicateTo): void
     {

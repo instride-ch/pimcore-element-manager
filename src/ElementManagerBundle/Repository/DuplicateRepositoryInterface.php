@@ -12,10 +12,11 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\Repository;
+namespace Wvision\Bundle\ElementManagerBundle\Repository;
 
 use CoreShop\Component\Resource\Repository\RepositoryInterface;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
 use Pimcore\Model\DataObject\Concrete;
 
 interface DuplicateRepositoryInterface extends RepositoryInterface
@@ -25,7 +26,7 @@ interface DuplicateRepositoryInterface extends RepositoryInterface
      *
      * @return DuplicateInterface[]
      */
-    public function findForObject(Concrete $concrete);
+    public function findForObject(Concrete $concrete): array;
 
     /**
      * @param string $className
@@ -33,15 +34,16 @@ interface DuplicateRepositoryInterface extends RepositoryInterface
      *
      * @return DuplicateInterface[]
      */
-    public function findExactByAlgorithm(string $className, string $algorithm);
+    public function findExactByAlgorithm(string $className, string $algorithm): array;
 
     /**
      * @param string $className
      * @param string $md5
      * @param int    $crc
      * @return DuplicateInterface|null
+     * @throws NonUniqueResultException
      */
-    public function findForMd5AndCrc(string $className, string $md5, int $crc);
+    public function findForMd5AndCrc(string $className, string $md5, int $crc): ?DuplicateInterface;
 
     /**
      * @param Concrete $concrete

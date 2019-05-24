@@ -12,17 +12,19 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\Repository;
+namespace Wvision\Bundle\ElementManagerBundle\Repository;
 
 use CoreShop\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use InvalidArgumentException;
 use Pimcore\Model\DataObject\Concrete;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
 
 class DuplicateRepository extends EntityRepository implements DuplicateRepositoryInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
-    public function findForObject(Concrete $concrete)
+    public function findForObject(Concrete $concrete): array
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.object = :object')
@@ -34,9 +36,9 @@ class DuplicateRepository extends EntityRepository implements DuplicateRepositor
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
-    public function findForMd5AndCrc(string $className, string $md5, int $crc)
+    public function findForMd5AndCrc(string $className, string $md5, int $crc): ?DuplicateInterface
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.md5 = :md5')
@@ -52,9 +54,9 @@ class DuplicateRepository extends EntityRepository implements DuplicateRepositor
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
-    public function findExactByAlgorithm(string $className, string $algorithm)
+    public function findExactByAlgorithm(string $className, string $algorithm): array
     {
         switch($algorithm) {
             case 'metaphone':
@@ -63,11 +65,11 @@ class DuplicateRepository extends EntityRepository implements DuplicateRepositor
                 return $this->findExactBySoundex($className);
         }
 
-        throw new \InvalidArgumentException(sprintf('Undefined algorithm %s', $algorithm));
+        throw new InvalidArgumentException(sprintf('Undefined algorithm %s', $algorithm));
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function findExactByMetaphone(string $className)
     {
@@ -85,7 +87,7 @@ class DuplicateRepository extends EntityRepository implements DuplicateRepositor
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function findExactBySoundex(string $className)
     {
@@ -103,7 +105,7 @@ class DuplicateRepository extends EntityRepository implements DuplicateRepositor
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function deleteForObject(Concrete $concrete)
     {

@@ -12,9 +12,10 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\SaveManager;
+namespace Wvision\Bundle\ElementManagerBundle\SaveManager;
 
-use WVision\Bundle\ElementManagerBundle\SaveManager\NamingScheme\NamingSchemeInterface;
+use Exception;
+use Wvision\Bundle\ElementManagerBundle\SaveManager\NamingScheme\NamingSchemeInterface;
 use Pimcore\Model\DataObject\Concrete;
 
 final class NamingSchemeSaveHandler extends AbstractObjectSaveHandler
@@ -34,6 +35,7 @@ final class NamingSchemeSaveHandler extends AbstractObjectSaveHandler
 
     /**
      * {@inheritdoc}
+     * @throws Exception
      */
     public function preSave(Concrete $object, array $options): void
     {

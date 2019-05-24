@@ -12,11 +12,11 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\SaveManager;
+namespace Wvision\Bundle\ElementManagerBundle\SaveManager;
 
-use WVision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateServiceInterface;
+use Wvision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateServiceInterface;
 use Pimcore\Model\DataObject\Concrete;
-use WVision\Bundle\ElementManagerBundle\Exception\DuplicatesException;
+use Wvision\Bundle\ElementManagerBundle\Exception\DuplicatesException;
 
 final class DuplicationSaveHandler extends AbstractObjectSaveHandler
 {
@@ -35,6 +35,7 @@ final class DuplicationSaveHandler extends AbstractObjectSaveHandler
 
     /**
      * {@inheritdoc}
+     * @throws DuplicatesException
      */
     public function preSave(Concrete $object, array $options): void
     {

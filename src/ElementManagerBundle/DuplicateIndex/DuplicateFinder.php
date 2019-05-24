@@ -12,19 +12,19 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\DuplicateIndex;
+namespace Wvision\Bundle\ElementManagerBundle\DuplicateIndex;
 
 use CoreShop\Component\Resource\Factory\FactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use WVision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity\SimilarityCheckerFactoryInterface;
-use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadataInterface;
-use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface;
-use WVision\Bundle\ElementManagerBundle\Model\PotentialDuplicateInterface;
-use WVision\Bundle\ElementManagerBundle\Repository\DuplicateObjectRepositoryInterface;
-use WVision\Bundle\ElementManagerBundle\Repository\DuplicateRepositoryInterface;
-use WVision\Bundle\ElementManagerBundle\Repository\PotentialDuplicateRepositoryInterface;
+use Wvision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity\SimilarityCheckerFactoryInterface;
+use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadataInterface;
+use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface;
+use Wvision\Bundle\ElementManagerBundle\Model\PotentialDuplicateInterface;
+use Wvision\Bundle\ElementManagerBundle\Repository\DuplicateObjectRepositoryInterface;
+use Wvision\Bundle\ElementManagerBundle\Repository\DuplicateRepositoryInterface;
+use Wvision\Bundle\ElementManagerBundle\Repository\PotentialDuplicateRepositoryInterface;
 
 class DuplicateFinder implements DuplicateFinderInterface
 {
@@ -83,9 +83,9 @@ class DuplicateFinder implements DuplicateFinderInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
-    public function findPotentialDuplicate(MetadataInterface $metadata)
+    public function findPotentialDuplicate(MetadataInterface $metadata): void
     {
         $this->potentialDuplicateRepository->deleteAll();
 
@@ -96,10 +96,11 @@ class DuplicateFinder implements DuplicateFinderInterface
 
         $paired = [];
 
-        foreach ($result as $duplicateObject) {
-            $duplicateObjectFrom = $duplicateObject[0];
-            $duplicateObjectTo = $duplicateObject[1];
-
+        /**
+         * @var DuplicateObjectInterface $duplicateObjectFrom
+         * @var DuplicateObjectInterface $duplicateObjectTo
+         */
+        foreach ($result as [$duplicateObjectFrom, $duplicateObjectTo]) {
             if ($duplicateObjectFrom->getObject() === $duplicateObjectTo->getObject()) {
                 continue;
             }
@@ -110,8 +111,8 @@ class DuplicateFinder implements DuplicateFinderInterface
                 continue;
             }
 
-            $pairString1 = (string) $duplicateObjectTo->getId() . (string) $duplicateObjectFrom->getId();
-            $pairString2 = (string) $duplicateObjectFrom->getId() . (string) $duplicateObjectTo->getId();
+            $pairString1 = $duplicateObjectTo->getId() . $duplicateObjectFrom->getId();
+            $pairString2 = $duplicateObjectFrom->getId() . $duplicateObjectTo->getId();
 
             if (in_array($pairString1, $paired, true) || in_array($pairString2, $paired, true)) {
                 continue;
@@ -124,8 +125,8 @@ class DuplicateFinder implements DuplicateFinderInterface
              * @var PotentialDuplicateInterface $potentialDuplicate
              */
             $potentialDuplicate = $this->potentialDuplicateFactory->createNew();
-            $potentialDuplicate->setDuplicateFrom($duplicateObject[0]);
-            $potentialDuplicate->setDuplicateTo($duplicateObject[1]);
+            $potentialDuplicate->setDuplicateFrom($duplicateObjectFrom);
+            $potentialDuplicate->setDuplicateTo($duplicateObjectTo);
 
             $this->entityManager->persist($potentialDuplicate);
         }
@@ -137,7 +138,7 @@ class DuplicateFinder implements DuplicateFinderInterface
      * @param MetadataInterface $metadata
      * @return array
      */
-    protected function findFuzzyDuplicates(MetadataInterface $metadata)
+    protected function findFuzzyDuplicates(MetadataInterface $metadata): array
     {
         $soundex = $this->findFuzzyDuplicatesByAlgorithm($metadata, 'soundex');
         $metaphone = $this->findFuzzyDuplicatesByAlgorithm($metadata, 'metaphone');
@@ -153,7 +154,7 @@ class DuplicateFinder implements DuplicateFinderInterface
     protected function findFuzzyDuplicatesByAlgorithm(
         MetadataInterface $metadata,
         string $algorithm
-    ) {
+    ): array {
         $duplicates = $this->duplicateRepository->findExactByAlgorithm($metadata->getClassName(), $algorithm);
         $result = [];
 
@@ -180,7 +181,7 @@ class DuplicateFinder implements DuplicateFinderInterface
     protected function checkForDuplicate(
         MetadataInterface $metadata,
         array $duplicateObjects
-    ) {
+    ): array {
         $grouped = [];
 
         foreach ($duplicateObjects as $duplicateObject) {
@@ -195,8 +196,8 @@ class DuplicateFinder implements DuplicateFinderInterface
 
         $result = [];
 
-        foreach ($grouped as $group => $duplicateObjects) {
-            $result[] = $this->checkForDuplicatesInGroup($metadata->getGroup($group), $duplicateObjects);
+        foreach ($grouped as $group => $duplicates) {
+            $result[] = $this->checkForDuplicatesInGroup($metadata->getGroup($group), $duplicates);
         }
 
         return array_merge(...$result);
@@ -210,7 +211,7 @@ class DuplicateFinder implements DuplicateFinderInterface
     private function checkForDuplicatesInGroup(
         GroupMetadataInterface $group,
         array $duplicateObjects
-    ) {
+    ): array {
         $result = [];
 
         foreach ($duplicateObjects as $duplicateObject1) {
@@ -234,7 +235,7 @@ class DuplicateFinder implements DuplicateFinderInterface
         GroupMetadataInterface $group,
         DuplicateObjectInterface $duplicateObject1,
         DuplicateObjectInterface $duplicateObject2
-    ) {
+    ): bool {
         $applies = false;
         foreach ($group->getFields() as $field) {
             if ($field->getSimilarityIdentifier()) {
@@ -263,14 +264,18 @@ class DuplicateFinder implements DuplicateFinderInterface
         return true;
     }
 
-    protected function findExactDuplicates(MetadataInterface $metadata)
+    /**
+     * @param MetadataInterface $metadata
+     * @return array
+     */
+    protected function findExactDuplicates(MetadataInterface $metadata): array
     {
         $duplicateObjects = $this->duplicateObjectRepository->findExactMatches($metadata->getClassName());
 
         /**
          * @var DuplicateInterface[] $duplicates
          */
-        $duplicates = array_map(function (DuplicateObjectInterface $duplicateObject) {
+        $duplicates = array_map(static function (DuplicateObjectInterface $duplicateObject) {
             return $duplicateObject->getDuplicate();
         }, $duplicateObjects);
 

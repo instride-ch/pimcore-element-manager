@@ -12,9 +12,9 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass;
+namespace Wvision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass;
 
-use WVision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\ContainerDataTransformerFactory;
+use Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\ContainerDataTransformerFactory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,7 +22,10 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class AddDataTransformersPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(ContainerDataTransformerFactory::class)) {
             return;
@@ -35,8 +38,7 @@ class AddDataTransformersPass implements CompilerPassInterface
 
             if (!isset($attributes[0]['type'])) {
                 $type = $definition->getClass();
-            }
-            else {
+            } else {
                 $type = $attributes[0]['type'];
             }
 

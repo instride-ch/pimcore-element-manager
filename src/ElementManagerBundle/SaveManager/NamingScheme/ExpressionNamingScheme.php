@@ -12,7 +12,7 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\SaveManager\NamingScheme;
+namespace Wvision\Bundle\ElementManagerBundle\SaveManager\NamingScheme;
 
 use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\DataObject\Service;
@@ -29,9 +29,8 @@ class ExpressionNamingScheme implements NamingSchemeInterface
     /**
      * @param ExpressionLanguage $expressionLanguage
      */
-    public function __construct(
-        ExpressionLanguage $expressionLanguage
-    ) {
+    public function __construct(ExpressionLanguage $expressionLanguage)
+    {
         $this->expressionLanguage = $expressionLanguage;
     }
 
@@ -64,8 +63,7 @@ class ExpressionNamingScheme implements NamingSchemeInterface
 
             $parentPath .= '/' . implode('/', $namingScheme);
 
-        }
-        else {
+        } else {
             $key = $namingScheme;
         }
 
@@ -75,7 +73,7 @@ class ExpressionNamingScheme implements NamingSchemeInterface
         $object->setParent(Service::createFolderByPath($parentPath));
 
         if (!$object->getKey()) {
-            $object->setKey(uniqid());
+            $object->setKey(uniqid('element', true));
         }
 
         $object->setKey(Service::getUniqueKey($object));

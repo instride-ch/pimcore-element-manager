@@ -12,17 +12,18 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass;
+namespace Wvision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass;
 
-use WVision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\ContainerDataTransformerFactory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 class AddSaveHandlerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container): void
     {
         foreach ($container->findTaggedServiceIds('element_manager.save_handler', true) as $id => $attributes) {
             if (!isset($attributes[0]['className'])) {

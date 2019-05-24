@@ -12,17 +12,19 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer;
+namespace Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer;
+
+use DateTime;
 
 class SimpleDataTransformer implements DataTransformerInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function transform($data)
     {
-        if ($data instanceof \DateTime) {
-            $data = $data->format(\DateTime::ATOM);
+        if ($data instanceof DateTime) {
+            $data = $data->format(DateTime::ATOM);
         }
 
         return strtolower(trim(str_replace('  ', ' ', $data)));

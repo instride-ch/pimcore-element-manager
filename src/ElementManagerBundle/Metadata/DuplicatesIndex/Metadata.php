@@ -12,7 +12,7 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex;
+namespace Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex;
 
 class Metadata implements MetadataInterface
 {
@@ -24,7 +24,7 @@ class Metadata implements MetadataInterface
     /**
      * @var GroupMetadataInterface[]
      */
-    private $groups = [];
+    private $groups;
 
     /**
      * @param string                   $className
@@ -37,7 +37,7 @@ class Metadata implements MetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getClassName(): string
     {
@@ -45,7 +45,7 @@ class Metadata implements MetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setClassName(string $className): void
     {
@@ -53,7 +53,7 @@ class Metadata implements MetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getGroups(): array
     {
@@ -61,7 +61,7 @@ class Metadata implements MetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setGroups(array $groups): void
     {
@@ -69,12 +69,14 @@ class Metadata implements MetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getGroup(string $name): ?GroupMetadataInterface
     {
-        return reset(array_filter($this->groups, function(GroupMetadataInterface $groupMetadata) use ($name) {
+        $filteredGroups = array_filter($this->groups, static function(GroupMetadataInterface $groupMetadata) use ($name) {
             return $groupMetadata->getName() === $name;
-        }));
+        });
+
+        return reset($filteredGroups);
     }
 }

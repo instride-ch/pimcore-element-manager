@@ -12,25 +12,28 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex;
+namespace Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex;
 
 class MetadataRegistry implements MetadataRegistryInterface
 {
-    protected $metadatas = [];
+    /**
+     * @var array
+     */
+    protected $metadata = [];
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function all(): array
     {
-        return $this->metadatas;
+        return $this->metadata;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function register(MetadataInterface $metadata): void
     {
-        $this->metadatas[] = $metadata;
+        $this->metadata[] = $metadata;
     }
 }

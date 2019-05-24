@@ -2,11 +2,11 @@ services:
     _defaults:
         public: true
 
-    WVision\Bundle\ElementManagerBundle\Command\IndexCommand:
+    Wvision\Bundle\ElementManagerBundle\Command\IndexCommand:
         arguments:
-          - '@WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry'
-          - '@WVision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicatesIndexWorker'
-          - '@WVision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicateFinder'
+          - '@Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry'
+          - '@Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicatesIndexWorker'
+          - '@Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicateFinder'
           - '@event_dispatcher'
         tags:
           - { name: console.command, command: 'element_manager:duplicate-index' }

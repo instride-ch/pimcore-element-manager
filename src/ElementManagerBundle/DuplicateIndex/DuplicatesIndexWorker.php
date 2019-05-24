@@ -12,18 +12,18 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\DuplicateIndex;
+namespace Wvision\Bundle\ElementManagerBundle\DuplicateIndex;
 
 use CoreShop\Component\Resource\Factory\FactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use WVision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\DataTransformerFactoryInterface;
-use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadataInterface;
-use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadataInterface;
-use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface;
-use WVision\Bundle\ElementManagerBundle\Repository\DuplicateObjectRepositoryInterface;
-use WVision\Bundle\ElementManagerBundle\Repository\DuplicateRepositoryInterface;
+use Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\DataTransformerFactoryInterface;
+use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadataInterface;
+use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadataInterface;
+use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface;
+use Wvision\Bundle\ElementManagerBundle\Repository\DuplicateObjectRepositoryInterface;
+use Wvision\Bundle\ElementManagerBundle\Repository\DuplicateRepositoryInterface;
 use Pimcore\Model\DataObject\Concrete;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -84,9 +84,9 @@ class DuplicatesIndexWorker implements DuplicatesIndexWorkerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function updateIndex(MetadataInterface $metadata, Concrete $concrete)
+    public function updateIndex(MetadataInterface $metadata, Concrete $concrete): void
     {
         $accessor = PropertyAccess::createPropertyAccessor();
 
@@ -112,24 +112,22 @@ class DuplicatesIndexWorker implements DuplicatesIndexWorkerInterface
      * @param Concrete          $concrete
      * @param array             $duplicateDataRows
      */
-    protected function updateDuplicateIndex(MetadataInterface $metadata, Concrete $concrete, array $duplicateDataRows)
+    protected function updateDuplicateIndex(MetadataInterface $metadata, Concrete $concrete, array $duplicateDataRows): void
     {
         $this->duplicateRepository->deleteForObject($concrete);
         $this->duplicateObjectRepository->deleteForObject($concrete);
 
         foreach ($duplicateDataRows as $group => $duplicateDataRow) {
-            $fieldCombination = $metadata->getGroup($group)->getFieldKeys();
+            $metadataGroup = $metadata->getGroup($group);
+            $fieldCombination = null !== $metadataGroup ? $metadataGroup->getFieldKeys() : [];
 
             $dataMd5 = md5(json_encode($duplicateDataRow));
             $fieldCombinationCrc = crc32(implode(',', $fieldCombination));
 
-
             $duplicate = $this->duplicateRepository->findForMd5AndCrc($metadata->getClassName(), $dataMd5, $fieldCombinationCrc);
 
             if (!$duplicate) {
-                /**
-                 * @var DuplicateInterface $duplicate
-                 */
+                /** @var DuplicateInterface $duplicate */
                 $duplicate = $this->duplicateFactory->createNew();
                 $duplicate->setClassName($metadata->getClassName());
                 $duplicate->setGroup($group);
@@ -148,9 +146,7 @@ class DuplicatesIndexWorker implements DuplicatesIndexWorkerInterface
                 $this->entityManager->persist($duplicate);
             }
 
-            /**
-             * @var DuplicateObjectInterface $duplicateObject
-             */
+            /** @var DuplicateObjectInterface $duplicateObject */
             $duplicateObject = $this->duplicateObjectFactory->createNew();
             $duplicateObject->setDuplicate($duplicate);
             $duplicateObject->setObject($concrete);
@@ -171,7 +167,7 @@ class DuplicatesIndexWorker implements DuplicatesIndexWorkerInterface
         string $algorithm,
         array $duplicateData,
         GroupMetadataInterface $groupMetadata
-    ) {
+    ): string {
         $data = [];
         foreach ($groupMetadata->getFields() as $field) {
             if ($field->getConfig($algorithm)) {
@@ -194,6 +190,11 @@ class DuplicatesIndexWorker implements DuplicatesIndexWorkerInterface
         return implode('', $data);
     }
 
+    /**
+     * @param $value
+     * @param FieldMetadataInterface $field
+     * @return mixed
+     */
     protected function transformData($value, FieldMetadataInterface $field)
     {
         if ($field->getTransformerIdentifier()) {
@@ -203,7 +204,11 @@ class DuplicatesIndexWorker implements DuplicatesIndexWorkerInterface
         return $value;
     }
 
-    protected function isRelevantForIndex(Concrete $concrete)
+    /**
+     * @param Concrete $concrete
+     * @return bool
+     */
+    protected function isRelevantForIndex(Concrete $concrete): bool
     {
         return $concrete->getPublished();
     }

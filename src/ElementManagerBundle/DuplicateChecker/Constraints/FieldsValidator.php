@@ -12,10 +12,13 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\DuplicateChecker\Constraints;
+namespace Wvision\Bundle\ElementManagerBundle\DuplicateChecker\Constraints;
 
 use CoreShop\Component\Resource\Exception\UnexpectedTypeException;
-use WVision\Bundle\ElementManagerBundle\DuplicateChecker\Constraints\Normalizer\CompareConditionMySqlNormalizer;
+use DateTime;
+use Exception;
+use InvalidArgumentException;
+use Wvision\Bundle\ElementManagerBundle\DuplicateChecker\Constraints\Normalizer\CompareConditionMySqlNormalizer;
 use Symfony\Component\Validator\Constraint;
 use Pimcore\Model\DataObject;
 use Pimcore\Model\Element\ElementInterface;
@@ -29,10 +32,15 @@ class FieldsValidator extends DuplicateConstraintValidator
         $this->normalizer = new CompareConditionMySqlNormalizer();
     }
 
-    public function validate($value, Constraint $constraint)
+    /**
+     * @param mixed $value
+     * @param Constraint $constraint
+     * @throws Exception
+     */
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof Fields) {
-            throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\Fields');
+            throw new UnexpectedTypeException($constraint, __NAMESPACE__ . '\Fields');
         }
 
         $duplicates = $this->getDuplicatesByFields($value, $constraint->fields, $constraint->trim);
@@ -48,6 +56,7 @@ class FieldsValidator extends DuplicateConstraintValidator
 
     /**
      * {@inheritdoc}
+     * @throws Exception
      */
     private function getDuplicatesByFields(DataObject\Concrete $address, array $fields, bool $trim = false, $limit = 0): ?DataObject\Listing\Concrete
     {
@@ -79,6 +88,7 @@ class FieldsValidator extends DuplicateConstraintValidator
 
     /**
      * {@inheritdoc}
+     * @throws Exception
      */
     private function getDuplicatesByData(DataObject\Listing\Concrete $list, array $data, $limit = 0): ?DataObject\Listing\Concrete
     {
@@ -107,7 +117,7 @@ class FieldsValidator extends DuplicateConstraintValidator
      * @param DataObject\Listing\Concrete $list
      * @param $field
      * @param $value
-     * @throws \Exception
+     * @throws Exception
      */
     private function addNormalizedMysqlCompareCondition(DataObject\Listing\Concrete $list, $field, $value): void
     {
@@ -130,21 +140,21 @@ class FieldsValidator extends DuplicateConstraintValidator
             return;
         }
 
-        if ($value instanceof \DateTime) {
+        if ($value instanceof DateTime) {
             $this->normalizer->addForDateFields($list, $field, $value);
 
             return;
         }
 
         if (strpos($fd->getQueryColumnType(), 'char') !== false) {
-            $this->normalizer->addForStringFields($list, $field, $value, []);
+            $this->normalizer->addForStringFields($list, $field, $value);
 
             return;
         }
 
         $type = is_object($value) ? get_class($value) : gettype($value);
 
-        throw new \InvalidArgumentException(
+        throw new InvalidArgumentException(
             sprintf('Duplicate check for type of field %s not implemented (type of value: %s)', $field, $type)
         );
     }

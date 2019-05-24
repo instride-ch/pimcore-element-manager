@@ -12,23 +12,23 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\DependencyInjection;
+namespace Wvision\Bundle\ElementManagerBundle\DependencyInjection;
 
 use CoreShop\Bundle\ResourceBundle\CoreShopResourceBundle;
 use CoreShop\Component\Resource\Factory\Factory;
-use WVision\Bundle\ElementManagerBundle\Model\Duplicate;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateFalsePositive;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateFalsePositiveInterface;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateObject;
-use WVision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface;
-use WVision\Bundle\ElementManagerBundle\Model\PotentialDuplicate;
-use WVision\Bundle\ElementManagerBundle\Model\PotentialDuplicateInterface;
-use WVision\Bundle\ElementManagerBundle\Repository\DuplicateObjectRepository;
-use WVision\Bundle\ElementManagerBundle\Repository\DuplicateRepository;
-use WVision\Bundle\ElementManagerBundle\Repository\PotentialDuplicateRepository;
-use WVision\Bundle\ElementManagerBundle\SaveManager\NamingScheme\ExpressionNamingScheme;
-use WVision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManager;
+use Wvision\Bundle\ElementManagerBundle\Model\Duplicate;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateFalsePositive;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateFalsePositiveInterface;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateObject;
+use Wvision\Bundle\ElementManagerBundle\Model\DuplicateObjectInterface;
+use Wvision\Bundle\ElementManagerBundle\Model\PotentialDuplicate;
+use Wvision\Bundle\ElementManagerBundle\Model\PotentialDuplicateInterface;
+use Wvision\Bundle\ElementManagerBundle\Repository\DuplicateObjectRepository;
+use Wvision\Bundle\ElementManagerBundle\Repository\DuplicateRepository;
+use Wvision\Bundle\ElementManagerBundle\Repository\PotentialDuplicateRepository;
+use Wvision\Bundle\ElementManagerBundle\SaveManager\NamingScheme\ExpressionNamingScheme;
+use Wvision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManager;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -55,7 +55,10 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    private function addSaveManagerSection(ArrayNodeDefinition $rootNode)
+    /**
+     * @param ArrayNodeDefinition $rootNode
+     */
+    private function addSaveManagerSection(ArrayNodeDefinition $rootNode): void
     {
         $rootNode
             ->children()
@@ -129,7 +132,10 @@ class Configuration implements ConfigurationInterface
         ->end();
     }
 
-    private function addDuplicationSection(ArrayNodeDefinition $rootNode)
+    /**
+     * @param ArrayNodeDefinition $rootNode
+     */
+    private function addDuplicationSection(ArrayNodeDefinition $rootNode): void
     {
         $rootNode
             ->children()
@@ -155,7 +161,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @param ArrayNodeDefinition $node
      */
-    private function addModelsSection(ArrayNodeDefinition $node)
+    private function addModelsSection(ArrayNodeDefinition $node): void
     {
         $node
             ->children()

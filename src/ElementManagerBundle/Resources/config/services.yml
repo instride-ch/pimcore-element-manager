@@ -1,27 +1,27 @@
 services:
-    WVision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\ContainerDataTransformerFactory:
+    Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\ContainerDataTransformerFactory:
         arguments:
             - []
 
-    WVision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity\ContainerSimilarityCheckerFactory:
+    Wvision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity\ContainerSimilarityCheckerFactory:
         arguments:
             - []
 
-    WVision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\DataTransformerFactoryInterface: '@WVision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\ContainerDataTransformerFactory'
-    WVision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity\SimilarityCheckerFactoryInterface: '@WVision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity\ContainerSimilarityCheckerFactory'
+    Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\DataTransformerFactoryInterface: '@Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\ContainerDataTransformerFactory'
+    Wvision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity\SimilarityCheckerFactoryInterface: '@Wvision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity\ContainerSimilarityCheckerFactory'
 
-    WVision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicatesIndexWorker:
+    Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicatesIndexWorker:
         arguments:
-            - '@WVision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\DataTransformerFactoryInterface'
+            - '@Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\DataTransformerFactoryInterface'
             - '@doctrine.orm.entity_manager'
             - '@wvision_element_manager.repository.duplicate'
             - '@wvision_element_manager.repository.duplicate_object'
             - '@wvision_element_manager.factory.duplicate'
             - '@wvision_element_manager.factory.duplicate_object'
 
-    WVision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicateFinder:
+    Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicateFinder:
         arguments:
-            - '@WVision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity\SimilarityCheckerFactoryInterface'
+            - '@Wvision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity\SimilarityCheckerFactoryInterface'
             - '@wvision_element_manager.repository.duplicate'
             - '@wvision_element_manager.repository.duplicate_object'
             - '@wvision_element_manager.repository.potential_duplicate'

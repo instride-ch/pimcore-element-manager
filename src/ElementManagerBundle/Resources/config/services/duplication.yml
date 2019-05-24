@@ -22,7 +22,7 @@ services:
                     - '@duplication_checker.validator_factory'
 
     duplication_checker.validator_factory:
-        class: WVision\Bundle\ElementManagerBundle\DuplicateChecker\ContainerConstraintValidatorFactory
+        class: Wvision\Bundle\ElementManagerBundle\DuplicateChecker\ContainerConstraintValidatorFactory
         public: false
         arguments:
             - ''
@@ -51,8 +51,8 @@ services:
         arguments:
             - '@duplication_checker.mapping.cache.symfony.php_array'
 
-    WVision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateService:
+    Wvision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateService:
         arguments:
             - '@duplication_checker.validator'
 
-    WVision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateServiceInterface: '@WVision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateService'
+    Wvision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateServiceInterface: '@Wvision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateService'

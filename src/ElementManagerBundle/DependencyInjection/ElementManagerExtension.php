@@ -12,17 +12,17 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\DependencyInjection;
+namespace Wvision\Bundle\ElementManagerBundle\DependencyInjection;
 
 use CoreShop\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractModelExtension;
-use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadata;
-use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadata;
-use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\Metadata;
-use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry;
-use WVision\Bundle\ElementManagerBundle\SaveManager\DuplicationSaveHandler;
-use WVision\Bundle\ElementManagerBundle\SaveManager\NamingSchemeSaveHandler;
-use WVision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManagers;
-use WVision\Bundle\ElementManagerBundle\SaveManager\ValidationSaveHandler;
+use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadata;
+use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadata;
+use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\Metadata;
+use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry;
+use Wvision\Bundle\ElementManagerBundle\SaveManager\DuplicationSaveHandler;
+use Wvision\Bundle\ElementManagerBundle\SaveManager\NamingSchemeSaveHandler;
+use Wvision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManagers;
+use Wvision\Bundle\ElementManagerBundle\SaveManager\ValidationSaveHandler;
 use Symfony\Component\Config\Resource\DirectoryResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

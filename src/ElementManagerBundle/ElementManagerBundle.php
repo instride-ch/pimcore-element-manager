@@ -12,13 +12,13 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle;
+namespace Wvision\Bundle\ElementManagerBundle;
 
 use CoreShop\Bundle\ResourceBundle\AbstractResourceBundle;
 use CoreShop\Bundle\ResourceBundle\CoreShopResourceBundle;
-use WVision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddDataTransformersPass;
-use WVision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddSaveHandlerPass;
-use WVision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddSimilarityCheckerPass;
+use Wvision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddDataTransformersPass;
+use Wvision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddSaveHandlerPass;
+use Wvision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddSimilarityCheckerPass;
 use Pimcore\Extension\Bundle\Traits\PackageVersionTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Validator\DependencyInjection\AddConstraintValidatorsPass;
@@ -30,20 +30,19 @@ class ElementManagerBundle extends AbstractResourceBundle
     /**
      * {@inheritdoc}
      */
-    public function getSupportedDrivers()
+    public function getSupportedDrivers(): array
     {
         return [
             CoreShopResourceBundle::DRIVER_DOCTRINE_ORM,
         ];
     }
 
-
     /**
      * {@inheritdoc}
      */
-    protected function getModelNamespace()
+    protected function getModelNamespace(): ?string
     {
-        return 'WVision\Bundle\ElementManagerBundle\Model';
+        return 'Wvision\Bundle\ElementManagerBundle\Model';
     }
 
     /**
@@ -62,7 +61,7 @@ class ElementManagerBundle extends AbstractResourceBundle
     /**
      * {@inheritdoc}
      */
-    public function getNiceName()
+    public function getNiceName(): string
     {
         return 'Element Manager Bundle';
     }
@@ -70,7 +69,7 @@ class ElementManagerBundle extends AbstractResourceBundle
     /**
      * {@inheritdoc}
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return 'Element Manager';
     }
@@ -78,23 +77,15 @@ class ElementManagerBundle extends AbstractResourceBundle
     /**
      * {@inheritdoc}
      */
-    protected function getComposerPackageName()
+    protected function getComposerPackageName(): string
     {
-        return 'w-vision/import-definitions';
+        return 'w-vision/element-manager';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getJsPaths()
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCssPaths()
+    public function getJsPaths(): array
     {
         return [];
     }
@@ -102,7 +93,7 @@ class ElementManagerBundle extends AbstractResourceBundle
     /**
      * {@inheritdoc}
      */
-    public function getEditmodeJsPaths()
+    public function getCssPaths(): array
     {
         return [];
     }
@@ -110,7 +101,15 @@ class ElementManagerBundle extends AbstractResourceBundle
     /**
      * {@inheritdoc}
      */
-    public function getEditmodeCssPaths()
+    public function getEditmodeJsPaths(): array
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEditmodeCssPaths(): array
     {
         return [];
     }

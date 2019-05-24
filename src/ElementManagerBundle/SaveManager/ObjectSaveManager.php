@@ -12,7 +12,7 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\SaveManager;
+namespace Wvision\Bundle\ElementManagerBundle\SaveManager;
 
 use Pimcore\Model\DataObject\Concrete;
 
@@ -22,6 +22,7 @@ class ObjectSaveManager implements ObjectSaveManagerInterface
      * @var ObjectSaveHandlerInterface[]
      */
     protected $saveHandlers = [];
+
     /**
      * @var array
      */
@@ -38,7 +39,7 @@ class ObjectSaveManager implements ObjectSaveManagerInterface
 
         $this->applySaveHandlers($object, 'preAdd');
 
-        //Should be a save sandler
+        // Should be a save sandler
         /*if ($this->pimcoreContextResolver->getPimcoreContext() === PimcoreContextResolver::CONTEXT_ADMIN) {
             $this->applyNamingScheme($address);
         }*/
@@ -58,7 +59,6 @@ class ObjectSaveManager implements ObjectSaveManagerInterface
     public function preUpdate(Concrete $object): void
     {
         $this->applySaveHandlers($object, 'preUpdate');
-
         $this->validateOnSave($object);
     }
 
@@ -97,7 +97,7 @@ class ObjectSaveManager implements ObjectSaveManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getSaveHandlers()
+    public function getSaveHandlers(): array
     {
         return $this->saveHandlers;
     }
@@ -105,7 +105,7 @@ class ObjectSaveManager implements ObjectSaveManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function setSaveHandlers(array $saveHandlers)
+    public function setSaveHandlers(array $saveHandlers): void
     {
         $this->saveHandlers = $saveHandlers;
     }

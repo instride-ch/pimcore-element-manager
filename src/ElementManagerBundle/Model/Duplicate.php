@@ -12,7 +12,7 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\Model;
+namespace Wvision\Bundle\ElementManagerBundle\Model;
 
 use CoreShop\Component\Resource\Model\AbstractResource;
 use CoreShop\Component\Resource\Model\TimestampableTrait;
@@ -87,7 +87,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getId(): int
     {
@@ -95,7 +95,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getClassName(): string
     {
@@ -103,7 +103,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setClassName(string $className): void
     {
@@ -111,7 +111,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getGroup(): string
     {
@@ -119,7 +119,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setGroup(string $group): void
     {
@@ -127,7 +127,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getData(): array
     {
@@ -135,7 +135,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setData(array $data): void
     {
@@ -143,7 +143,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getMd5(): string
     {
@@ -151,7 +151,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setMd5(string $md5): void
     {
@@ -159,7 +159,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getFields(): array
     {
@@ -167,7 +167,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setFields(array $fields): void
     {
@@ -175,7 +175,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getFieldsCrc(): int
     {
@@ -183,7 +183,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setFieldsCrc(int $fieldsCrc): void
     {
@@ -191,7 +191,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getObject(): Concrete
     {
@@ -199,7 +199,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setObject(Concrete $object): void
     {
@@ -207,7 +207,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getMetaphone(): string
     {
@@ -215,7 +215,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setMetaphone(string $metaphone): void
     {
@@ -223,7 +223,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getSoundex(): string
     {
@@ -231,7 +231,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setSoundex(string $soundex): void
     {
@@ -239,7 +239,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getObjects(): array
     {

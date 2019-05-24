@@ -12,14 +12,14 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity;
+namespace Wvision\Bundle\ElementManagerBundle\DuplicateIndex\Similarity;
 
-use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadataInterface;
+use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadataInterface;
 
 class SimilarText implements SimilarityCheckerInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function isSimilar($value1, $value2, FieldMetadataInterface $fieldMetadata): bool
     {

@@ -12,16 +12,26 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer;
+namespace Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer;
 
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
 
 class ContainerDataTransformerFactory implements DataTransformerFactoryInterface
 {
+    /**
+     * @var ContainerInterface
+     */
     private $container;
+
+    /**
+     * @var array
+     */
     private $dataTransformers;
 
+    /**
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;

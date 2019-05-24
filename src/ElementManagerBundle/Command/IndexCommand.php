@@ -12,24 +12,15 @@
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-namespace WVision\Bundle\ElementManagerBundle\Command;
+namespace Wvision\Bundle\ElementManagerBundle\Command;
 
-use CoreShop\Component\Index\Model\IndexInterface;
-use CoreShop\Component\Index\Service\IndexUpdaterServiceInterface;
-use CoreShop\Component\Pimcore\BatchProcessing\BatchListing;
-use CoreShop\Component\Resource\Repository\RepositoryInterface;
-use WVision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicateFinderInterface;
-use WVision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicatesIndexWorkerInterface;
-use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
-use WVision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistryInterface;
-use Pimcore\Model\DataObject\AbstractObject;
-use Pimcore\Model\DataObject\Listing;
+use Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicateFinderInterface;
+use Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicatesIndexWorkerInterface;
+use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistryInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class IndexCommand extends Command
 {
@@ -56,7 +47,8 @@ final class IndexCommand extends Command
     /**
      * @param MetadataRegistryInterface $metadataRegistry
      * @param DuplicatesIndexWorkerInterface $indexWorker
-     * @param EventDispatcherInterface     $eventDispatcher
+     * @param DuplicateFinderInterface $duplicateFinder
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         MetadataRegistryInterface $metadataRegistry,
@@ -75,7 +67,7 @@ final class IndexCommand extends Command
     /**
      * configure command.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('element_manager:duplicate-index')
@@ -127,8 +119,6 @@ final class IndexCommand extends Command
 
         $output->writeln('');
         $output->writeln('<info>Done</info>');
-
-
 
         return 0;
     }
