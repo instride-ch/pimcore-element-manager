@@ -17,6 +17,7 @@ namespace WVision\Bundle\ElementManagerBundle;
 use CoreShop\Bundle\ResourceBundle\AbstractResourceBundle;
 use CoreShop\Bundle\ResourceBundle\CoreShopResourceBundle;
 use WVision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddDataTransformersPass;
+use WVision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddSaveHandlerPass;
 use WVision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddSimilarityCheckerPass;
 use Pimcore\Extension\Bundle\Traits\PackageVersionTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -55,6 +56,7 @@ class ElementManagerBundle extends AbstractResourceBundle
         $builder->addCompilerPass(new AddConstraintValidatorsPass('duplication_checker.validator_factory', 'duplication_checker.constraint_validator'));
         $builder->addCompilerPass(new AddDataTransformersPass());
         $builder->addCompilerPass(new AddSimilarityCheckerPass());
+        $builder->addCompilerPass(new AddSaveHandlerPass());
     }
 
     /**
