@@ -130,7 +130,7 @@ class ElementManagerExtension extends AbstractModelExtension
         }
 
         if (!$container->getParameter('kernel.debug')) {
-            $duplicationBuilder->addMethodCall('setMetadataCache', [new Reference('wvision_element_manager.duplication.mapping.cache.symfony')]);
+            $duplicationBuilder->addMethodCall('setMetadataCache', [new Reference('duplication_checker.mapping.cache.symfony')]);
         }
     }
 
