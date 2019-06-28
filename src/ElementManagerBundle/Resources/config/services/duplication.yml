@@ -25,7 +25,7 @@ services:
         class: Wvision\Bundle\ElementManagerBundle\DuplicateChecker\ContainerConstraintValidatorFactory
         public: false
         arguments:
-            - ''
+            - '@service_container'
 
     duplication_checker.mapping.cache_warmer:
         class: Symfony\Bundle\FrameworkBundle\CacheWarmer\ValidatorCacheWarmer
