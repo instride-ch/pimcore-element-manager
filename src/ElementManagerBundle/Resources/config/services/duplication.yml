@@ -16,6 +16,8 @@ services:
     duplication_checker.builder:
         class: Symfony\Component\Validator\ValidatorBuilder
         public: false
+        autowire: false
+        autoconfigure: false
         calls:
             -   method: setConstraintValidatorFactory
                 arguments:
@@ -49,7 +51,12 @@ services:
         class: Symfony\Component\Validator\Mapping\Cache\Psr6Cache
         public: false
         arguments:
-            - '@duplication_checker.mapping.cache.symfony.php_array'
+            - !service
+                class: Symfony\Component\Cache\Adapter\PhpArrayAdapter
+                factory: Symfony\Component\Cache\Adapter\PhpArrayAdapter:create
+                arguments:
+                    - '%duplication_checker.cache.file%'
+                    - '@duplication_checker.cache'
 
     Wvision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateService:
         arguments:
