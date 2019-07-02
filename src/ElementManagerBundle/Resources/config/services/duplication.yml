@@ -42,7 +42,7 @@ services:
     duplication_checker.mapping.cache.symfony.php_array:
         class: Symfony\Component\Cache\Adapter\PhpArrayAdapter
         public: false
-        factory: Symfony\Component\Cache\Adapter\PhpArrayAdapter:create
+        factory: ['Symfony\Component\Cache\Adapter\PhpArrayAdapter', 'create']
         arguments:
             - '%duplication_checker.cache.file%'
             - '@duplication_checker.cache'
@@ -51,12 +51,7 @@ services:
         class: Symfony\Component\Validator\Mapping\Cache\Psr6Cache
         public: false
         arguments:
-            - !service
-                class: Symfony\Component\Cache\Adapter\PhpArrayAdapter
-                factory: Symfony\Component\Cache\Adapter\PhpArrayAdapter:create
-                arguments:
-                    - '%duplication_checker.cache.file%'
-                    - '@duplication_checker.cache'
+            - '@duplication_checker.mapping.cache.symfony.php_array'
 
     Wvision\Bundle\ElementManagerBundle\DuplicateChecker\DuplicateService:
         arguments:
