@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -14,10 +14,17 @@
 
 namespace Wvision\Bundle\ElementManagerBundle\DuplicateIndex;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
 use Pimcore\Model\DataObject\Concrete;
 
 interface DuplicatesIndexWorkerInterface
 {
+    /**
+     * @param MetadataInterface $metadata
+     * @param Concrete          $concrete
+     *
+     * @throws NonUniqueResultException
+     */
     public function updateIndex(MetadataInterface $metadata, Concrete $concrete);
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -43,6 +43,7 @@ interface DuplicateObjectRepositoryInterface extends RepositoryInterface
 
     /**
      * @param DuplicateInterface $duplicate
+     *
      * @return DuplicateObjectInterface[]
      */
     public function findByDuplicate(DuplicateInterface $duplicate): array;

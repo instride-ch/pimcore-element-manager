@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -39,7 +39,7 @@ class ObjectSaveManager implements ObjectSaveManagerInterface
 
         $this->applySaveHandlers($object, 'preAdd');
 
-        // Should be a save sandler
+        // TODO: Should be a save sandler
         /*if ($this->pimcoreContextResolver->getPimcoreContext() === PimcoreContextResolver::CONTEXT_ADMIN) {
             $this->applyNamingScheme($address);
         }*/

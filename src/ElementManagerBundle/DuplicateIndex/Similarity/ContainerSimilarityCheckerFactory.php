@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *

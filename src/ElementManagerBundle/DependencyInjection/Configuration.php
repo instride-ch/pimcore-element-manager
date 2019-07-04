@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -40,8 +40,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('element_manager');
+        $treeBuilder = new TreeBuilder('element_manager');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
@@ -154,8 +154,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end()
-        ;
+            ->end();
     }
 
     /**

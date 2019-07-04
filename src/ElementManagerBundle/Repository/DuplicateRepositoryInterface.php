@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -40,7 +40,9 @@ interface DuplicateRepositoryInterface extends RepositoryInterface
      * @param string $className
      * @param string $md5
      * @param int    $crc
+     *
      * @return DuplicateInterface|null
+     *
      * @throws NonUniqueResultException
      */
     public function findForMd5AndCrc(string $className, string $md5, int $crc): ?DuplicateInterface;

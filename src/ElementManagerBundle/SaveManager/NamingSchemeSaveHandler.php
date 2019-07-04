@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -35,6 +35,7 @@ final class NamingSchemeSaveHandler extends AbstractObjectSaveHandler
 
     /**
      * {@inheritdoc}
+     *
      * @throws Exception
      */
     public function preSave(Concrete $object, array $options): void

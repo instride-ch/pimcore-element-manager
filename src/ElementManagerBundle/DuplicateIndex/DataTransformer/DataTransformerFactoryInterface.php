@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -18,6 +18,7 @@ interface DataTransformerFactoryInterface
 {
     /**
      * @param string $identifier
+     *
      * @return DataTransformerInterface
      */
     public function getInstance(string $identifier): DataTransformerInterface;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -136,6 +136,7 @@ class DuplicateFinder implements DuplicateFinderInterface
 
     /**
      * @param MetadataInterface $metadata
+     *
      * @return array
      */
     protected function findFuzzyDuplicates(MetadataInterface $metadata): array
@@ -149,6 +150,7 @@ class DuplicateFinder implements DuplicateFinderInterface
     /**
      * @param MetadataInterface $metadata
      * @param string            $algorithm
+     *
      * @return array
      */
     protected function findFuzzyDuplicatesByAlgorithm(
@@ -164,7 +166,6 @@ class DuplicateFinder implements DuplicateFinderInterface
                 $algorithm === 'soundex' ? $duplicate->getSoundex() : $duplicate->getMetaphone()
             );
 
-
             $result[] = $this->checkForDuplicate($metadata, $duplicateObjects);
         }
 
@@ -176,6 +177,7 @@ class DuplicateFinder implements DuplicateFinderInterface
     /**
      * @param MetadataInterface          $metadata
      * @param DuplicateObjectInterface[] $duplicateObjects
+     *
      * @return array
      */
     protected function checkForDuplicate(
@@ -206,6 +208,7 @@ class DuplicateFinder implements DuplicateFinderInterface
     /**
      * @param GroupMetadataInterface $group
      * @param array                  $duplicateObjects
+     *
      * @return array
      */
     private function checkForDuplicatesInGroup(
@@ -229,6 +232,7 @@ class DuplicateFinder implements DuplicateFinderInterface
      * @param GroupMetadataInterface   $group
      * @param DuplicateObjectInterface $duplicateObject1
      * @param DuplicateObjectInterface $duplicateObject2
+     *
      * @return bool
      */
     protected function duplicatesAreSimilar(
@@ -240,6 +244,7 @@ class DuplicateFinder implements DuplicateFinderInterface
         foreach ($group->getFields() as $field) {
             if ($field->getSimilarityIdentifier()) {
                 $applies = true;
+
                 break;
             }
         }
@@ -266,6 +271,7 @@ class DuplicateFinder implements DuplicateFinderInterface
 
     /**
      * @param MetadataInterface $metadata
+     *
      * @return array
      */
     protected function findExactDuplicates(MetadataInterface $metadata): array

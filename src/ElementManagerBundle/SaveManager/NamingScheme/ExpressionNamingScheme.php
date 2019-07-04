@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -46,7 +46,7 @@ class ExpressionNamingScheme implements NamingSchemeInterface
             'scheme' => '',
         ]);
         $optionsResolver->setRequired([
-            'parent_path', 'archive_path', 'scheme'
+            'parent_path', 'archive_path', 'scheme',
         ]);
 
         $options = $optionsResolver->resolve($options);
@@ -62,7 +62,6 @@ class ExpressionNamingScheme implements NamingSchemeInterface
             unset($namingScheme[count($namingScheme) - 1]);
 
             $parentPath .= '/' . implode('/', $namingScheme);
-
         } else {
             $key = $namingScheme;
         }
@@ -81,6 +80,7 @@ class ExpressionNamingScheme implements NamingSchemeInterface
 
     /**
      * @param $path
+     *
      * @return string
      */
     private function correctPath($path): string

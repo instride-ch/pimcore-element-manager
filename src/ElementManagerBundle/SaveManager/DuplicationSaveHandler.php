@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -35,6 +35,7 @@ final class DuplicationSaveHandler extends AbstractObjectSaveHandler
 
     /**
      * {@inheritdoc}
+     *
      * @throws DuplicatesException
      */
     public function preSave(Concrete $object, array $options): void

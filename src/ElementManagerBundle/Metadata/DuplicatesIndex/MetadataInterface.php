@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -28,6 +28,7 @@ interface MetadataInterface
 
     /**
      * @param string $name
+     *
      * @return GroupMetadataInterface|null
      */
     public function getGroup(string $name): ?GroupMetadataInterface;

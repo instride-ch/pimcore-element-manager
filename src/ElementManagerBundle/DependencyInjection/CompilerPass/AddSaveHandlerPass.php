@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -14,6 +14,7 @@
 
 namespace Wvision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass;
 
+use InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -27,7 +28,7 @@ class AddSaveHandlerPass implements CompilerPassInterface
     {
         foreach ($container->findTaggedServiceIds('element_manager.save_handler', true) as $id => $attributes) {
             if (!isset($attributes[0]['className'])) {
-                throw new \InvalidArgumentException('Tagged Service `' . $id . '` needs to have `className` attribute.');
+                throw new InvalidArgumentException('Tagged Service `' . $id . '` needs to have `className` attribute.');
             }
 
             $className = $attributes[0]['className'];

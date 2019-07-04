@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -20,11 +20,15 @@ use Wvision\Bundle\ElementManagerBundle\Model\PotentialDuplicateInterface;
 
 interface PotentialDuplicateRepositoryInterface extends RepositoryInterface
 {
+    /**
+     * @return mixed
+     */
     public function deleteAll();
 
     /**
      * @param DuplicateObjectInterface $duplicateObject1
      * @param DuplicateObjectInterface $duplicateObject2
+     *
      * @return PotentialDuplicateInterface|null
      */
     public function findDuplication(DuplicateObjectInterface $duplicateObject1, DuplicateObjectInterface $duplicateObject2): ?PotentialDuplicateInterface;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -45,10 +45,10 @@ final class IndexCommand extends Command
     protected $eventDispatcher;
 
     /**
-     * @param MetadataRegistryInterface $metadataRegistry
+     * @param MetadataRegistryInterface      $metadataRegistry
      * @param DuplicatesIndexWorkerInterface $indexWorker
-     * @param DuplicateFinderInterface $duplicateFinder
-     * @param EventDispatcherInterface $eventDispatcher
+     * @param DuplicateFinderInterface       $duplicateFinder
+     * @param EventDispatcherInterface       $eventDispatcher
      */
     public function __construct(
         MetadataRegistryInterface $metadataRegistry,
@@ -70,8 +70,7 @@ final class IndexCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('element_manager:duplicate-index')
-        ;
+            ->setName('element_manager:duplicate-index');
     }
 
     /**
@@ -82,7 +81,7 @@ final class IndexCommand extends Command
      *
      * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         foreach ($this->metadataRegistry->all() as $index) {
 //            $class = ucfirst($index->getClassName());

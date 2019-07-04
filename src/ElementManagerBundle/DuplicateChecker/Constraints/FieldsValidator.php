@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -33,8 +33,9 @@ class FieldsValidator extends DuplicateConstraintValidator
     }
 
     /**
-     * @param mixed $value
+     * @param mixed      $value
      * @param Constraint $constraint
+     *
      * @throws Exception
      */
     public function validate($value, Constraint $constraint): void
@@ -56,10 +57,15 @@ class FieldsValidator extends DuplicateConstraintValidator
 
     /**
      * {@inheritdoc}
+     *
      * @throws Exception
      */
-    private function getDuplicatesByFields(DataObject\Concrete $address, array $fields, bool $trim = false, $limit = 0): ?DataObject\Listing\Concrete
-    {
+    private function getDuplicatesByFields(
+        DataObject\Concrete $address,
+        array $fields,
+        bool $trim = false,
+        $limit = 0
+    ): ?DataObject\Listing\Concrete {
         $data = [];
         foreach ($fields as $field) {
             $getter = 'get' . ucfirst($field);
@@ -85,13 +91,16 @@ class FieldsValidator extends DuplicateConstraintValidator
         return $duplicates;
     }
 
-
     /**
      * {@inheritdoc}
+     *
      * @throws Exception
      */
-    private function getDuplicatesByData(DataObject\Listing\Concrete $list, array $data, $limit = 0): ?DataObject\Listing\Concrete
-    {
+    private function getDuplicatesByData(
+        DataObject\Listing\Concrete $list,
+        array $data,
+        $limit = 0
+    ): ?DataObject\Listing\Concrete {
         if (!count($data)) {
             return null;
         }
@@ -117,11 +126,18 @@ class FieldsValidator extends DuplicateConstraintValidator
      * @param DataObject\Listing\Concrete $list
      * @param $field
      * @param $value
+     *
      * @throws Exception
      */
     private function addNormalizedMysqlCompareCondition(DataObject\Listing\Concrete $list, $field, $value): void
     {
         $class = DataObject\ClassDefinition::getById($list->getClassId());
+
+        if (null === $class) {
+            return;
+        }
+
+        /** @var DataObject\ClassDefinition\Data\QueryResourcePersistenceAwareInterface $fd */
         $fd = $class->getFieldDefinition($field);
 
         if (!$fd) {

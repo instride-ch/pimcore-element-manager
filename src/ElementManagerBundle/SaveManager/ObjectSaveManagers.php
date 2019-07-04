@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -26,6 +26,7 @@ class ObjectSaveManagers
 
     /**
      * @param Concrete $concrete
+     *
      * @return bool
      */
     public function hasSaveManager(Concrete $concrete): bool
@@ -35,6 +36,7 @@ class ObjectSaveManagers
 
     /**
      * @param Concrete $concrete
+     *
      * @return ObjectSaveManagerInterface
      */
     public function getSaveManger(Concrete $concrete): ObjectSaveManagerInterface

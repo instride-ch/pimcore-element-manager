@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -35,6 +35,7 @@ final class ValidationSaveHandler extends AbstractObjectSaveHandler
 
     /**
      * {@inheritdoc}
+     *
      * @throws ValidationException
      */
     public function preSave(Concrete $object, array $options): void

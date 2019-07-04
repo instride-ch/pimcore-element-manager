@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -39,5 +39,4 @@ interface DuplicateObjectInterface extends ResourceInterface, TimestampableInter
      * @param DuplicateInterface $duplicate
      */
     public function setDuplicate(DuplicateInterface $duplicate): void;
-
 }

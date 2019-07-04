@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -23,12 +23,14 @@ interface FieldMetadataInterface
 
     /**
      * @param string $name
+     *
      * @return bool
      */
     public function hasConfig(string $name): bool;
 
     /**
      * @param string $name
+     *
      * @return mixed
      */
     public function getConfig(string $name);

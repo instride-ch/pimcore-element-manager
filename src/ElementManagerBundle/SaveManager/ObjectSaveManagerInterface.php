@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -36,7 +36,7 @@ interface ObjectSaveManagerInterface
     /**
      * @param Concrete $object
      */
-    public function postUpdate(Concrete $object):void;
+    public function postUpdate(Concrete $object): void;
 
     /**
      * @param Concrete $object
@@ -51,6 +51,7 @@ interface ObjectSaveManagerInterface
     /**
      * @param Concrete $object
      * @param bool     $withDuplicatesCheck
+     *
      * @return bool
      */
     public function validateOnSave(Concrete $object, bool $withDuplicatesCheck = true): bool;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -20,7 +20,7 @@ interface DuplicateServiceInterface
 {
     /**
      * @param ElementInterface $element
-     * @param array $groups
+     * @param array            $groups
      *
      * @return ElementInterface[]
      */

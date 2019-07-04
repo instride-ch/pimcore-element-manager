@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -24,7 +24,7 @@ class GroupMetadata implements GroupMetadataInterface
     /**
      * @var FieldMetadataInterface[]
      */
-    private $fields = [];
+    private $fields;
 
     /**
      * @param string                   $name
@@ -73,7 +73,7 @@ class GroupMetadata implements GroupMetadataInterface
      */
     public function getField(string $name): ?FieldMetadataInterface
     {
-        $filteredFields = array_filter($this->fields, static function(FieldMetadataInterface $fieldMetadata) use ($name) {
+        $filteredFields = array_filter($this->fields, static function (FieldMetadataInterface $fieldMetadata) use ($name) {
             return $fieldMetadata->getName() === $name;
         });
 
@@ -85,7 +85,7 @@ class GroupMetadata implements GroupMetadataInterface
      */
     public function getFieldKeys(): array
     {
-        return array_map(static function(FieldMetadataInterface $fieldMetadata) {
+        return array_map(static function (FieldMetadataInterface $fieldMetadata) {
             return $fieldMetadata->getName();
         }, $this->fields);
     }

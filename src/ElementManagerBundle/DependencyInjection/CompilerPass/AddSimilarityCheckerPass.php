@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -38,8 +38,7 @@ class AddSimilarityCheckerPass implements CompilerPassInterface
 
             if (!isset($attributes[0]['type'])) {
                 $type = $definition->getClass();
-            }
-            else {
+            } else {
                 $type = $attributes[0]['type'];
             }
 
@@ -48,7 +47,6 @@ class AddSimilarityCheckerPass implements CompilerPassInterface
 
         $container
             ->getDefinition(ContainerSimilarityCheckerFactory::class)
-            ->replaceArgument(0, ServiceLocatorTagPass::register($container, $dataTransformers))
-        ;
+            ->replaceArgument(0, ServiceLocatorTagPass::register($container, $dataTransformers));
     }
 }

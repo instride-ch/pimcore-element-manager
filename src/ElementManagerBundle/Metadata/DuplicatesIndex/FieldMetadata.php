@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -13,6 +13,8 @@
  */
 
 namespace Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex;
+
+use InvalidArgumentException;
 
 class FieldMetadata implements FieldMetadataInterface
 {
@@ -28,7 +30,7 @@ class FieldMetadata implements FieldMetadataInterface
 
     /**
      * @param string $name
-     * @param array $config
+     * @param array  $config
      */
     public function __construct(string $name, array $config)
     {
@@ -58,7 +60,7 @@ class FieldMetadata implements FieldMetadataInterface
     public function getConfig(string $name)
     {
         if (!$this->hasConfig($name)) {
-            throw new \InvalidArgumentException(sprintf('Key %s not found in config', $name));
+            throw new InvalidArgumentException(sprintf('Key %s not found in config', $name));
         }
 
         return $this->config[$name];

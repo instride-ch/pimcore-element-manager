@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -22,6 +22,7 @@ interface SimilarityCheckerInterface
      * @param                        $value1
      * @param                        $value2
      * @param FieldMetadataInterface $fieldMetadata
+     *
      * @return bool
      */
     public function isSimilar($value1, $value2, FieldMetadataInterface $fieldMetadata): bool;

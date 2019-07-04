@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -18,6 +18,7 @@ interface SimilarityCheckerFactoryInterface
 {
     /**
      * @param string $identifier
+     *
      * @return SimilarityCheckerInterface
      */
     public function getInstance(string $identifier): SimilarityCheckerInterface;

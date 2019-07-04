@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -15,6 +15,7 @@
 namespace Wvision\Bundle\ElementManagerBundle\Repository;
 
 use CoreShop\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use InvalidArgumentException;
 use Wvision\Bundle\ElementManagerBundle\Model\DuplicateInterface;
 use Pimcore\Model\DataObject\Concrete;
 
@@ -46,7 +47,7 @@ class DuplicateObjectRepository extends EntityRepository implements DuplicateObj
                 return $this->findByDuplicateAndSoundex($value);
         }
 
-        throw new \InvalidArgumentException(sprintf('Undefined algorithm %s', $algorithm));
+        throw new InvalidArgumentException(sprintf('Undefined algorithm %s', $algorithm));
     }
 
     /**
@@ -97,7 +98,7 @@ class DuplicateObjectRepository extends EntityRepository implements DuplicateObj
             ->getResult();
     }
 
-     /**
+    /**
      * {@inheritdoc}
      */
     public function findByDuplicate(DuplicateInterface $duplicate): array

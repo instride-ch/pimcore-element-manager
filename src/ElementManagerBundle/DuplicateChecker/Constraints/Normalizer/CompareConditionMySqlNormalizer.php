@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -14,16 +14,18 @@
 
 namespace Wvision\Bundle\ElementManagerBundle\DuplicateChecker\Constraints\Normalizer;
 
+use DateTime;
 use Pimcore\Model\DataObject;
 use Pimcore\Model\Element\ElementInterface;
 
 class CompareConditionMySqlNormalizer
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function addForStringFields(DataObject\Listing\Concrete $list, $field, $value, array $duplicateCheckTrimmedFields = []): void
-    {
+    public function addForStringFields(
+        DataObject\Listing\Concrete $list,
+        $field,
+        $value,
+        array $duplicateCheckTrimmedFields = []
+    ): void {
         if (in_array($field, $duplicateCheckTrimmedFields, false)) {
             $list->addConditionParam($field . ' LIKE ?', mb_strtolower(trim($value), 'UTF-8'));
         } else {
@@ -31,25 +33,16 @@ class CompareConditionMySqlNormalizer
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addForDateFields(DataObject\Listing\Concrete $list, $field, \DateTime $value): void
+    public function addForDateFields(DataObject\Listing\Concrete $list, $field, DateTime $value): void
     {
         $list->addConditionParam($field . ' = ?', $value->getTimestamp());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addForSingleRelationFields(DataObject\Listing\Concrete $list, $field, ElementInterface $value): void
     {
         $list->addConditionParam($field . '__id = ?', $value->getId());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addForMultiRelationFields(DataObject\Listing\Concrete $list, $field, $value): void
     {
         $ids = [];

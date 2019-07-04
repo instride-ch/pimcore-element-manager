@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -22,6 +22,7 @@ interface NamingSchemeInterface
     /**
      * @param Concrete $object
      * @param array    $options
+     *
      * @throws Exception
      */
     public function apply(Concrete $object, array $options): void;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -18,6 +18,7 @@ interface DataTransformerInterface
 {
     /**
      * @param $data
+     *
      * @return mixed
      */
     public function transform($data);

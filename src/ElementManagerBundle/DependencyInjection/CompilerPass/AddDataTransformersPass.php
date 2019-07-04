@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -47,7 +47,6 @@ class AddDataTransformersPass implements CompilerPassInterface
 
         $container
             ->getDefinition(ContainerDataTransformerFactory::class)
-            ->replaceArgument(0, ServiceLocatorTagPass::register($container, $dataTransformers))
-        ;
+            ->replaceArgument(0, ServiceLocatorTagPass::register($container, $dataTransformers));
     }
 }

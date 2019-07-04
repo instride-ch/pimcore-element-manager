@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -73,7 +73,7 @@ class Metadata implements MetadataInterface
      */
     public function getGroup(string $name): ?GroupMetadataInterface
     {
-        $filteredGroups = array_filter($this->groups, static function(GroupMetadataInterface $groupMetadata) use ($name) {
+        $filteredGroups = array_filter($this->groups, static function (GroupMetadataInterface $groupMetadata) use ($name) {
             return $groupMetadata->getName() === $name;
         });
 

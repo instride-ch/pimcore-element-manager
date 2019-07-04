@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -16,6 +16,7 @@ namespace Wvision\Bundle\ElementManagerBundle\DuplicateIndex;
 
 use CoreShop\Component\Resource\Factory\FactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\DataTransformerFactoryInterface;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadataInterface;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadataInterface;
@@ -111,6 +112,8 @@ class DuplicatesIndexWorker implements DuplicatesIndexWorkerInterface
      * @param MetadataInterface $metadata
      * @param Concrete          $concrete
      * @param array             $duplicateDataRows
+     *
+     * @throws NonUniqueResultException
      */
     protected function updateDuplicateIndex(MetadataInterface $metadata, Concrete $concrete, array $duplicateDataRows): void
     {
@@ -161,6 +164,7 @@ class DuplicatesIndexWorker implements DuplicatesIndexWorkerInterface
      * @param string                 $algorithm
      * @param array                  $duplicateData
      * @param GroupMetadataInterface $groupMetadata
+     *
      * @return string
      */
     protected function calculateSoundData(
@@ -193,6 +197,7 @@ class DuplicatesIndexWorker implements DuplicatesIndexWorkerInterface
     /**
      * @param $value
      * @param FieldMetadataInterface $field
+     *
      * @return mixed
      */
     protected function transformData($value, FieldMetadataInterface $field)
@@ -206,6 +211,7 @@ class DuplicatesIndexWorker implements DuplicatesIndexWorkerInterface
 
     /**
      * @param Concrete $concrete
+     *
      * @return bool
      */
     protected function isRelevantForIndex(Concrete $concrete): bool

@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -58,7 +58,7 @@ class DuplicateRepository extends EntityRepository implements DuplicateRepositor
      */
     public function findExactByAlgorithm(string $className, string $algorithm): array
     {
-        switch($algorithm) {
+        switch ($algorithm) {
             case 'metaphone':
                 return $this->findExactByMetaphone($className);
             case 'soundex':
@@ -82,8 +82,7 @@ class DuplicateRepository extends EntityRepository implements DuplicateRepositor
             ->getQuery()
             ->useResultCache(true)
             ->useQueryCache(true)
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     /**
@@ -100,8 +99,7 @@ class DuplicateRepository extends EntityRepository implements DuplicateRepositor
             ->getQuery()
             ->useResultCache(true)
             ->useQueryCache(true)
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     /**

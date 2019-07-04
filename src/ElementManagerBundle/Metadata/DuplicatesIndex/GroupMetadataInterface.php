@@ -1,6 +1,6 @@
 <?php
 /**
- * Element Manager
+ * Element Manager.
  *
  * LICENSE
  *
@@ -28,6 +28,7 @@ interface GroupMetadataInterface
 
     /**
      * @param string $name
+     *
      * @return FieldMetadataInterface|null
      */
     public function getField(string $name): ?FieldMetadataInterface;
