@@ -93,22 +93,22 @@ interface DuplicateInterface extends ResourceInterface, TimestampableInterface
     /**
      * @return string
      */
-    public function getSoundex(): string;
+    public function getSoundex(): ?string;
 
     /**
-     * @param string $soundex
+     * @param string|null $soundex
      */
-    public function setSoundex(string $soundex): void;
+    public function setSoundex(?string $soundex): void;
 
     /**
      * @return string
      */
-    public function getMetaphone(): string;
+    public function getMetaphone(): ?string;
 
     /**
-     * @param string $metaphone
+     * @param string|null $metaphone
      */
-    public function setMetaphone(string $metaphone): void;
+    public function setMetaphone(?string $metaphone): void;
 
     /**
      * @return DuplicateObjectInterface[]

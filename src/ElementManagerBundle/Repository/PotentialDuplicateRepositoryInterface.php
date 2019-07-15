@@ -20,10 +20,28 @@ use Wvision\Bundle\ElementManagerBundle\Model\PotentialDuplicateInterface;
 
 interface PotentialDuplicateRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @return mixed
-     */
     public function deleteAll();
+
+    /**
+     * @param string $className
+     */
+    public function deleteForClass(string $className);
+
+    /**
+     * @param string $className
+     * @param bool   $declined
+     * @param int    $offset
+     * @param int    $limit
+     * @return PotentialDuplicateInterface[]
+     */
+    public function findForClassName(string $className, bool $declined, int $offset, int $limit): array;
+
+    /**
+     * @param string $className
+     * @param bool   $declined
+     * @return int
+     */
+    public function findCountForClassName(string $className, bool $declined): int;
 
     /**
      * @param DuplicateObjectInterface $duplicateObject1

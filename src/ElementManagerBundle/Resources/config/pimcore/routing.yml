@@ -1,0 +1,12 @@
+wvision_element_manager_admin_duplicate_index:
+    type: coreshop.resources
+    resource: |
+      alias: wvision_element_manager.potential_duplicate
+      only: [get, list]
+      additional_routes:
+          duplicates:
+            path: get-potential-duplicates
+            action: getPotentialDuplicates
+            methods:
+                - GET
+

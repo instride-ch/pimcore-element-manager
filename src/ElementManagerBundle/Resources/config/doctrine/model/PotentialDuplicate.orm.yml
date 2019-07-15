@@ -8,6 +8,10 @@ Wvision\Bundle\ElementManagerBundle\Model\PotentialDuplicate:
             id: true
             generator:
                 strategy: AUTO
+        declined:
+            type: boolean
+            options:
+                default: false
         creationDate:
             type: date
             gedmo:

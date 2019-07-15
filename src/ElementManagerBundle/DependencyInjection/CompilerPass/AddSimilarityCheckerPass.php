@@ -33,7 +33,7 @@ class AddSimilarityCheckerPass implements CompilerPassInterface
 
         $dataTransformers = [];
 
-        foreach ($container->findTaggedServiceIds('element_manager.similarity_checker', true) as $id => $attributes) {
+        foreach ($container->findTaggedServiceIds('wvision_element_manager.similarity_checker', true) as $id => $attributes) {
             $definition = $container->getDefinition($id);
 
             if (!isset($attributes[0]['type'])) {

@@ -22,6 +22,18 @@ interface MetadataRegistryInterface
     public function all(): array;
 
     /**
+     * @param string $className
+     * @return bool
+     */
+    public function has(string $className): bool;
+
+    /**
+     * @param string $className
+     * @return MetadataInterface
+     */
+    public function get(string $className): MetadataInterface;
+
+    /**
      * @param MetadataInterface $metadata
      */
     public function register(MetadataInterface $metadata): void;

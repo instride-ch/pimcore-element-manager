@@ -38,4 +38,14 @@ interface PotentialDuplicateInterface extends ResourceInterface, TimestampableIn
      * @param DuplicateObjectInterface $duplicateTo
      */
     public function setDuplicateTo(DuplicateObjectInterface $duplicateTo): void;
+
+    /**
+     * @return bool
+     */
+    public function getDeclined(): bool;
+
+    /**
+     * @param bool $declined
+     */
+    public function setDeclined(bool $declined): void;
 }

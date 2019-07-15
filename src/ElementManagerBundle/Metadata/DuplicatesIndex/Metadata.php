@@ -27,13 +27,20 @@ class Metadata implements MetadataInterface
     private $groups;
 
     /**
+     * @var string[]
+     */
+    private $listFields;
+
+    /**
      * @param string                   $className
      * @param GroupMetadataInterface[] $groups
+     * @param string[]                 $listFields
      */
-    public function __construct(string $className, array $groups)
+    public function __construct(string $className, array $groups, array $listFields)
     {
         $this->className = $className;
         $this->groups = $groups;
+        $this->listFields = $listFields;
     }
 
     /**
@@ -71,11 +78,28 @@ class Metadata implements MetadataInterface
     /**
      * {@inheritdoc}
      */
+    public function getListFields(): array
+    {
+        return $this->listFields;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setListFields(array $listFields): void
+    {
+        $this->listFields = $listFields;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getGroup(string $name): ?GroupMetadataInterface
     {
-        $filteredGroups = array_filter($this->groups, static function (GroupMetadataInterface $groupMetadata) use ($name) {
-            return $groupMetadata->getName() === $name;
-        });
+        $filteredGroups = array_filter($this->groups,
+            static function (GroupMetadataInterface $groupMetadata) use ($name) {
+                return $groupMetadata->getName() === $name;
+            });
 
         return reset($filteredGroups);
     }

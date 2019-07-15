@@ -169,7 +169,9 @@ class DuplicateFinder implements DuplicateFinderInterface
             $result[] = $this->checkForDuplicate($metadata, $duplicateObjects);
         }
 
-        $result = array_merge(...$result);
+        if (count($result) > 0) {
+            $result = array_merge(...$result);
+        }
 
         return $result;
     }
@@ -291,7 +293,10 @@ class DuplicateFinder implements DuplicateFinderInterface
             $result[] = $this->duplicateObjectRepository->findByDuplicate($duplicate);
         }
 
-        $result = array_merge(...$result);
+        if (count($result) > 0) {
+            $result = array_merge(...$result);
+        }
+
         $finalResult = [];
 
         foreach ($result as $res) {

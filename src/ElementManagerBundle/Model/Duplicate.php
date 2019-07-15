@@ -209,7 +209,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     /**
      * {@inheritdoc}
      */
-    public function getMetaphone(): string
+    public function getMetaphone(): ?string
     {
         return $this->metaphone;
     }
@@ -217,7 +217,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     /**
      * {@inheritdoc}
      */
-    public function setMetaphone(string $metaphone): void
+    public function setMetaphone(?string $metaphone): void
     {
         $this->metaphone = $metaphone;
     }
@@ -225,7 +225,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     /**
      * {@inheritdoc}
      */
-    public function getSoundex(): string
+    public function getSoundex(): ?string
     {
         return $this->soundex;
     }
@@ -233,7 +233,7 @@ class Duplicate extends AbstractResource implements DuplicateInterface
     /**
      * {@inheritdoc}
      */
-    public function setSoundex(string $soundex): void
+    public function setSoundex(?string $soundex): void
     {
         $this->soundex = $soundex;
     }

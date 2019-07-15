@@ -31,7 +31,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Wvision\\Bundle\\ElementManagerBundle\\": "src/ElementManagerBundle"
+      "Wvision\\Bundle\\ElementManagerBundle\\": "src/ElementManagerBundle/"
     }
   },
   "extra": {

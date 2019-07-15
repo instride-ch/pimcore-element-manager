@@ -171,10 +171,10 @@ class DuplicatesIndexWorker implements DuplicatesIndexWorkerInterface
         string $algorithm,
         array $duplicateData,
         GroupMetadataInterface $groupMetadata
-    ): string {
+    ): ?string {
         $data = [];
         foreach ($groupMetadata->getFields() as $field) {
-            if ($field->getConfig($algorithm)) {
+            if ($field->hasConfig($algorithm) && $field->getConfig($algorithm)) {
                 $data[] = $duplicateData[$field->getName()];
             }
         }

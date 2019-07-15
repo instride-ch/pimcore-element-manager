@@ -14,12 +14,19 @@
 
 namespace Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex;
 
+use InvalidArgumentException;
+
 class MetadataRegistry implements MetadataRegistryInterface
 {
     /**
      * @var array
      */
     protected $metadata = [];
+
+    /**
+     * @var array
+     */
+    protected $metadataClassAlias = [];
 
     /**
      * {@inheritdoc}
@@ -32,8 +39,29 @@ class MetadataRegistry implements MetadataRegistryInterface
     /**
      * {@inheritdoc}
      */
+    public function has(string $className): bool
+    {
+        return array_key_exists($className, $this->metadataClassAlias);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get(string $className): MetadataInterface
+    {
+        if (!$this->has($className)) {
+            throw new InvalidArgumentException(sprintf('Class %s not found', $className));
+        }
+
+        return $this->metadataClassAlias[$className];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function register(MetadataInterface $metadata): void
     {
         $this->metadata[] = $metadata;
+        $this->metadataClassAlias[$metadata->getClassName()] = $metadata;
     }
 }

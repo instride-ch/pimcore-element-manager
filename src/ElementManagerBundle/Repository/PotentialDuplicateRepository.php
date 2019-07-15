@@ -35,6 +35,54 @@ class PotentialDuplicateRepository extends EntityRepository implements Potential
     /**
      * {@inheritdoc}
      */
+    public function deleteForClass(string $className)
+    {
+        $query = $this->createQueryBuilder('o')
+            ->where('className = :className')
+            ->setParameter('className', $className)
+            ->delete()
+            ->getQuery();
+
+        return $query->execute();
+    }
+
+    public function findForClassName(string $className, bool $declined, int $offset, int $limit): array
+    {
+        return $this->createQueryBuilder('o')
+            ->where('d.className = :className')
+            ->andWhere('o.declined = :declined')
+            ->innerJoin('o.duplicateFrom', 'f')
+            ->innerJoin('f.duplicate', 'd')
+            ->setParameter('className', $className)
+            ->setParameter('declined', $declined)
+            ->setFirstResult($limit * $offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->useResultCache(true)
+            ->useQueryCache(true)
+            ->getResult()
+        ;
+    }
+
+    public function findCountForClassName(string $className, bool $declined): int
+    {
+        $query = $this->createQueryBuilder('o')
+            ->where('d.className = :className')
+            ->andWhere('o.declined = :declined')
+            ->innerJoin('o.duplicateFrom', 'f')
+            ->innerJoin('f.duplicate', 'd')
+            ->setParameter('className', $className)
+            ->setParameter('declined', $declined)
+            ->getQuery();
+
+        $paginator = new \Doctrine\ORM\Tools\Pagination\Paginator($query);
+
+        return count($paginator);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findDuplication(DuplicateObjectInterface $duplicateObject1, DuplicateObjectInterface $duplicateObject2): ?PotentialDuplicateInterface
     {
         return $this->createQueryBuilder('o')
@@ -45,6 +93,6 @@ class PotentialDuplicateRepository extends EntityRepository implements Potential
             ->getQuery()
             ->useResultCache(true)
             ->useQueryCache(true)
-            ->getResult();
+            ->getOneOrNullResult();
     }
 }

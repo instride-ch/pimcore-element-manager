@@ -34,6 +34,11 @@ class PotentialDuplicate extends AbstractResource implements PotentialDuplicateI
     protected $duplicateTo;
 
     /**
+     * @var bool
+     */
+    protected $declined = false;
+
+    /**
      * {@inheritdoc}
      */
     public function getId(): int
@@ -71,5 +76,21 @@ class PotentialDuplicate extends AbstractResource implements PotentialDuplicateI
     public function setDuplicateTo(DuplicateObjectInterface $duplicateTo): void
     {
         $this->duplicateTo = $duplicateTo;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDeclined(): bool
+    {
+        return $this->declined;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setDeclined(bool $declined): void
+    {
+        $this->declined = $declined;
     }
 }

@@ -16,6 +16,9 @@ namespace Wvision\Bundle\ElementManagerBundle;
 
 use CoreShop\Bundle\ResourceBundle\AbstractResourceBundle;
 use CoreShop\Bundle\ResourceBundle\CoreShopResourceBundle;
+use Pimcore\Extension\Bundle\Installer\InstallerInterface;
+use Pimcore\Extension\Bundle\PimcoreBundleInterface;
+use Pimcore\Routing\RouteReferenceInterface;
 use Wvision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddDataTransformersPass;
 use Wvision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddSaveHandlerPass;
 use Wvision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddSimilarityCheckerPass;
@@ -23,9 +26,10 @@ use Pimcore\Extension\Bundle\Traits\PackageVersionTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Validator\DependencyInjection\AddConstraintValidatorsPass;
 
-class ElementManagerBundle extends AbstractResourceBundle
+class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBundleInterface
 {
     use PackageVersionTrait;
+
 
     /**
      * {@inheritdoc}
@@ -80,6 +84,22 @@ class ElementManagerBundle extends AbstractResourceBundle
     protected function getComposerPackageName(): string
     {
         return 'w-vision/element-manager';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInstaller()
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAdminIframePath()
+    {
+        return null;
     }
 
     /**

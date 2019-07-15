@@ -14,6 +14,10 @@
 
 namespace Wvision\Bundle\ElementManagerBundle\Command;
 
+use CoreShop\Component\Pimcore\BatchProcessing\BatchListing;
+use Pimcore\Model\DataObject\AbstractObject;
+use Pimcore\Model\DataObject\Listing;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicateFinderInterface;
 use Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DuplicatesIndexWorkerInterface;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistryInterface;
@@ -84,34 +88,34 @@ final class IndexCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         foreach ($this->metadataRegistry->all() as $index) {
-//            $class = ucfirst($index->getClassName());
-//
-//            /**
-//             * @var Listing $list
-//             */
-//            $list = '\Pimcore\Model\DataObject\\' . $class . '\Listing';
-//            $list = new $list();
-//
-//            $list->setObjectTypes([AbstractObject::OBJECT_TYPE_OBJECT, AbstractObject::OBJECT_TYPE_VARIANT]);
-//            $perLoop = 10;
-//
-//            $batchList = new BatchListing($list, $perLoop);
-//
-//            $output->writeln(sprintf('<info>Processing %s Objects of class "%s"</info>', $batchList->count(), $class));
-//            $progress = new ProgressBar($output, $batchList->count());
-//            $progress->setFormat(
-//                '%current%/%max% [%bar%] %percent:3s%% (%elapsed:6s%/%estimated:-6s%) %memory:6s%: %message%'
-//            );
-//            $progress->start();
-//
-//            foreach ($batchList as $object) {
-//                $progress->setMessage(sprintf('Index %s (%s)', $object->getFullPath(), $object->getId()));
-//                $progress->advance();
-//
-//                $this->indexWorker->updateIndex($index, $object);
-//            }
-//
-//            $progress->finish();
+            $class = ucfirst($index->getClassName());
+
+            /**
+             * @var Listing $list
+             */
+            $list = '\Pimcore\Model\DataObject\\' . $class . '\Listing';
+            $list = new $list();
+
+            $list->setObjectTypes([AbstractObject::OBJECT_TYPE_OBJECT, AbstractObject::OBJECT_TYPE_VARIANT]);
+            $perLoop = 10;
+
+            $batchList = new BatchListing($list, $perLoop);
+
+            $output->writeln(sprintf('<info>Processing %s Objects of class "%s"</info>', $batchList->count(), $class));
+            $progress = new ProgressBar($output, $batchList->count());
+            $progress->setFormat(
+                '%current%/%max% [%bar%] %percent:3s%% (%elapsed:6s%/%estimated:-6s%) %memory:6s%: %message%'
+            );
+            $progress->start();
+
+            foreach ($batchList as $object) {
+                $progress->setMessage(sprintf('Index %s (%s)', $object->getFullPath(), $object->getId()));
+                $progress->advance();
+
+                $this->indexWorker->updateIndex($index, $object);
+            }
+
+            $progress->finish();
 
             $this->duplicateFinder->findPotentialDuplicate($index);
         }

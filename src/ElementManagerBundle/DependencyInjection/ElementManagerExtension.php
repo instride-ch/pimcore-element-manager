@@ -22,6 +22,7 @@ use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadata;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadata;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\Metadata;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry;
+use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistryInterface;
 use Wvision\Bundle\ElementManagerBundle\SaveManager\DuplicationSaveHandler;
 use Wvision\Bundle\ElementManagerBundle\SaveManager\NamingSchemeSaveHandler;
 use Wvision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManagers;
@@ -58,13 +59,16 @@ class ElementManagerExtension extends AbstractModelExtension
             $config['resources'],
             $container
         );
+        $this->registerPimcoreResources(
+            'wvision_element_manager',
+            $config['pimcore_admin'],
+            $container
+        );
 
         $this->registerDuplicationCheckerConfiguration($config['duplication'] ?? [], $container, $loader);
 
         $objectSaveManagers = new Definition(ObjectSaveManagers::class);
         $container->setDefinition(ObjectSaveManagers::class, $objectSaveManagers);
-
-        $container->setDefinition(MetadataRegistry::class, new Definition(MetadataRegistry::class));
 
         foreach ($config['classes'] as $className => $classConfig) {
             $this->registerSaveManagerConfiguration($container, $className, $classConfig ?? [], $loader);
@@ -311,7 +315,9 @@ class ElementManagerExtension extends AbstractModelExtension
             return;
         }
 
-        $metadata = new Definition(Metadata::class, [$className, $groups]);
+        $listFields = $config['list_fields'];
+
+        $metadata = new Definition(Metadata::class, [$className, $groups, $listFields]);
 
         $container->setDefinition(
             sprintf('wvision_element_manager.metadata.%s', strtolower($className)),

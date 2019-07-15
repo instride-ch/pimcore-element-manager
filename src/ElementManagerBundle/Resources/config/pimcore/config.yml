@@ -1,0 +1,9 @@
+imports:
+    - { resource: "admin.yml" }
+
+jms_serializer:
+    metadata:
+        directories:
+            coreshop-index:
+                namespace_prefix: "Wvision\\Bundle\\ElementManagerBundle"
+                path: "@ElementManagerBundle/Resources/config/serializer"

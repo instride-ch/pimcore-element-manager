@@ -15,7 +15,7 @@ Wvision\Bundle\ElementManagerBundle\Model\Duplicate:
             column: metadataGroup
             type: string
         data:
-            column: active
+            column: data
             type: array
         object:
             column: object

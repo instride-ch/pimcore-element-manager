@@ -32,4 +32,9 @@ interface MetadataInterface
      * @return GroupMetadataInterface|null
      */
     public function getGroup(string $name): ?GroupMetadataInterface;
+
+    /**
+     * @return array
+     */
+    public function getListFields(): array;
 }

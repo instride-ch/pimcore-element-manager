@@ -27,3 +27,9 @@ services:
             - '@wvision_element_manager.repository.potential_duplicate'
             - '@doctrine.orm.entity_manager'
             - '@wvision_element_manager.factory.potential_duplicate'
+
+    Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry:
+        public: true
+    Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistryInterface:
+        alias: 'Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry'
+        public: true

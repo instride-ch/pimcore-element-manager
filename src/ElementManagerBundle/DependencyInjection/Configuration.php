@@ -16,6 +16,7 @@ namespace Wvision\Bundle\ElementManagerBundle\DependencyInjection;
 
 use CoreShop\Bundle\ResourceBundle\CoreShopResourceBundle;
 use CoreShop\Component\Resource\Factory\Factory;
+use Wvision\Bundle\ElementManagerBundle\Controller\Admin\DuplicatesIndexController;
 use Wvision\Bundle\ElementManagerBundle\Model\Duplicate;
 use Wvision\Bundle\ElementManagerBundle\Model\DuplicateFalsePositive;
 use Wvision\Bundle\ElementManagerBundle\Model\DuplicateFalsePositiveInterface;
@@ -51,6 +52,7 @@ class Configuration implements ConfigurationInterface
         $this->addDuplicationSection($rootNode);
         $this->addSaveManagerSection($rootNode);
         $this->addModelsSection($rootNode);
+        $this->addPimcoreResourcesSection($rootNode);
 
         return $treeBuilder;
     }
@@ -119,6 +121,13 @@ class Configuration implements ConfigurationInterface
                                             ->end()
                                         ->end()
                                     ->end()
+                                    ->arrayNode('list_fields')
+                                        ->prototype('array')
+                                            ->prototype('scalar')
+                                            ->end()
+                                        ->end()
+                                        ->defaultValue([['id', 'className']])
+                                    ->end()
                                 ->end()
                             ->end()
                             ->arrayNode('save_handlers')
@@ -155,6 +164,40 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addPimcoreResourcesSection(ArrayNodeDefinition $node)
+    {
+        $node->children()
+            ->arrayNode('pimcore_admin')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->arrayNode('js')
+                        ->useAttributeAsKey('name')
+                        ->prototype('scalar')->end()
+                    ->end()
+                    ->arrayNode('css')
+                        ->useAttributeAsKey('name')
+                        ->prototype('scalar')->end()
+                    ->end()
+                    ->arrayNode('editmode_js')
+                        ->useAttributeAsKey('name')
+                        ->prototype('scalar')->end()
+                    ->end()
+                    ->arrayNode('editmode_css')
+                        ->useAttributeAsKey('name')
+                        ->prototype('scalar')->end()
+                    ->end()
+                    ->scalarNode('permissions')
+                        ->cannotBeOverwritten()
+                        ->defaultValue(['index', 'filter'])
+                    ->end()
+                ->end()
+            ->end()
+        ->end();
     }
 
     /**
@@ -224,7 +267,7 @@ class Configuration implements ConfigurationInterface
                                     ->children()
                                         ->scalarNode('model')->defaultValue(PotentialDuplicate::class)->cannotBeEmpty()->end()
                                         ->scalarNode('interface')->defaultValue(PotentialDuplicateInterface::class)->cannotBeEmpty()->end()
-                                        //->scalarNode('admin_controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('admin_controller')->defaultValue(DuplicatesIndexController::class)->cannotBeEmpty()->end()
                                         ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
                                         ->scalarNode('repository')->defaultValue(PotentialDuplicateRepository::class)->end()
                                     ->end()
