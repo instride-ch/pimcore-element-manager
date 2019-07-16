@@ -32,8 +32,8 @@ pimcore.plugin.element_manager = Class.create(pimcore.plugin.admin, {
         if (user.isAllowed('plugins')) {
 
             var duplicationsMenu = new Ext.Action({
-                text: t('element_manager_duplications'),
-                iconCls: 'element_manager_nav_icon_duplications',
+                text: t('wvision_element_manager_duplication_indexes'),
+                iconCls: 'wvision_element_manager_duplication_nav_icon_indexes',
                 handler: this.openDuplications
             });
 

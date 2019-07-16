@@ -65,6 +65,15 @@ class ElementManagerExtension extends AbstractModelExtension
             $container
         );
 
+        $bundles = $container->getParameter('kernel.bundles');
+
+        if (array_key_exists('ObjectMergerBundle', $bundles)) {
+            $container->setParameter('wvision_element_manager.merge_supported', true);
+        }
+        else {
+            $container->setParameter('wvision_element_manager.merge_supported', false);
+        }
+
         $this->registerDuplicationCheckerConfiguration($config['duplication'] ?? [], $container, $loader);
 
         $objectSaveManagers = new Definition(ObjectSaveManagers::class);

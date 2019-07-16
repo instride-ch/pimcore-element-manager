@@ -26,6 +26,9 @@
     "league/csv": "^9.0",
     "coreshop/resource-bundle": "^2.0"
   },
+  "suggest": {
+    "pimcore/object-merger": "To directly merge duplicates"
+  },
   "require-dev": {
 
   },

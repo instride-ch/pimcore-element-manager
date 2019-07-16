@@ -15,7 +15,7 @@ pimcore.registerNS('wvision.element_manager.duplication_index.item');
 
 wvision.element_manager.duplication_index.item = Class.create(coreshop.resource.item, {
 
-    iconCls: 'wvision_element_manager_duplication__icon_indexes',
+    iconCls: 'wvision_element_manager_duplication_icon_indexes',
 
     getPanel: function () {
         return new Ext.TabPanel({
@@ -48,7 +48,7 @@ wvision.element_manager.duplication_index.item = Class.create(coreshop.resource.
 
     getDeclinedPanel: function () {
         var panel = new Ext.panel.Panel({
-            title: t('wvision_element_manager_duplicates_current'),
+            title: t('wvision_element_manager_duplicates_declined'),
             layout: 'border',
             items: [this.createGrid(this.createStore(true))]
         });
@@ -120,6 +120,36 @@ wvision.element_manager.duplication_index.item = Class.create(coreshop.resource.
                 }
             }
         });
+
+        if (this.data.options.merge_supported) {
+            columns.push({
+                xtype: 'gridcolumn',
+                dataIndex: '_isFirstColumn',
+                width: 50,
+                align: 'right',
+                renderer: function (value, metadata, record, rowIndex, colIndex, store) {
+                    if (value) {
+                        var id = Ext.id();
+
+                        Ext.defer(function () {
+                            if (Ext.get(id)) {
+                                new Ext.button.Button({
+                                    renderTo: id,
+                                    iconCls: 'pimcore_icon_merge',
+                                    flex: 1,
+                                    scale: 'small',
+                                    handler: function () {
+                                        new pimcore.plugin.objectmerger.panel(record.get('objectId'), record.get('objectIdOther'))
+                                    }
+                                });
+                            }
+                        }, 200);
+
+                        return Ext.String.format('<div id="{0}"></div>', id);
+                    }
+                }
+            });
+        }
 
         return Ext.create({
             xtype: 'grid',

@@ -34,12 +34,13 @@ interface DuplicateObjectRepositoryInterface extends RepositoryInterface
     public function findExactMatches(string $className): array;
 
     /**
+     * @param int $currentId
      * @param string $algorithm
      * @param string $value
      *
      * @return DuplicateObjectInterface[]
      */
-    public function findByDuplicateAndAlgorithmValue(string $algorithm, string $value): array;
+    public function findByDuplicateAndAlgorithmValue(int $currentId, string $algorithm, string $value): array;
 
     /**
      * @param DuplicateInterface $duplicate

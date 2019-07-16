@@ -48,7 +48,16 @@ final class DuplicatesIndexController extends ResourceController
 
         $resource = $this->findOr404($request->get('className'));
 
-        return $this->viewHandler->handle(['data' => $resource, 'success' => true], ['group' => 'Detailed']);
+        return $this->viewHandler->handle(
+            [
+                'data' => $resource,
+                'options' => ['merge_supported' => $this->getParameter('wvision_element_manager.merge_supported')],
+                'success' => true
+            ],
+            [
+                'group' => 'Detailed'
+            ]
+        );
     }
 
     /**
@@ -116,10 +125,12 @@ final class DuplicatesIndexController extends ResourceController
 
             $fromResult['duplicationId'] = $res->getId();
             $fromResult['declined'] = $res->getDeclined();
+            $fromResult['objectIdOther'] = $toObject->getId();
             $fromResult['_isFirstColumn'] = true;
 
             $toResult['duplicationId'] = $res->getId();
             $toResult['declined'] = $res->getDeclined();
+            $toResult['objectIdOther'] = $fromObject->getId();
             $toResult['_isFirstColumn'] = false;
 
             $listResult[] = $fromResult;

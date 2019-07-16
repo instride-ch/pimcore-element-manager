@@ -38,13 +38,13 @@ class DuplicateObjectRepository extends EntityRepository implements DuplicateObj
     /**
      * {@inheritdoc}
      */
-    public function findByDuplicateAndAlgorithmValue(string $algorithm, string $value): array
+    public function findByDuplicateAndAlgorithmValue(int $currentId, string $algorithm, string $value): array
     {
         switch ($algorithm) {
             case 'metaphone':
-                return $this->findByDuplicateAndMetaphone($value);
+                return $this->findByDuplicateAndMetaphone($currentId, $value);
             case 'soundex':
-                return $this->findByDuplicateAndSoundex($value);
+                return $this->findByDuplicateAndSoundex($currentId, $value);
         }
 
         throw new InvalidArgumentException(sprintf('Undefined algorithm %s', $algorithm));
@@ -53,11 +53,13 @@ class DuplicateObjectRepository extends EntityRepository implements DuplicateObj
     /**
      * {@inheritdoc}
      */
-    public function findByDuplicateAndMetaphone(string $metaphone): array
+    public function findByDuplicateAndMetaphone(int $currentId, string $metaphone): array
     {
         return $this->createQueryBuilder('o')
             ->innerJoin('o.duplicate', 'duplicate')
             ->where('duplicate.metaphone = :metaphone')
+            ->andWhere('duplicate.object <> :objectId')
+            ->setParameter('objectId', $currentId)
             ->setParameter('metaphone', $metaphone)
             ->getQuery()
             ->useResultCache(true)
@@ -68,11 +70,13 @@ class DuplicateObjectRepository extends EntityRepository implements DuplicateObj
     /**
      * {@inheritdoc}
      */
-    public function findByDuplicateAndSoundex(string $soundex): array
+    public function findByDuplicateAndSoundex(int $currentId, string $soundex): array
     {
         return $this->createQueryBuilder('o')
             ->innerJoin('o.duplicate', 'duplicate')
             ->where('duplicate.soundex = :soundex')
+            ->andWhere('duplicate.object <> :objectId')
+            ->setParameter('objectId', $currentId)
             ->setParameter('soundex', $soundex)
             ->getQuery()
             ->useResultCache(true)

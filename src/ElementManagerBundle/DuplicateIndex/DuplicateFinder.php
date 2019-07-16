@@ -162,6 +162,7 @@ class DuplicateFinder implements DuplicateFinderInterface
 
         foreach ($duplicates as $duplicate) {
             $duplicateObjects = $this->duplicateObjectRepository->findByDuplicateAndAlgorithmValue(
+                $duplicate->getObject()->getId(),
                 $algorithm,
                 $algorithm === 'soundex' ? $duplicate->getSoundex() : $duplicate->getMetaphone()
             );
