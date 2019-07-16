@@ -9,4 +9,14 @@ wvision_element_manager_admin_duplicate_index:
             action: getPotentialDuplicates
             methods:
                 - GET
+          decline:
+            path: decline
+            action: declineDuplication
+            methods:
+                - POST
+          undecline:
+            path: undecline
+            action: unDeclineDuplication
+            methods:
+                - POST
 

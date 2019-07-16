@@ -21,6 +21,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Webmozart\Assert\Assert;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistryInterface;
+use Wvision\Bundle\ElementManagerBundle\Model\PotentialDuplicateInterface;
 use Wvision\Bundle\ElementManagerBundle\Repository\PotentialDuplicateRepository;
 use Wvision\Bundle\ElementManagerBundle\Repository\PotentialDuplicateRepositoryInterface;
 
@@ -115,15 +116,55 @@ final class DuplicatesIndexController extends ResourceController
 
             $fromResult['duplicationId'] = $res->getId();
             $fromResult['declined'] = $res->getDeclined();
+            $fromResult['_isFirstColumn'] = true;
 
             $toResult['duplicationId'] = $res->getId();
             $toResult['declined'] = $res->getDeclined();
+            $toResult['_isFirstColumn'] = false;
 
             $listResult[] = $fromResult;
             $listResult[] = $toResult;
         }
 
         return $this->viewHandler->handle(['total' => $count * 2, 'data' => $listResult, 'success' => true], ['group' => 'Detailed']);
+    }
+
+    public function declineDuplicationAction(Request $request)
+    {
+        /**
+         * @var PotentialDuplicateInterface $potentialDuplicate
+         */
+        $potentialDuplicate = $this->repository->find($request->get('id'));
+
+        if (!$potentialDuplicate) {
+            throw new NotFoundHttpException();
+        }
+
+        $potentialDuplicate->setDeclined(true);
+
+        $this->manager->persist($potentialDuplicate);
+        $this->manager->flush();
+
+        return $this->viewHandler->handle(['success' => true]);
+    }
+
+    public function unDeclineDuplicationAction(Request $request)
+    {
+        /**
+         * @var PotentialDuplicateInterface $potentialDuplicate
+         */
+        $potentialDuplicate = $this->repository->find($request->get('id'));
+
+        if (!$potentialDuplicate) {
+            throw new NotFoundHttpException();
+        }
+
+        $potentialDuplicate->setDeclined(false);
+
+        $this->manager->persist($potentialDuplicate);
+        $this->manager->flush();
+
+        return $this->viewHandler->handle(['success' => true]);
     }
 
     /**

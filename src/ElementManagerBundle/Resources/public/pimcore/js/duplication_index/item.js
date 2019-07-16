@@ -74,14 +74,65 @@ wvision.element_manager.duplication_index.item = Class.create(coreshop.resource.
             columns.push({
                 text: field,
                 dataIndex: field,
+                flex: 1
             });
+        });
+
+        columns.push({
+            xtype: 'gridcolumn',
+            dataIndex: '_isFirstColumn',
+            width: 50,
+            align: 'right',
+            renderer: function (value, metadata, record, rowIndex, colIndex, store) {
+                if (value) {
+                    var id = Ext.id();
+
+                    Ext.defer(function () {
+                        if (Ext.get(id)) {
+                            new Ext.button.Button({
+                                renderTo: id,
+                                iconCls: 'pimcore_icon_delete',
+                                flex: 1,
+                                scale: 'small',
+                                handler: function () {
+                                    var url = '/admin/wvision_element_manager/potential_duplicates/decline';
+
+                                    if (record.get('declined')) {
+                                        url = '/admin/wvision_element_manager/potential_duplicates/undecline';
+                                    }
+
+                                    Ext.Ajax.request({
+                                        url: url,
+                                        method: 'post',
+                                        params: {
+                                            id: record.get('duplicationId')
+                                        },
+                                        success: function (response) {
+                                            store.store.load();
+                                        }.bind(this)
+                                    });
+                                }
+                            });
+                        }
+                    }, 200);
+
+                    return Ext.String.format('<div id="{0}"></div>', id);
+                }
+            }
         });
 
         return Ext.create({
             xtype: 'grid',
             store: store,
+            region: 'center',
             columns: columns,
-            features: [{ftype:'grouping'}],
+            bbar: pimcore.helpers.grid.buildDefaultPagingToolbar(store),
+            features: [
+                {
+                    ftype:'grouping',
+                    collapsible: false
+                }
+            ],
         });
     },
 
