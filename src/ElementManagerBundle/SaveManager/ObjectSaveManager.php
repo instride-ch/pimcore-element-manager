@@ -39,7 +39,7 @@ class ObjectSaveManager implements ObjectSaveManagerInterface
 
         $this->applySaveHandlers($object, 'preAdd');
 
-        // TODO: Should be a save sandler
+        // TODO: Should be a save handler
         /*if ($this->pimcoreContextResolver->getPimcoreContext() === PimcoreContextResolver::CONTEXT_ADMIN) {
             $this->applyNamingScheme($address);
         }*/
