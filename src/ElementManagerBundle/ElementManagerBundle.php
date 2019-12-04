@@ -83,7 +83,7 @@ class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBund
      */
     protected function getComposerPackageName(): string
     {
-        return 'w-vision/element-manager';
+        return 'w-vision/element-manager-bundle';
     }
 
     /**
