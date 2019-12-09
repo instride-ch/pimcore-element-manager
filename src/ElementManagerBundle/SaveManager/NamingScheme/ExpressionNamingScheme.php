@@ -44,24 +44,32 @@ class ExpressionNamingScheme implements NamingSchemeInterface
             'parent_path' => '/',
             'archive_path' => '/_temp',
             'scheme' => '',
+            'auto_prefix_path' => true,
         ]);
         $optionsResolver->setRequired([
-            'parent_path', 'archive_path', 'scheme',
+            'parent_path', 'archive_path', 'scheme', 'auto_prefix_path'
         ]);
 
         $options = $optionsResolver->resolve($options);
 
+        $autoPrefixPath = $options['auto_prefix_path'];
         $parentPath = $object->getPublished() ? $options['parent_path'] : $options['archive_path'];
+
         $namingScheme = $this->expressionLanguage->evaluate(
             $options['scheme'],
-            array_merge($options, ['object' => $object])
+            array_merge($options, ['object' => $object, 'path' => $parentPath])
         );
 
         if (is_array($namingScheme)) {
             $key = $namingScheme[count($namingScheme) - 1];
             unset($namingScheme[count($namingScheme) - 1]);
 
-            $parentPath .= '/' . implode('/', $namingScheme);
+            if ($autoPrefixPath) {
+                $parentPath .= '/' . implode('/', $namingScheme);
+            }
+            else {
+                $parentPath = '/' . implode('/', $namingScheme);
+            }
         } else {
             $key = $namingScheme;
         }
