@@ -40,6 +40,10 @@ final class ValidationSaveHandler extends AbstractObjectSaveHandler
      */
     public function preSave(Concrete $object, array $options): void
     {
+        if ($object->getOmitMandatoryCheck()) {
+            return;
+        }
+
         $results = $this->validator->validate($options, null, [$options['group']]);
 
         if ($results->count() > 0) {
