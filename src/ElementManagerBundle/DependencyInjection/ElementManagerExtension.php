@@ -26,6 +26,7 @@ use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistr
 use Wvision\Bundle\ElementManagerBundle\SaveManager\DuplicationSaveHandler;
 use Wvision\Bundle\ElementManagerBundle\SaveManager\NamingSchemeSaveHandler;
 use Wvision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManagers;
+use Wvision\Bundle\ElementManagerBundle\SaveManager\UniqueKeySaveHandler;
 use Wvision\Bundle\ElementManagerBundle\SaveManager\ValidationSaveHandler;
 use Symfony\Component\Config\Resource\DirectoryResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -127,6 +128,10 @@ class ElementManagerExtension extends AbstractModelExtension
             $definition->addMethodCall('addSaveHandler', [
                 new Reference(sprintf('save_manager.naming_scheme.%s', strtolower($className))),
             ]);
+        }
+
+        if ($config['unique_key']['enabled']) {
+            $definition->addMethodCall('addSaveHandler', [new Reference(UniqueKeySaveHandler::class)]);
         }
 
         if ($config['validations']['enabled_on_save']) {

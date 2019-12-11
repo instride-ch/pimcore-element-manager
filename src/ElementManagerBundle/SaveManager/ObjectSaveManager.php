@@ -141,6 +141,7 @@ class ObjectSaveManager implements ObjectSaveManagerInterface
     private function applySaveHandlers(Concrete $concrete, $saveHandlerMethod): void
     {
         $saveHandlers = $this->getSaveHandlers();
+        $postSaveMethod = 'post' . ucfirst($saveHandlerMethod);
 
         foreach ($saveHandlers as $handler) {
             if (method_exists($handler, $saveHandlerMethod)) {
@@ -153,6 +154,24 @@ class ObjectSaveManager implements ObjectSaveManagerInterface
 
             if (in_array($saveHandlerMethod, ['postUpdate', 'postAdd'], true)) {
                 $handler->postSave($concrete, $this->options);
+            }
+        }
+
+        foreach ($saveHandlers as $handler) {
+            if (!$handler instanceof PostObjectSaveHandlerInterface) {
+                continue;
+            }
+
+            if (method_exists($handler, $postSaveMethod)) {
+                $handler->{$postSaveMethod}($concrete, $this->options);
+            }
+
+            if (in_array($saveHandlerMethod, ['preAdd', 'preUpdate'], true)) {
+                $handler->postPreSave($concrete, $this->options);
+            }
+
+            if (in_array($saveHandlerMethod, ['postUpdate', 'postAdd'], true)) {
+                $handler->postPostSave($concrete, $this->options);
             }
         }
     }
