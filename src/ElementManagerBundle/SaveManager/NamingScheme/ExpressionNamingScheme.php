@@ -45,6 +45,7 @@ class ExpressionNamingScheme implements NamingSchemeInterface
             'archive_path' => '/_temp',
             'scheme' => '',
             'auto_prefix_path' => true,
+            'skip_path_for_variant' => false,
         ]);
         $optionsResolver->setRequired([
             'parent_path', 'archive_path', 'scheme', 'auto_prefix_path'
@@ -77,7 +78,12 @@ class ExpressionNamingScheme implements NamingSchemeInterface
         $object->setKey($key);
         $parentPath = $this->correctPath($parentPath);
 
-        $object->setParent(Service::createFolderByPath($parentPath));
+        if ($options['skip_path_for_variant'] && $object->getType() === Concrete::OBJECT_TYPE_VARIANT) {
+
+        }
+        else {
+            $object->setParent(Service::createFolderByPath($parentPath));
+        }
 
         if (!$object->getKey()) {
             $object->setKey(uniqid('element', true));
