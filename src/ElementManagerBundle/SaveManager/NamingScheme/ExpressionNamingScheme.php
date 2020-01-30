@@ -78,10 +78,7 @@ class ExpressionNamingScheme implements NamingSchemeInterface
         $object->setKey($key);
         $parentPath = $this->correctPath($parentPath);
 
-        if ($options['skip_path_for_variant'] && $object->getType() === Concrete::OBJECT_TYPE_VARIANT) {
-
-        }
-        else {
+        if (!$options['skip_path_for_variant'] || $object->getType() !== Concrete::OBJECT_TYPE_VARIANT) {
             $object->setParent(Service::createFolderByPath($parentPath));
         }
 
