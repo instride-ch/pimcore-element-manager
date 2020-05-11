@@ -46,6 +46,7 @@ class ExpressionNamingScheme implements NamingSchemeInterface
             'scheme' => '',
             'auto_prefix_path' => true,
             'skip_path_for_variant' => false,
+            'initial_key_mapping' => null,
         ]);
         $optionsResolver->setRequired([
             'parent_path', 'archive_path', 'scheme', 'auto_prefix_path'
@@ -60,6 +61,15 @@ class ExpressionNamingScheme implements NamingSchemeInterface
             $options['scheme'],
             array_merge($options, ['object' => $object, 'path' => $parentPath])
         );
+
+        // Map initial key to an object field
+        if ($options['initial_key_mapping'] && $object->getKey()) {
+            $setter = sprintf('set%s', ucfirst($options['initial_key_mapping']));
+
+            if (method_exists($object, $setter)) {
+                $object->$setter($object->getKey());
+            }
+        }
 
         if (is_array($namingScheme)) {
             $key = $namingScheme[count($namingScheme) - 1];
