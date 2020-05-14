@@ -14,6 +14,9 @@
 
 namespace Wvision\Bundle\ElementManagerBundle\SaveManager\NamingScheme;
 
+use Pimcore\Bundle\CoreBundle\EventListener\Traits\PimcoreContextAwareTrait;
+use Pimcore\Http\Request\Resolver\PimcoreContextResolver;
+use Pimcore\Http\RequestHelper;
 use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\DataObject\Service;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
@@ -21,17 +24,32 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ExpressionNamingScheme implements NamingSchemeInterface
 {
+    use PimcoreContextAwareTrait;
+
     /**
      * @var ExpressionLanguage
      */
     private $expressionLanguage;
 
     /**
-     * @param ExpressionLanguage $expressionLanguage
+     * @var RequestHelper
      */
-    public function __construct(ExpressionLanguage $expressionLanguage)
-    {
+    private $requestHelper;
+
+    /**
+     * @param ExpressionLanguage     $expressionLanguage
+     * @param PimcoreContextResolver $contextResolver
+     * @param RequestHelper          $requestHelper
+     */
+    public function __construct(
+        ExpressionLanguage $expressionLanguage,
+        PimcoreContextResolver $contextResolver,
+        RequestHelper $requestHelper
+    ) {
         $this->expressionLanguage = $expressionLanguage;
+        $this->requestHelper = $requestHelper;
+
+        $this->setPimcoreContextResolver($contextResolver);
     }
 
     /**
@@ -63,11 +81,17 @@ class ExpressionNamingScheme implements NamingSchemeInterface
         );
 
         // Map initial key to an object field
-        if ($options['initial_key_mapping'] && $object->getKey()) {
-            $setter = sprintf('set%s', ucfirst($options['initial_key_mapping']));
+        if ($options['initial_key_mapping']) {
+            $request = $this->requestHelper->getMasterRequest();
 
-            if (method_exists($object, $setter)) {
-                $object->$setter($object->getKey());
+            if ($this->matchesPimcoreContext($request, PimcoreContextResolver::CONTEXT_ADMIN) &&
+                $object->getKey() && $object->getId() === 0
+            ) {
+                $setter = sprintf('set%s', ucfirst($options['initial_key_mapping']));
+
+                if (method_exists($object, $setter)) {
+                    $object->$setter($object->getKey());
+                }
             }
         }
 
@@ -93,7 +117,12 @@ class ExpressionNamingScheme implements NamingSchemeInterface
         }
 
         if (!$object->getKey()) {
-            $object->setKey(uniqid('element', true));
+            $className = strtolower(ltrim(preg_replace(
+                '/[A-Z]([A-Z](?![a-z]))*/',
+                '_$0',
+                $object->getClassName()
+            ), '_'));
+            $object->setKey(uniqid(sprintf('%s_', $className), true));
         }
 
         $object->setKey(Service::getUniqueKey($object));

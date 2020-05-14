@@ -2,6 +2,8 @@ services:
     Wvision\Bundle\ElementManagerBundle\SaveManager\NamingScheme\ExpressionNamingScheme:
         arguments:
             - '@coreshop.expression_language'
+            - '@Pimcore\Http\Request\Resolver\PimcoreContextResolver'
+            - '@Pimcore\Http\RequestHelper'
 
     Wvision\Bundle\ElementManagerBundle\SaveManager\ValidationSaveHandler:
         arguments:
