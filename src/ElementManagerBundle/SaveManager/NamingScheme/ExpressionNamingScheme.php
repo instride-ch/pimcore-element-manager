@@ -20,6 +20,7 @@ use Pimcore\Http\RequestHelper;
 use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\DataObject\Service;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ExpressionNamingScheme implements NamingSchemeInterface
@@ -32,22 +33,22 @@ class ExpressionNamingScheme implements NamingSchemeInterface
     private $expressionLanguage;
 
     /**
-     * @var RequestHelper
+     * @var RequestStack
      */
-    private $requestHelper;
+    private $requestStack;
 
     /**
      * @param ExpressionLanguage     $expressionLanguage
      * @param PimcoreContextResolver $contextResolver
-     * @param RequestHelper          $requestHelper
+     * @param RequestStack           $requestStack
      */
     public function __construct(
         ExpressionLanguage $expressionLanguage,
         PimcoreContextResolver $contextResolver,
-        RequestHelper $requestHelper
+        RequestStack $requestStack
     ) {
         $this->expressionLanguage = $expressionLanguage;
-        $this->requestHelper = $requestHelper;
+        $this->requestStack = $requestStack;
 
         $this->setPimcoreContextResolver($contextResolver);
     }
@@ -82,9 +83,9 @@ class ExpressionNamingScheme implements NamingSchemeInterface
 
         // Map initial key to an object field
         if ($options['initial_key_mapping']) {
-            $request = $this->requestHelper->getMasterRequest();
+            $request = $this->requestStack->getMasterRequest();
 
-            if ($this->matchesPimcoreContext($request, PimcoreContextResolver::CONTEXT_ADMIN) &&
+            if (null !== $request && $this->matchesPimcoreContext($request, PimcoreContextResolver::CONTEXT_ADMIN) &&
                 $object->getKey() && $object->getId() === 0
             ) {
                 $setter = sprintf('set%s', ucfirst($options['initial_key_mapping']));

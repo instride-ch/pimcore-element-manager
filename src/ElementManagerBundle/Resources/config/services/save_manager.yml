@@ -3,7 +3,7 @@ services:
         arguments:
             - '@coreshop.expression_language'
             - '@Pimcore\Http\Request\Resolver\PimcoreContextResolver'
-            - '@Pimcore\Http\RequestHelper'
+            - '@request_stack'
 
     Wvision\Bundle\ElementManagerBundle\SaveManager\ValidationSaveHandler:
         arguments:
