@@ -49,10 +49,10 @@ class ElementManagerExtension extends AbstractModelExtension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader->load('services.yml');
-        $loader->load('services/data_transformer.yml');
-        $loader->load('services/similarity_checker.yml');
-        $loader->load('services/commands.yml');
+        $loader->load('services.yaml');
+        $loader->load('services/data_transformer.yaml');
+        $loader->load('services/similarity_checker.yaml');
+        $loader->load('services/commands.yaml');
 
         $this->registerResources(
             'wvision_element_manager',
@@ -104,7 +104,7 @@ class ElementManagerExtension extends AbstractModelExtension
         array $config,
         Loader\YamlFileLoader $loader
     ): void {
-        $loader->load('services/save_manager.yml');
+        $loader->load('services/save_manager.yaml');
 
         $definition = new Definition($config['save_manager_class']);
 
@@ -173,19 +173,19 @@ class ElementManagerExtension extends AbstractModelExtension
         ContainerBuilder $container,
         Loader\YamlFileLoader $loader
     ): void {
-        $loader->load('services/duplication.yml');
+        $loader->load('services/duplication.yaml');
 
         $duplicationBuilder = $container->getDefinition('duplication_checker.builder');
 
-        $files = ['yml' => []];
+        $files = ['yaml' => []];
         $this->registerDuplicationCheckerMapping($container, $config, $files);
 
-        if (!empty($files['yml'])) {
-            $duplicationBuilder->addMethodCall('addYamlMappings', [$files['yml']]);
+        if (!empty($files['yaml'])) {
+            $duplicationBuilder->addMethodCall('addYamlMappings', [$files['yaml']]);
         }
 
         if (!empty($files['xml'])) {
-            $duplicationBuilder->addMethodCall('addXmlMappings', [$files['yml']]);
+            $duplicationBuilder->addMethodCall('addXmlMappings', [$files['yaml']]);
         }
 
         if (!$container->getParameter('kernel.debug')) {
@@ -203,16 +203,16 @@ class ElementManagerExtension extends AbstractModelExtension
     private function registerDuplicationCheckerMapping(ContainerBuilder $container, array $config, array &$files): void
     {
         $fileRecorder = static function ($extension, $path) use (&$files) {
-            $files['yaml' === $extension ? 'yml' : $extension][] = $path;
+            $files['yaml' === $extension ? 'yaml' : $extension][] = $path;
         };
 
         foreach ($container->getParameter('kernel.bundles_metadata') as $bundle) {
             $dirname = $bundle['path'];
 
             if ($container->fileExists($file = $dirname . '/Resources/config/duplication.yaml', false) ||
-                $container->fileExists($file = $dirname . '/Resources/config/duplication.yml', false)
+                $container->fileExists($file = $dirname . '/Resources/config/duplication.yaml', false)
             ) {
-                $fileRecorder('yml', $file);
+                $fileRecorder('yaml', $file);
             }
 
             if ($container->fileExists($file = $dirname . '/Resources/config/duplication.xml', false)) {
@@ -229,9 +229,9 @@ class ElementManagerExtension extends AbstractModelExtension
             $this->registerMappingFilesFromDir($dir, $fileRecorder);
         }
 
-        if (is_array($config['mapping']['paths'])) {
-            $this->registerMappingFilesFromConfig($container, $config, $fileRecorder);
-        }
+//        if (is_array($config['mapping']['paths'])) {
+//            $this->registerMappingFilesFromConfig($container, $config, $fileRecorder);
+//        }
     }
 
     /**

@@ -30,7 +30,6 @@ class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBund
 {
     use PackageVersionTrait;
 
-
     /**
      * {@inheritdoc}
      */
@@ -52,7 +51,7 @@ class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBund
     /**
      * {@inheritdoc}
      */
-    public function build(ContainerBuilder $builder)
+    public function build(ContainerBuilder $builder): void
     {
         parent::build($builder);
 
@@ -89,7 +88,7 @@ class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBund
     /**
      * {@inheritdoc}
      */
-    public function getInstaller()
+    public function getInstaller(): ?InstallerInterface
     {
         return null;
     }
