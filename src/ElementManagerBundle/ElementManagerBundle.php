@@ -8,12 +8,13 @@
  * For the full copyright and license information, please view the LICENSE.md and gpl-3.0.txt
  * files that are distributed with this source code.
  *
- * @copyright  Copyright (c) 2016-2020 w-vision AG (https://www.w-vision.ch)
+ * @copyright  Copyright (c) 2016-2022 w-vision AG (https://www.w-vision.ch)
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
 namespace Wvision\Bundle\ElementManagerBundle;
 
+use Composer\InstalledVersions;
 use CoreShop\Bundle\ResourceBundle\AbstractResourceBundle;
 use CoreShop\Bundle\ResourceBundle\CoreShopResourceBundle;
 use Pimcore\Extension\Bundle\Installer\InstallerInterface;
@@ -83,6 +84,19 @@ class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBund
     protected function getComposerPackageName(): string
     {
         return 'w-vision/element-manager-bundle';
+    }
+
+    public function getVersion(): string
+    {
+        $bundleName = 'w-vision/element-manager-bundle';
+
+        if (class_exists(InstalledVersions::class)) {
+            if (InstalledVersions::isInstalled($bundleName)) {
+                return InstalledVersions::getVersion($bundleName);
+            }
+        }
+
+        return '';
     }
 
     /**

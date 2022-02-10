@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE.md and gpl-3.0.txt
  * files that are distributed with this source code.
  *
- * @copyright  Copyright (c) 2016-2020 w-vision AG (https://www.w-vision.ch)
+ * @copyright  Copyright (c) 2016-2022 w-vision AG (https://www.w-vision.ch)
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
@@ -22,7 +22,6 @@ use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadata;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadata;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\Metadata;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry;
-use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistryInterface;
 use Wvision\Bundle\ElementManagerBundle\SaveManager\DuplicationSaveHandler;
 use Wvision\Bundle\ElementManagerBundle\SaveManager\NamingSchemeSaveHandler;
 use Wvision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManagers;
@@ -51,6 +50,7 @@ class ElementManagerExtension extends AbstractModelExtension
 
         $loader->load('services.yaml');
         $loader->load('services/data_transformer.yaml');
+        $loader->load('services/duplication.yaml');
         $loader->load('services/similarity_checker.yaml');
         $loader->load('services/commands.yaml');
 
@@ -108,6 +108,7 @@ class ElementManagerExtension extends AbstractModelExtension
 
         $definition = new Definition($config['save_manager_class']);
 
+
         $options = [
             'naming_scheme' => $config['naming_scheme']['options'],
             'duplicates' => $config['duplicates']['options'],
@@ -137,10 +138,10 @@ class ElementManagerExtension extends AbstractModelExtension
         if ($config['validations']['enabled_on_save']) {
             $definition->addMethodCall('addSaveHandler', [new Reference(ValidationSaveHandler::class)]);
         }
-
-        if ($config['duplicates']['enabled_on_save']) {
-            $definition->addMethodCall('addSaveHandler', [new Reference(DuplicationSaveHandler::class)]);
-        }
+//
+//        if ($config['duplicates']['enabled_on_save']) {
+//            $definition->addMethodCall('addSaveHandler', [new Reference(DuplicationSaveHandler::class)]);
+//        }
 
         if ($config['save_handlers']) {
             foreach ($config['save_handlers'] as $saveHandler) {
@@ -285,7 +286,8 @@ class ElementManagerExtension extends AbstractModelExtension
         string $className,
         array $config
     ): void {
-        if (!$config['enabled']) {
+
+        if (!$config || !$config['enabled']) {
             return;
         }
 
