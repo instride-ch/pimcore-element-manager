@@ -75,18 +75,18 @@ class ElementManagerExtension extends AbstractModelExtension
             $container->setParameter('wvision_element_manager.merge_supported', false);
         }
 
-        $this->registerDuplicationCheckerConfiguration($config['duplication'] ?? [], $container, $loader);
+//        $this->registerDuplicationCheckerConfiguration($config['duplication'] ?? [], $container, $loader);
 
         $objectSaveManagers = new Definition(ObjectSaveManagers::class);
         $container->setDefinition(ObjectSaveManagers::class, $objectSaveManagers);
 
         foreach ($config['classes'] as $className => $classConfig) {
             $this->registerSaveManagerConfiguration($container, $className, $classConfig ?? [], $loader);
-            $this->registerDuplicateIndexConfiguration(
-                $container,
-                $className,
-                $classConfig['duplicates_index'] ?? []
-            );
+//            $this->registerDuplicateIndexConfiguration(
+//                $container,
+//                $className,
+//                $classConfig['duplicates_index'] ?? []
+//            );
         }
     }
 
@@ -111,8 +111,8 @@ class ElementManagerExtension extends AbstractModelExtension
 
         $options = [
             'naming_scheme' => $config['naming_scheme']['options'],
-            'duplicates' => $config['duplicates']['options'],
-            'validations' => $config['validations']['options'],
+//            'duplicates' => $config['duplicates']['options'],
+//            'validations' => $config['validations']['options'],
         ];
 
         if ($config['naming_scheme']['enabled']) {
@@ -135,9 +135,9 @@ class ElementManagerExtension extends AbstractModelExtension
             $definition->addMethodCall('addSaveHandler', [new Reference(UniqueKeySaveHandler::class)]);
         }
 
-        if ($config['validations']['enabled_on_save']) {
-            $definition->addMethodCall('addSaveHandler', [new Reference(ValidationSaveHandler::class)]);
-        }
+//        if ($config['validations']['enabled_on_save']) {
+//            $definition->addMethodCall('addSaveHandler', [new Reference(ValidationSaveHandler::class)]);
+//        }
 //
 //        if ($config['duplicates']['enabled_on_save']) {
 //            $definition->addMethodCall('addSaveHandler', [new Reference(DuplicationSaveHandler::class)]);
@@ -176,24 +176,24 @@ class ElementManagerExtension extends AbstractModelExtension
     ): void {
         $loader->load('services/duplication.yaml');
 
-        $duplicationBuilder = $container->getDefinition('duplication_checker.builder');
+//        $duplicationBuilder = $container->getDefinition('duplication_checker.builder');
 
         $files = ['yaml' => []];
         $this->registerDuplicationCheckerMapping($container, $config, $files);
 
-        if (!empty($files['yaml'])) {
-            $duplicationBuilder->addMethodCall('addYamlMappings', [$files['yaml']]);
-        }
-
-        if (!empty($files['xml'])) {
-            $duplicationBuilder->addMethodCall('addXmlMappings', [$files['yaml']]);
-        }
-
-        if (!$container->getParameter('kernel.debug')) {
-            $duplicationBuilder->addMethodCall('setMetadataCache', [
-                new Reference('duplication_checker.mapping.cache.symfony'),
-            ]);
-        }
+//        if (!empty($files['yaml'])) {
+//            $duplicationBuilder->addMethodCall('addYamlMappings', [$files['yaml']]);
+//        }
+//
+//        if (!empty($files['xml'])) {
+//            $duplicationBuilder->addMethodCall('addXmlMappings', [$files['yaml']]);
+//        }
+//
+//        if (!$container->getParameter('kernel.debug')) {
+//            $duplicationBuilder->addMethodCall('setMetadataCache', [
+//                new Reference('duplication_checker.mapping.cache.symfony'),
+//            ]);
+//        }
     }
 
     /**

@@ -43,5 +43,7 @@
         "Wvision\\Bundle\\ElementManagerBundle\\ElementManagerBundle"
       ]
     }
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

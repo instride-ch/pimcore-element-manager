@@ -56,9 +56,9 @@ class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBund
     {
         parent::build($builder);
 
-        $builder->addCompilerPass(new AddConstraintValidatorsPass('duplication_checker.validator_factory', 'duplication_checker.constraint_validator'));
-        $builder->addCompilerPass(new AddDataTransformersPass());
-        $builder->addCompilerPass(new AddSimilarityCheckerPass());
+//        $builder->addCompilerPass(new AddConstraintValidatorsPass('duplication_checker.validator_factory', 'duplication_checker.constraint_validator'));
+//        $builder->addCompilerPass(new AddDataTransformersPass());
+//        $builder->addCompilerPass(new AddSimilarityCheckerPass());
         $builder->addCompilerPass(new AddSaveHandlerPass());
     }
 
