@@ -111,8 +111,8 @@ class ElementManagerExtension extends AbstractModelExtension
 
         $options = [
             'naming_scheme' => $config['naming_scheme']['options'],
-            'duplicates' => $config['duplicates']['options'],
-            'validations' => $config['validations']['options'],
+//            'duplicates' => $config['duplicates']['options'],
+//            'validations' => $config['validations']['options'],
         ];
 
         if ($config['naming_scheme']['enabled']) {
@@ -135,9 +135,9 @@ class ElementManagerExtension extends AbstractModelExtension
             $definition->addMethodCall('addSaveHandler', [new Reference(UniqueKeySaveHandler::class)]);
         }
 
-        if ($config['validations']['enabled_on_save']) {
-            $definition->addMethodCall('addSaveHandler', [new Reference(ValidationSaveHandler::class)]);
-        }
+//        if ($config['validations']['enabled_on_save']) {
+//            $definition->addMethodCall('addSaveHandler', [new Reference(ValidationSaveHandler::class)]);
+//        }
 //
 //        if ($config['duplicates']['enabled_on_save']) {
 //            $definition->addMethodCall('addSaveHandler', [new Reference(DuplicationSaveHandler::class)]);
