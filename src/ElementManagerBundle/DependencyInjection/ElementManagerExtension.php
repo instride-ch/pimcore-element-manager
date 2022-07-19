@@ -110,8 +110,8 @@ class ElementManagerExtension extends AbstractModelExtension
 
         $options = [
             'naming_scheme' => $config['naming_scheme']['options'],
-//            'duplicates' => $config['duplicates']['options'],
-//            'validations' => $config['validations']['options'],
+            'duplicates' => $config['duplicates']['options'],
+            'validations' => $config['validations']['options'],
         ];
 
         if ($config['naming_scheme']['enabled']) {
@@ -134,13 +134,13 @@ class ElementManagerExtension extends AbstractModelExtension
             $definition->addMethodCall('addSaveHandler', [new Reference(UniqueKeySaveHandler::class)]);
         }
 
-//        if ($config['validations']['enabled_on_save']) {
-//            $definition->addMethodCall('addSaveHandler', [new Reference(ValidationSaveHandler::class)]);
-//        }
+        if ($config['validations']['enabled_on_save']) {
+            $definition->addMethodCall('addSaveHandler', [new Reference(ValidationSaveHandler::class)]);
+        }
 
-//        if ($config['duplicates']['enabled_on_save']) {
-//            $definition->addMethodCall('addSaveHandler', [new Reference(DuplicationSaveHandler::class)]);
-//        }
+        if ($config['duplicates']['enabled_on_save']) {
+            $definition->addMethodCall('addSaveHandler', [new Reference(DuplicationSaveHandler::class)]);
+        }
 
         if ($config['save_handlers']) {
             foreach ($config['save_handlers'] as $saveHandler) {
@@ -229,7 +229,7 @@ class ElementManagerExtension extends AbstractModelExtension
             $this->registerMappingFilesFromDir($dir, $fileRecorder);
         }
 
-        if ($config && is_array($config['mapping']['paths'])) {
+        if (is_array($config['mapping']['paths'])) {
             $this->registerMappingFilesFromConfig($container, $config, $fileRecorder);
         }
     }
@@ -285,7 +285,7 @@ class ElementManagerExtension extends AbstractModelExtension
         string $className,
         array $config
     ): void {
-        if (!$config || !$config['enabled']) {
+        if (!$config['enabled']) {
             return;
         }
 

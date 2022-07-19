@@ -16,15 +16,21 @@ namespace Wvision\Bundle\ElementManagerBundle;
 
 use CoreShop\Bundle\ResourceBundle\AbstractResourceBundle;
 use CoreShop\Bundle\ResourceBundle\CoreShopResourceBundle;
+use Pimcore\Extension\Bundle\Installer\InstallerInterface;
 use Pimcore\Extension\Bundle\PimcoreBundleInterface;
+use Pimcore\Routing\RouteReferenceInterface;
 use Wvision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddDataTransformersPass;
 use Wvision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddSaveHandlerPass;
 use Wvision\Bundle\ElementManagerBundle\DependencyInjection\CompilerPass\AddSimilarityCheckerPass;
+use Pimcore\Extension\Bundle\Traits\PackageVersionTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Validator\DependencyInjection\AddConstraintValidatorsPass;
 
 class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBundleInterface
 {
+    use PackageVersionTrait;
+
+
     /**
      * {@inheritdoc}
      */
@@ -46,7 +52,7 @@ class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBund
     /**
      * {@inheritdoc}
      */
-    public function build(ContainerBuilder $builder): void
+    public function build(ContainerBuilder $builder)
     {
         parent::build($builder);
 
