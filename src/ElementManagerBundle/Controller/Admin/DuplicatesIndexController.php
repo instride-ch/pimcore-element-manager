@@ -15,6 +15,7 @@
 namespace Wvision\Bundle\ElementManagerBundle\Controller\Admin;
 
 use CoreShop\Bundle\ResourceBundle\Controller\ResourceController;
+use CoreShop\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -32,7 +33,7 @@ final class DuplicatesIndexController extends ResourceController
      *
      * @return JsonResponse
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): JsonResponse
     {
         return $this->viewHandler->handle($this->getMetadataRegistry()->all(), ['group' => 'List']);
     }
@@ -42,7 +43,7 @@ final class DuplicatesIndexController extends ResourceController
      *
      * @return JsonResponse
      */
-    public function getAction(Request $request)
+    public function getAction(Request $request): JsonResponse
     {
         $this->isGrantedOr403();
 
@@ -179,19 +180,19 @@ final class DuplicatesIndexController extends ResourceController
     }
 
     /**
-     * @param string $className
+     * @param int $id
      *
-     * @return MetadataInterface
-     *
-     * @throws NotFoundHttpException
+     * @return ResourceInterface
      */
-    protected function findOr404($className)
+    protected function findOr404(int $id): ResourceInterface
     {
-        if (!$this->getMetadataRegistry()->has($className)) {
-            throw new NotFoundHttpException(sprintf('The "%s" has not been found', $className));
+        $model = $this->repository->find($id);
+
+        if (null === $model || !$model instanceof ResourceInterface) {
+            throw new NotFoundHttpException(sprintf('The "%s" has not been found', $id));
         }
 
-        return $this->getMetadataRegistry()->get($className);
+        return $model;
     }
 
     /**
