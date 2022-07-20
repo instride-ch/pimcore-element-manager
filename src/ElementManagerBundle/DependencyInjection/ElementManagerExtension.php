@@ -50,7 +50,7 @@ class ElementManagerExtension extends AbstractModelExtension
 
         $loader->load('services.yaml');
         $loader->load('services/data_transformer.yaml');
-        $loader->load('services/duplication.yaml');
+//        $loader->load('services/duplication.yaml');
         $loader->load('services/similarity_checker.yaml');
         $loader->load('services/commands.yaml');
 
@@ -75,18 +75,18 @@ class ElementManagerExtension extends AbstractModelExtension
             $container->setParameter('wvision_element_manager.merge_supported', false);
         }
 
-        $this->registerDuplicationCheckerConfiguration($config['duplication'] ?? [], $container, $loader);
+//        $this->registerDuplicationCheckerConfiguration($config['duplication'] ?? [], $container, $loader);
 
         $objectSaveManagers = new Definition(ObjectSaveManagers::class);
         $container->setDefinition(ObjectSaveManagers::class, $objectSaveManagers);
 
         foreach ($config['classes'] as $className => $classConfig) {
             $this->registerSaveManagerConfiguration($container, $className, $classConfig ?? [], $loader);
-            $this->registerDuplicateIndexConfiguration(
-                $container,
-                $className,
-                $classConfig['duplicates_index'] ?? []
-            );
+//            $this->registerDuplicateIndexConfiguration(
+//                $container,
+//                $className,
+//                $classConfig['duplicates_index'] ?? []
+//            );
         }
     }
 
