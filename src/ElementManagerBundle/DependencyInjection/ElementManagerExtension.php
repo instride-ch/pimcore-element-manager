@@ -50,7 +50,7 @@ class ElementManagerExtension extends AbstractModelExtension
 
         $loader->load('services.yaml');
         $loader->load('services/data_transformer.yaml');
-        $loader->load('services/duplication.yaml');
+//        $loader->load('services/duplication.yaml');
         $loader->load('services/similarity_checker.yaml');
         $loader->load('services/commands.yaml');
 
