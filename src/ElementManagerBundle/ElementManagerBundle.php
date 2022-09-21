@@ -110,7 +110,7 @@ class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBund
     /**
      * {@inheritdoc}
      */
-    public function getAdminIframePath()
+    public function getAdminIframePath(): ?string
     {
         return null;
     }
