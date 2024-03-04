@@ -189,11 +189,12 @@ class ElementManagerExtension extends AbstractModelExtension
             $duplicationBuilder->addMethodCall('addXmlMappings', [$files['yaml']]);
         }
 
-        if (!$container->getParameter('kernel.debug')) {
-            $duplicationBuilder->addMethodCall('setMetadataCache', [
-                new Reference('duplication_checker.mapping.cache.symfony'),
-            ]);
-        }
+        // ToDo refactor Caching
+//        if (!$container->getParameter('kernel.debug')) {
+//            $duplicationBuilder->addMethodCall('setMetadataCache', [
+//                new Reference('duplication_checker.mapping.cache.symfony'),
+//            ]);
+//        }
     }
 
     /**
