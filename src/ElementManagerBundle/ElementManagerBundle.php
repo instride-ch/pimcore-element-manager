@@ -8,12 +8,13 @@
  * For the full copyright and license information, please view the LICENSE.md and gpl-3.0.txt
  * files that are distributed with this source code.
  *
- * @copyright  Copyright (c) 2016-2020 w-vision AG (https://www.w-vision.ch)
+ * @copyright  Copyright (c) 2016-2022 w-vision AG (https://www.w-vision.ch)
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
 namespace Wvision\Bundle\ElementManagerBundle;
 
+use Composer\InstalledVersions;
 use CoreShop\Bundle\ResourceBundle\AbstractResourceBundle;
 use CoreShop\Bundle\ResourceBundle\CoreShopResourceBundle;
 use Pimcore\Extension\Bundle\Installer\InstallerInterface;
@@ -29,7 +30,6 @@ use Symfony\Component\Validator\DependencyInjection\AddConstraintValidatorsPass;
 class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBundleInterface
 {
     use PackageVersionTrait;
-
 
     /**
      * {@inheritdoc}
@@ -52,13 +52,13 @@ class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBund
     /**
      * {@inheritdoc}
      */
-    public function build(ContainerBuilder $builder)
+    public function build(ContainerBuilder $builder): void
     {
         parent::build($builder);
 
-        $builder->addCompilerPass(new AddConstraintValidatorsPass('duplication_checker.validator_factory', 'duplication_checker.constraint_validator'));
-        $builder->addCompilerPass(new AddDataTransformersPass());
-        $builder->addCompilerPass(new AddSimilarityCheckerPass());
+//        $builder->addCompilerPass(new AddConstraintValidatorsPass('duplication_checker.validator_factory', 'duplication_checker.constraint_validator'));
+//        $builder->addCompilerPass(new AddDataTransformersPass());
+//        $builder->addCompilerPass(new AddSimilarityCheckerPass());
         $builder->addCompilerPass(new AddSaveHandlerPass());
     }
 
@@ -86,10 +86,23 @@ class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBund
         return 'w-vision/element-manager-bundle';
     }
 
+    public function getVersion(): string
+    {
+        $bundleName = 'w-vision/element-manager-bundle';
+
+        if (class_exists(InstalledVersions::class)) {
+            if (InstalledVersions::isInstalled($bundleName)) {
+                return InstalledVersions::getVersion($bundleName);
+            }
+        }
+
+        return '';
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function getInstaller()
+    public function getInstaller(): ?InstallerInterface
     {
         return null;
     }
@@ -97,7 +110,7 @@ class ElementManagerBundle extends AbstractResourceBundle implements PimcoreBund
     /**
      * {@inheritdoc}
      */
-    public function getAdminIframePath()
+    public function getAdminIframePath(): ?string
     {
         return null;
     }

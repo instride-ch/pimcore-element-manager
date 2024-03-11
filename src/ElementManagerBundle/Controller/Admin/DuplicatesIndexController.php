@@ -8,13 +8,14 @@
  * For the full copyright and license information, please view the LICENSE.md and gpl-3.0.txt
  * files that are distributed with this source code.
  *
- * @copyright  Copyright (c) 2016-2020 w-vision AG (https://www.w-vision.ch)
+ * @copyright  Copyright (c) 2016-2022 w-vision AG (https://www.w-vision.ch)
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
 namespace Wvision\Bundle\ElementManagerBundle\Controller\Admin;
 
 use CoreShop\Bundle\ResourceBundle\Controller\ResourceController;
+use CoreShop\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -32,7 +33,7 @@ final class DuplicatesIndexController extends ResourceController
      *
      * @return JsonResponse
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): JsonResponse
     {
         return $this->viewHandler->handle($this->getMetadataRegistry()->all(), ['group' => 'List']);
     }
@@ -42,7 +43,7 @@ final class DuplicatesIndexController extends ResourceController
      *
      * @return JsonResponse
      */
-    public function getAction(Request $request)
+    public function getAction(Request $request): JsonResponse
     {
         $this->isGrantedOr403();
 
@@ -185,7 +186,7 @@ final class DuplicatesIndexController extends ResourceController
      *
      * @throws NotFoundHttpException
      */
-    protected function findOr404($className)
+    protected function findOr404($className): ResourceInterface
     {
         if (!$this->getMetadataRegistry()->has($className)) {
             throw new NotFoundHttpException(sprintf('The "%s" has not been found', $className));

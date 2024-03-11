@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE.md and gpl-3.0.txt
  * files that are distributed with this source code.
  *
- * @copyright  Copyright (c) 2016-2020 w-vision AG (https://www.w-vision.ch)
+ * @copyright  Copyright (c) 2016-2022 w-vision AG (https://www.w-vision.ch)
  * @license    https://github.com/w-vision/ImportDefinitions/blob/master/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
@@ -22,7 +22,6 @@ use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\FieldMetadata;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadata;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\Metadata;
 use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry;
-use Wvision\Bundle\ElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistryInterface;
 use Wvision\Bundle\ElementManagerBundle\SaveManager\DuplicationSaveHandler;
 use Wvision\Bundle\ElementManagerBundle\SaveManager\NamingSchemeSaveHandler;
 use Wvision\Bundle\ElementManagerBundle\SaveManager\ObjectSaveManagers;
@@ -49,10 +48,11 @@ class ElementManagerExtension extends AbstractModelExtension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader->load('services.yml');
-        $loader->load('services/data_transformer.yml');
-        $loader->load('services/similarity_checker.yml');
-        $loader->load('services/commands.yml');
+        $loader->load('services.yaml');
+        $loader->load('services/data_transformer.yaml');
+        $loader->load('services/duplication.yaml');
+        $loader->load('services/similarity_checker.yaml');
+        $loader->load('services/commands.yaml');
 
         $this->registerResources(
             'wvision_element_manager',
@@ -104,9 +104,10 @@ class ElementManagerExtension extends AbstractModelExtension
         array $config,
         Loader\YamlFileLoader $loader
     ): void {
-        $loader->load('services/save_manager.yml');
+        $loader->load('services/save_manager.yaml');
 
         $definition = new Definition($config['save_manager_class']);
+
 
         $options = [
             'naming_scheme' => $config['naming_scheme']['options'],
@@ -173,26 +174,27 @@ class ElementManagerExtension extends AbstractModelExtension
         ContainerBuilder $container,
         Loader\YamlFileLoader $loader
     ): void {
-        $loader->load('services/duplication.yml');
+        $loader->load('services/duplication.yaml');
 
         $duplicationBuilder = $container->getDefinition('duplication_checker.builder');
 
-        $files = ['yml' => []];
+        $files = ['yaml' => []];
         $this->registerDuplicationCheckerMapping($container, $config, $files);
 
-        if (!empty($files['yml'])) {
-            $duplicationBuilder->addMethodCall('addYamlMappings', [$files['yml']]);
+        if (!empty($files['yaml'])) {
+            $duplicationBuilder->addMethodCall('addYamlMappings', [$files['yaml']]);
         }
 
         if (!empty($files['xml'])) {
-            $duplicationBuilder->addMethodCall('addXmlMappings', [$files['yml']]);
+            $duplicationBuilder->addMethodCall('addXmlMappings', [$files['yaml']]);
         }
 
-        if (!$container->getParameter('kernel.debug')) {
-            $duplicationBuilder->addMethodCall('setMetadataCache', [
-                new Reference('duplication_checker.mapping.cache.symfony'),
-            ]);
-        }
+        // ToDo refactor Caching
+//        if (!$container->getParameter('kernel.debug')) {
+//            $duplicationBuilder->addMethodCall('setMetadataCache', [
+//                new Reference('duplication_checker.mapping.cache.symfony'),
+//            ]);
+//        }
     }
 
     /**
@@ -203,16 +205,16 @@ class ElementManagerExtension extends AbstractModelExtension
     private function registerDuplicationCheckerMapping(ContainerBuilder $container, array $config, array &$files): void
     {
         $fileRecorder = static function ($extension, $path) use (&$files) {
-            $files['yaml' === $extension ? 'yml' : $extension][] = $path;
+            $files['yaml' === $extension ? 'yaml' : $extension][] = $path;
         };
 
         foreach ($container->getParameter('kernel.bundles_metadata') as $bundle) {
             $dirname = $bundle['path'];
 
             if ($container->fileExists($file = $dirname . '/Resources/config/duplication.yaml', false) ||
-                $container->fileExists($file = $dirname . '/Resources/config/duplication.yml', false)
+                $container->fileExists($file = $dirname . '/Resources/config/duplication.yaml', false)
             ) {
-                $fileRecorder('yml', $file);
+                $fileRecorder('yaml', $file);
             }
 
             if ($container->fileExists($file = $dirname . '/Resources/config/duplication.xml', false)) {
@@ -285,7 +287,8 @@ class ElementManagerExtension extends AbstractModelExtension
         string $className,
         array $config
     ): void {
-        if (!$config['enabled']) {
+
+        if (!$config || !$config['enabled']) {
             return;
         }
 

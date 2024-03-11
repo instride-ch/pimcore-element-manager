@@ -11,7 +11,7 @@ services:
     duplication_checker.validator:
         class: Symfony\Component\Validator\Validator\ValidatorInterface
         public: false
-        factory: 'duplication_checker.builder:getValidator'
+        factory: ['@duplication_checker.builder', 'getValidator']
 
     duplication_checker.builder:
         class: Symfony\Component\Validator\ValidatorBuilder
@@ -48,7 +48,7 @@ services:
             - '@duplication_checker.cache'
 
     duplication_checker.mapping.cache.symfony:
-        class: Symfony\Component\Validator\Mapping\Cache\Psr6Cache
+        class: Symfony\Component\Cache\Psr16Cache
         public: false
         arguments:
             - '@duplication_checker.mapping.cache.symfony.php_array'
