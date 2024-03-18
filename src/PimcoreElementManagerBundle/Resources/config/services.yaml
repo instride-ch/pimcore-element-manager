@@ -1,0 +1,35 @@
+services:
+    Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\DataTransformer\ContainerDataTransformerFactory:
+        arguments:
+            - '@service_container'
+
+    Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\Similarity\ContainerSimilarityCheckerFactory:
+        arguments:
+            - '@service_container'
+
+    Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\DataTransformer\DataTransformerFactoryInterface: '@Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\DataTransformer\ContainerDataTransformerFactory'
+    Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\Similarity\SimilarityCheckerFactoryInterface: '@Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\Similarity\ContainerSimilarityCheckerFactory'
+
+    Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\DuplicatesIndexWorker:
+        arguments:
+            - '@Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\DataTransformer\DataTransformerFactoryInterface'
+            - '@doctrine.orm.entity_manager'
+            - '@pimcore_element_manager.repository.duplicate'
+            - '@pimcore_element_manager.repository.duplicate_object'
+            - '@pimcore_element_manager.factory.duplicate'
+            - '@pimcore_element_manager.factory.duplicate_object'
+
+    Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\DuplicateFinder:
+        arguments:
+            - '@Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\Similarity\SimilarityCheckerFactoryInterface'
+            - '@pimcore_element_manager.repository.duplicate'
+            - '@pimcore_element_manager.repository.duplicate_object'
+            - '@pimcore_element_manager.repository.potential_duplicate'
+            - '@doctrine.orm.entity_manager'
+            - '@pimcore_element_manager.factory.potential_duplicate'
+
+    Instride\Bundle\PimcoreElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry:
+        public: true
+    Instride\Bundle\PimcoreElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistryInterface:
+        alias: 'Instride\Bundle\PimcoreElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistry'
+        public: true

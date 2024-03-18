@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <mapped-superclass name="Instride\Bundle\PimcoreElementManagerBundle\Model\PotentialDuplicate" table="pimcore_element_manager_potential_duplicate">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
+        <field name="declined" type="boolean" column="declined">
+            <options>
+                <option name="default">false</option>
+            </options>
+        </field>
+        <field name="creationDate" type="date" column="creationDate">
+            <gedmo:timestampable on="create"/>
+        </field>
+        <field name="modificationDate" type="datetime" column="modificationDate" nullable="true">
+            <gedmo:timestampable on="update"/>
+        </field>
+        <many-to-one field="duplicateFrom" target-entity="Instride\Bundle\PimcoreElementManagerBundle\Model\DuplicateObjectInterface" inversed-by="objects" cascade="all">
+            <join-column name="duplicate_from_id" referenced-column-name="id" on-delete="CASCADE" on-update="CASCADE"/>
+        </many-to-one>
+        <many-to-one field="duplicateTo" target-entity="Instride\Bundle\PimcoreElementManagerBundle\Model\DuplicateObjectInterface" inversed-by="objects" cascade="all">
+            <join-column name="duplicate_to_id" referenced-column-name="id" on-delete="CASCADE" on-update="CASCADE"/>
+        </many-to-one>
+    </mapped-superclass>
+</doctrine-mapping>

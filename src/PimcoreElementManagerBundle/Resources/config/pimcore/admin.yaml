@@ -1,0 +1,8 @@
+element_manager:
+    pimcore_admin:
+        js:
+            startup: '/bundles/pimcoreelementmanager/pimcore/js/startup.js'
+            duplicate_index_item: '/bundles/pimcoreelementmanager/pimcore/js/duplication_index/item.js'
+            duplicate_index_panel: '/bundles/pimcoreelementmanager/pimcore/js/duplication_index/panel.js'
+        css:
+            index: '/bundles/pimcoreelementmanager/pimcore/css/elementmanager.css'

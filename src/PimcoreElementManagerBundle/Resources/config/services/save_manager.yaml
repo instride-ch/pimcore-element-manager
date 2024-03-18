@@ -1,0 +1,25 @@
+services:
+    Instride\Bundle\PimcoreElementManagerBundle\SaveManager\NamingScheme\ExpressionNamingScheme:
+        arguments:
+            - '@coreshop.expression_language'
+            - '@Symfony\Component\HttpFoundation\RequestStack'
+            - '@Pimcore\Http\Request\Resolver\PimcoreContextResolver'
+
+    Instride\Bundle\PimcoreElementManagerBundle\SaveManager\ValidationSaveHandler:
+        arguments:
+            - '@Symfony\Component\Validator\Validator\ValidatorInterface'
+
+    Instride\Bundle\PimcoreElementManagerBundle\SaveManager\DuplicationSaveHandler:
+        arguments:
+            - '@Instride\Bundle\PimcoreElementManagerBundle\DuplicateChecker\DuplicateServiceInterface'
+
+    Instride\Bundle\PimcoreElementManagerBundle\EventListener\ObjectEventListener:
+        arguments:
+            - '@Instride\Bundle\PimcoreElementManagerBundle\SaveManager\ObjectSaveManagers'
+        tags:
+            - { name: kernel.event_listener, event: pimcore.dataobject.preUpdate, method: onPreUpdate }
+            - { name: kernel.event_listener, event: pimcore.dataobject.postUpdate, method: onPostUpdate }
+            - { name: kernel.event_listener, event: pimcore.dataobject.preAdd, method: onPreAdd }
+            - { name: kernel.event_listener, event: pimcore.dataobject.postAdd, method: onPostAdd }
+            - { name: kernel.event_listener, event: pimcore.dataobject.preDelete, method: onPreDelete }
+            - { name: kernel.event_listener, event: pimcore.dataobject.postDelete, method: onPostDelete }

@@ -1,5 +1,4 @@
-# Element Manager Bundle
-
+![Pimcore Element Manager](docs/images/github_banner.png)
 
 ### Requirements
 * Pimcore `^10.0`
@@ -8,10 +7,13 @@
 
 - Install with composer
   ```
-  composer require w-vision/element-manager-bundle:^2.0
+  composer require instride/pimcore-element-manager:^2.0
   ```
 
-- Run enable Bundle command
-  ```
-  bin/console pimcore:bundle:enable ElementManagerBundle
+- Add to `config/bundles.php`
+  ```php
+    return [
+        // ...
+        Instride\Bundle\PimcoreElementManagerBundle\PimcoreElementManagerBundle::class => ['all' => true],
+    ];
   ```

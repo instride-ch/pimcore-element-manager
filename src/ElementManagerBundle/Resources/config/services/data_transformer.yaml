@@ -1,4 +1,0 @@
-services:
-    Wvision\Bundle\ElementManagerBundle\DuplicateIndex\DataTransformer\SimpleDataTransformer:
-        tags:
-            - { name: wvision_element_manager.data_transformer, type: simple_text }

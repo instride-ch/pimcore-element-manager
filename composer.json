@@ -1,5 +1,5 @@
 {
-  "name": "w-vision/element-manager-bundle",
+  "name": "instride/pimcore-element-manager",
   "type": "pimcore-bundle",
   "license": "GPL-3.0-or-later",
   "description": "Element Manager",
@@ -7,43 +7,39 @@
     "pimcore",
     "pimcore-bundle"
   ],
-  "homepage": "https://github.com/w-vision/ElementManagerBundle",
+  "homepage": "https://github.com/instride-ch/pimcore-element-manager",
   "authors": [
     {
-      "name": "w-vision AG",
-      "email": "support@w-vision.ch",
-      "homepage": "https://www.w-vision.ch",
-      "role": "Web Development Agency"
+      "name": "instride AG",
+      "email": "connect@instride.ch",
+      "homepage": "https://instride.ch",
+      "role": "Digital Agency"
     },
     {
-      "name": "Dominik Pfaffenbauer",
-      "email": "dominik@pfaffenbauer.at",
-      "homepage": "https://www.pfaffenbauer.at/",
-      "role": "Developer"
+      "name": "CORS GmbH",
+      "email": "office@cors.gmbh",
+      "homepage": "https://cors.gmbh",
+      "role": "Digital Agency"
     }
   ],
   "require": {
+    "coreshop/resource-bundle": "^3.0",
     "league/csv": "^9.0",
-    "coreshop/resource-bundle": "^3.0"
+    "pimcore/pimcore": "^10.0"
   },
   "suggest": {
     "pimcore/object-merger": "To directly merge duplicates"
   },
-  "require-dev": {
-
-  },
   "autoload": {
     "psr-4": {
-      "Wvision\\Bundle\\ElementManagerBundle\\": "src/ElementManagerBundle/"
+      "Instride\\Bundle\\PimcoreElementManagerBundle\\": "src/PimcoreElementManagerBundle/"
     }
   },
   "extra": {
     "pimcore": {
       "bundles": [
-        "Wvision\\Bundle\\ElementManagerBundle\\ElementManagerBundle"
+        "Instride\\Bundle\\PimcoreElementManagerBundle\\PimcoreElementManagerBundle"
       ]
     }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+  }
 }

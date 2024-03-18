@@ -1,0 +1,4 @@
+services:
+    Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\DataTransformer\SimpleDataTransformer:
+        tags:
+            - { name: pimcore_element_manager.data_transformer, type: simple_text }

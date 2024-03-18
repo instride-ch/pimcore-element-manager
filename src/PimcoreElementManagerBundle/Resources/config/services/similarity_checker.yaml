@@ -1,0 +1,4 @@
+services:
+    Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\Similarity\SimilarText:
+        tags:
+            - { name: pimcore_element_manager.similarity_checker, type: similar_text }
