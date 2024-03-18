@@ -9,4 +9,4 @@ services:
           - '@Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\DuplicateFinder'
           - '@event_dispatcher'
         tags:
-          - { name: console.command, command: 'element_manager:duplicate-index' }
+          - { name: console.command, command: 'pimcore-element-manager:duplicate-index' }

@@ -24,73 +24,39 @@ class ObjectSaveManager implements ObjectSaveManagerInterface
     /**
      * @var ObjectSaveHandlerInterface[]
      */
-    protected $saveHandlers = [];
+    protected array $saveHandlers = [];
+    protected array $options = [];
 
-    /**
-     * @var array
-     */
-    protected $options = [];
-
-    /**
-     * @inheritDoc
-     */
     public function preAdd(Concrete $object): void
     {
-        if ($object->getPublished()) {
-            $this->validateOnSave($object);
-        }
-
         $this->applySaveHandlers($object, 'preAdd');
-
-        // TODO: Should be a save handler
-        /*if ($this->pimcoreContextResolver->getPimcoreContext() === PimcoreContextResolver::CONTEXT_ADMIN) {
-            $this->applyNamingScheme($address);
-        }*/
     }
 
-    /**
-     * @inheritDoc
-     */
     public function postAdd(Concrete $object): void
     {
         $this->applySaveHandlers($object, 'postAdd');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function preUpdate(Concrete $object): void
     {
         $this->applySaveHandlers($object, 'preUpdate');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function postUpdate(Concrete $object): void
     {
         $this->applySaveHandlers($object, 'postUpdate');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function preDelete(Concrete $object): void
     {
         $this->applySaveHandlers($object, 'preDelete');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function postDelete(Concrete $object): void
     {
         $this->applySaveHandlers($object, 'postDelete');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function validateOnSave(Concrete $object, bool $withDuplicatesCheck = true): bool
     {
         return true;
@@ -112,35 +78,22 @@ class ObjectSaveManager implements ObjectSaveManagerInterface
         $this->saveHandlers = $saveHandlers;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function addSaveHandler(ObjectSaveHandlerInterface $saveHandler): void
     {
         $this->saveHandlers[] = $saveHandler;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getOptions(): array
     {
         return $this->options;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setOptions(array $options): void
     {
         $this->options = $options;
     }
 
-    /**
-     * @param Concrete $concrete
-     * @param          $saveHandlerMethod
-     */
-    private function applySaveHandlers(Concrete $concrete, $saveHandlerMethod): void
+    private function applySaveHandlers(Concrete $concrete, string $saveHandlerMethod): void
     {
         $saveHandlers = $this->getSaveHandlers();
         $postSaveMethod = 'post' . \ucfirst($saveHandlerMethod);

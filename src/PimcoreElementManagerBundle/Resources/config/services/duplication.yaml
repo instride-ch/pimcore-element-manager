@@ -39,19 +39,13 @@ services:
         tags:
             - { name: kernel.cache_warmer }
 
-    duplication_checker.mapping.cache.symfony.php_array:
+    duplication_checker.mapping.cache.adapter:
         class: Symfony\Component\Cache\Adapter\PhpArrayAdapter
         public: false
         factory: ['Symfony\Component\Cache\Adapter\PhpArrayAdapter', 'create']
         arguments:
             - '%duplication_checker.cache.file%'
             - '@duplication_checker.cache'
-
-    duplication_checker.mapping.cache.symfony:
-        class: Symfony\Component\Cache\Psr16Cache
-        public: false
-        arguments:
-            - '@duplication_checker.mapping.cache.symfony.php_array'
 
     Instride\Bundle\PimcoreElementManagerBundle\DuplicateChecker\DuplicateService:
         arguments:

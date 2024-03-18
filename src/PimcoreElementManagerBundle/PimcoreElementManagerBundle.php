@@ -20,9 +20,12 @@ namespace Instride\Bundle\PimcoreElementManagerBundle;
 use Composer\InstalledVersions;
 use CoreShop\Bundle\ResourceBundle\AbstractResourceBundle;
 use CoreShop\Bundle\ResourceBundle\CoreShopResourceBundle;
+use Instride\Bundle\PimcoreElementManagerBundle\DependencyInjection\CompilerPass\AddDataTransformersPass;
 use Instride\Bundle\PimcoreElementManagerBundle\DependencyInjection\CompilerPass\AddSaveHandlerPass;
+use Instride\Bundle\PimcoreElementManagerBundle\DependencyInjection\CompilerPass\AddSimilarityCheckerPass;
 use Pimcore\Extension\Bundle\Traits\PackageVersionTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Validator\DependencyInjection\AddConstraintValidatorsPass;
 
 class PimcoreElementManagerBundle extends AbstractResourceBundle
 {
@@ -50,10 +53,9 @@ class PimcoreElementManagerBundle extends AbstractResourceBundle
     {
         parent::build($builder);
 
-        // TODO: Activate?
-//        $builder->addCompilerPass(new AddConstraintValidatorsPass('duplication_checker.validator_factory', 'duplication_checker.constraint_validator'));
-//        $builder->addCompilerPass(new AddDataTransformersPass());
-//        $builder->addCompilerPass(new AddSimilarityCheckerPass());
+        $builder->addCompilerPass(new AddConstraintValidatorsPass('duplication_checker.validator_factory', 'duplication_checker.constraint_validator'));
+        $builder->addCompilerPass(new AddDataTransformersPass());
+        $builder->addCompilerPass(new AddSimilarityCheckerPass());
         $builder->addCompilerPass(new AddSaveHandlerPass());
     }
 

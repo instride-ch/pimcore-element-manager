@@ -36,7 +36,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\File;
 
-class ElementManagerExtension extends AbstractModelExtension
+class PimcoreElementManagerExtension extends AbstractModelExtension
 {
     /**
      * @inheritDoc
@@ -179,12 +179,11 @@ class ElementManagerExtension extends AbstractModelExtension
             $duplicationBuilder->addMethodCall('addXmlMappings', [$files['yaml']]);
         }
 
-        // ToDo refactor Caching
-//        if (!$container->getParameter('kernel.debug')) {
-//            $duplicationBuilder->addMethodCall('setMetadataCache', [
-//                new Reference('duplication_checker.mapping.cache.symfony'),
-//            ]);
-//        }
+        if (!$container->getParameter('kernel.debug')) {
+            $duplicationBuilder->addMethodCall('setMappingCache', [
+                new Reference('duplication_checker.mapping.cache.adapter'),
+            ]);
+        }
     }
 
     /**
@@ -220,7 +219,7 @@ class ElementManagerExtension extends AbstractModelExtension
             $this->registerMappingFilesFromDir($dir, $fileRecorder);
         }
 
-        if (\is_array($config['mapping']['paths'])) {
+        if (isset($config['mapping']['paths']) && \is_array($config['mapping']['paths'])) {
             $this->registerMappingFilesFromConfig($container, $config, $fileRecorder);
         }
     }

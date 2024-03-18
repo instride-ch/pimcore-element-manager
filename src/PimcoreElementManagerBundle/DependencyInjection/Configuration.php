@@ -44,7 +44,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('element_manager');
+        $treeBuilder = new TreeBuilder('pimcore_element_manager');
         $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
@@ -109,7 +109,7 @@ class Configuration implements ConfigurationInterface
                                         ->useAttributeAsKey('name')
                                         ->prototype('scalar')->end()
                                         ->children()
-                                            ->scalarNode('group')->defaultValue('element_manager')->end()
+                                            ->scalarNode('group')->defaultValue('pimcore_element_manager')->end()
                                         ->end()
                                     ->end()
                                 ->end()
@@ -177,7 +177,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @param ArrayNodeDefinition $node
      */
-    private function addPimcoreResourcesSection(ArrayNodeDefinition $node)
+    private function addPimcoreResourcesSection(ArrayNodeDefinition $node): void
     {
         $node
             ->children()
