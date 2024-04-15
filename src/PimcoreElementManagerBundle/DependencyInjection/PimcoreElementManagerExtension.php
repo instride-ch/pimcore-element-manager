@@ -82,7 +82,7 @@ class PimcoreElementManagerExtension extends AbstractModelExtension
         $container->setDefinition(ObjectSaveManagers::class, $objectSaveManagers);
 
         foreach ($config['classes'] as $className => $classConfig) {
-            $this->registerSaveManagerConfiguration($container, $className, $classConfig ?? [], $loader);
+            $this->registerSaveManagerConfiguration($container, $className, $classConfig ?? [], $loader, $objectSaveManagers);
             $this->registerDuplicateIndexConfiguration(
                 $container,
                 $className,
@@ -98,7 +98,8 @@ class PimcoreElementManagerExtension extends AbstractModelExtension
         ContainerBuilder $container,
         string $className,
         array $config,
-        Loader\YamlFileLoader $loader
+        Loader\YamlFileLoader $loader,
+        Definition $objectSaveManagers
     ): void {
         $loader->load('services/save_manager.yaml');
 
@@ -147,13 +148,14 @@ class PimcoreElementManagerExtension extends AbstractModelExtension
 
         $container->setDefinition(\sprintf('save_manager.%s', \strtolower($className)), $definition);
 
-        $container->getDefinition(ObjectSaveManagers::class)->addMethodCall(
+        $objectSaveManagers->addMethodCall(
             'addSaveManager',
             [
                 $className,
                 new Reference(\sprintf('save_manager.%s', \strtolower($className))),
             ]
         );
+        $container->setDefinition(ObjectSaveManagers::class, $objectSaveManagers);
     }
 
     /**
