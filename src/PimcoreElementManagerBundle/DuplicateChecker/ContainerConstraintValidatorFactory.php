@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace Instride\Bundle\PimcoreElementManagerBundle\DuplicateChecker;
 
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class ContainerConstraintValidatorFactory extends \Symfony\Component\Validator\ContainerConstraintValidatorFactory
@@ -25,7 +26,7 @@ class ContainerConstraintValidatorFactory extends \Symfony\Component\Validator\C
     /**
      * @inheritDoc
      */
-    public function getInstance(Constraint $constraint)
+    public function getInstance(Constraint $constraint): ConstraintValidatorInterface
     {
         $validator = parent::getInstance($constraint);
 
