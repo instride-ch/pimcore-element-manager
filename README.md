@@ -1,13 +1,13 @@
 ![Pimcore Element Manager](docs/images/github_banner.png)
 
 ### Requirements
-* Pimcore `^10.0`
+* Pimcore `^11.0`
 
 ### Installation
 
 - Install with composer
   ```
-  composer require instride/pimcore-element-manager:^2.0
+  composer require instride/pimcore-element-manager:^3.0
   ```
 
 - Add to `config/bundles.php`
