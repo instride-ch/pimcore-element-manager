@@ -23,9 +23,9 @@
     }
   ],
   "require": {
-    "coreshop/resource-bundle": "^3.0",
+    "coreshop/resource-bundle": "^4.0",
     "league/csv": "^9.0",
-    "pimcore/pimcore": "^10.0"
+    "pimcore/pimcore": "^11.0"
   },
   "suggest": {
     "pimcore/object-merger": "To directly merge duplicates"
