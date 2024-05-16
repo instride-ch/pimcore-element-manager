@@ -17,18 +17,18 @@ declare(strict_types=1);
 
 namespace Instride\Bundle\PimcoreElementManagerBundle\Exception;
 
-use Pimcore\Model\DataObject\Concrete;
+use Pimcore\Model\Element\ElementInterface;
 use Pimcore\Model\Element\ValidationException;
 
 class DuplicatesException extends ValidationException
 {
     /**
-     * @var Concrete[]
+     * @var ElementInterface[]
      */
     private array $duplicates;
 
     /**
-     * @return Concrete[]
+     * @return ElementInterface[]
      */
     public function getDuplicates(): array
     {
@@ -36,7 +36,7 @@ class DuplicatesException extends ValidationException
     }
 
     /**
-     * @param Concrete[] $duplicates
+     * @param ElementInterface[] $duplicates
      */
     public function setDuplicates(array $duplicates): void
     {
