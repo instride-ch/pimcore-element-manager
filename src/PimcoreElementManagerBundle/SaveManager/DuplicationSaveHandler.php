@@ -30,10 +30,13 @@ class DuplicationSaveHandler extends AbstractObjectSaveHandler
      */
     public function preSave(Concrete $object, array $options): void
     {
-        $result = $this->duplicateService->findDuplicates($object, $options['group'] ? [$options['group']] : null);
+        $groups = isset($options['group']) ? [$options['group']] : null;
+        $result = $this->duplicateService->findDuplicates($object, $groups);
 
         if (\count($result) > 0) {
-            $duplicatesException = new DuplicatesException(\sprintf('Duplicates of Object %s found', $object->getClassName()));
+            $duplicatesException = new DuplicatesException(
+                \sprintf('Duplicates of Object %s found', $object->getClassName())
+            );
             $duplicatesException->setDuplicates($result);
 
             throw $duplicatesException;
