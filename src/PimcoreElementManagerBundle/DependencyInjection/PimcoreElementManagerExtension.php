@@ -68,21 +68,23 @@ class PimcoreElementManagerExtension extends AbstractModelExtension
         );
 
         $bundles = $container->getParameter('kernel.bundles');
+        $isMergeSupported = \array_key_exists('ObjectMergerBundle', $bundles);
 
-        if (\array_key_exists('ObjectMergerBundle', $bundles)) {
-            $container->setParameter('pimcore_element_manager.merge_supported', true);
-        }
-        else {
-            $container->setParameter('pimcore_element_manager.merge_supported', false);
-        }
+        $container->setParameter('pimcore_element_manager.merge_supported', $isMergeSupported);
 
         $this->registerDuplicationCheckerConfiguration($config['duplication'] ?? [], $container, $loader);
 
         $objectSaveManagers = new Definition(ObjectSaveManagers::class);
         $container->setDefinition(ObjectSaveManagers::class, $objectSaveManagers);
 
-        foreach ($config['classes'] as $className => $classConfig) {
-            $this->registerSaveManagerConfiguration($container, $className, $classConfig ?? [], $loader, $objectSaveManagers);
+        foreach ($config['classes'] ?? [] as $className => $classConfig) {
+            $this->registerSaveManagerConfiguration(
+                $container,
+                $className,
+                $classConfig ?? [],
+                $loader,
+                $objectSaveManagers
+            );
             $this->registerDuplicateIndexConfiguration(
                 $container,
                 $className,
@@ -105,12 +107,12 @@ class PimcoreElementManagerExtension extends AbstractModelExtension
 
         $definition = new Definition($config['save_manager_class']);
         $options = [
-            'naming_scheme' => $config['naming_scheme']['options'],
-            'duplicates' => $config['duplicates']['options'],
-            'validations' => $config['validations']['options'],
+            'naming_scheme' => $config['naming_scheme']['options'] ?? null,
+            'duplicates' => $config['duplicates']['options'] ?? null,
+            'validations' => $config['validations']['options'] ?? null,
         ];
 
-        if ($config['naming_scheme']['enabled']) {
+        if (isset($config['naming_scheme']['enabled']) && $config['naming_scheme']['enabled'] === true) {
             $namingDefinition = new Definition(NamingSchemeSaveHandler::class, [
                 new Reference($config['naming_scheme']['service']),
             ]);
@@ -126,19 +128,19 @@ class PimcoreElementManagerExtension extends AbstractModelExtension
             ]);
         }
 
-        if ($config['unique_key']['enabled']) {
+        if (isset($config['unique_key']['enabled']) && $config['unique_key']['enabled'] === true) {
             $definition->addMethodCall('addSaveHandler', [new Reference(UniqueKeySaveHandler::class)]);
         }
 
-        if ($config['validations']['enabled_on_save']) {
+        if (isset($config['validations']['enabled_on_save']) && $config['validations']['enabled_on_save'] === true) {
             $definition->addMethodCall('addSaveHandler', [new Reference(ValidationSaveHandler::class)]);
         }
 
-        if ($config['duplicates']['enabled_on_save']) {
+        if (isset($config['duplicates']['enabled_on_save']) && $config['duplicates']['enabled_on_save'] === true) {
             $definition->addMethodCall('addSaveHandler', [new Reference(DuplicationSaveHandler::class)]);
         }
 
-        if ($config['save_handlers']) {
+        if (isset($config['save_handlers']) && \is_array($config['save_handlers'])) {
             foreach ($config['save_handlers'] as $saveHandler) {
                 $definition->addMethodCall('addSaveHandler', [new Reference($saveHandler)]);
             }
@@ -268,16 +270,16 @@ class PimcoreElementManagerExtension extends AbstractModelExtension
         string $className,
         array $config
     ): void {
-        if (!$config || !$config['enabled']) {
+        if (! isset($config['enabled']) || $config['enabled'] !== true) {
             return;
         }
 
         $groups = [];
 
-        foreach ($config['groups'] as $groupName => $group) {
+        foreach ($config['groups'] ?? [] as $groupName => $group) {
             $fields = [];
 
-            foreach ($group['fields'] as $fieldName => $fieldConfig) {
+            foreach ($group['fields'] ?? [] as $fieldName => $fieldConfig) {
                 $fieldMetaData = new Definition(FieldMetadata::class, [
                     $fieldName, $fieldConfig,
                 ]);
@@ -312,7 +314,7 @@ class PimcoreElementManagerExtension extends AbstractModelExtension
             return;
         }
 
-        $listFields = $config['list_fields'];
+        $listFields = $config['list_fields'] ?? null;
 
         $metadata = new Definition(Metadata::class, [$className, $groups, $listFields]);
 
