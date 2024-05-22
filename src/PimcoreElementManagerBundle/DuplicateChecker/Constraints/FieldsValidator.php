@@ -19,7 +19,10 @@ namespace Instride\Bundle\PimcoreElementManagerBundle\DuplicateChecker\Constrain
 
 use CoreShop\Component\Resource\Exception\UnexpectedTypeException;
 use Instride\Bundle\PimcoreElementManagerBundle\DuplicateChecker\Constraints\Normalizer\CompareConditionMySqlNormalizer;
-use Pimcore\Model\DataObject;
+use Pimcore\Model\DataObject\ClassDefinition;
+use Pimcore\Model\DataObject\ClassDefinition\Data\QueryResourcePersistenceAwareInterface;
+use Pimcore\Model\DataObject\Concrete;
+use Pimcore\Model\DataObject\Listing\Concrete as Listing;
 use Pimcore\Model\Element\ElementInterface;
 use Symfony\Component\Validator\Constraint;
 
@@ -55,16 +58,12 @@ class FieldsValidator extends DuplicateConstraintValidator
     /**
      * @throws \Exception
      */
-    private function getDuplicatesByFields(
-        DataObject\Concrete $address,
-        array $fields,
-        bool $trim = false,
-        int $limit = 0
-    ): ?DataObject\Listing\Concrete {
+    private function getDuplicatesByFields(Concrete $object, array $fields, bool $trim = false): ?Listing
+    {
         $data = [];
         foreach ($fields as $field) {
             $getter = 'get' . \ucfirst($field);
-            $value = $address->$getter();
+            $value = $object->$getter();
 
             if (null === $value || '' === $value) {
                 return null;
@@ -77,10 +76,10 @@ class FieldsValidator extends DuplicateConstraintValidator
             $data[$field] = $value;
         }
 
-        $duplicates = $this->getDuplicatesByData($address::getList(), $data, $limit);
+        $duplicates = $this->getDuplicatesByData($object::getList(), $data);
 
-        if (null !== $duplicates && $address->getId()) {
-            $duplicates->addConditionParam('o_id != ?', $address->getId());
+        if (null !== $duplicates && $object->getId()) {
+            $duplicates->addConditionParam('id != ?', $object->getId());
         }
 
         return $duplicates;
@@ -89,16 +88,13 @@ class FieldsValidator extends DuplicateConstraintValidator
     /**
      * @throws \Exception
      */
-    private function getDuplicatesByData(
-        DataObject\Listing\Concrete $list,
-        array $data,
-        int $limit = 0
-    ): ?DataObject\Listing\Concrete {
+    private function getDuplicatesByData(Listing $list, array $data): ?Listing
+    {
         if (!\count($data)) {
             return null;
         }
 
-        $list->addConditionParam('o_published = ?', 1);
+        $list->addConditionParam('published = ?', 1);
 
         foreach ($data as $field => $value) {
             if (null === $value || '' === $value) {
@@ -108,25 +104,21 @@ class FieldsValidator extends DuplicateConstraintValidator
             $this->addNormalizedMysqlCompareCondition($list, $field, $value);
         }
 
-        if ($limit) {
-            $list->setLimit($limit);
-        }
-
         return $list;
     }
 
     /**
      * @throws \Exception
      */
-    private function addNormalizedMysqlCompareCondition(DataObject\Listing\Concrete $list, string $field, mixed $value): void
+    private function addNormalizedMysqlCompareCondition(Listing $list, string $field, mixed $value): void
     {
-        $class = DataObject\ClassDefinition::getById($list->getClassId());
+        $class = ClassDefinition::getById($list->getClassId());
 
         if (null === $class) {
             return;
         }
 
-        /** @var DataObject\ClassDefinition\Data\QueryResourcePersistenceAwareInterface $fd */
+        /** @var QueryResourcePersistenceAwareInterface $fd */
         $fd = $class->getFieldDefinition($field);
 
         if (!$fd) {
@@ -159,7 +151,7 @@ class FieldsValidator extends DuplicateConstraintValidator
 
         $type = \get_debug_type($value);
 
-        throw new InvalidArgumentException(
+        throw new \InvalidArgumentException(
             \sprintf('Duplicate check for type of field %s not implemented (type of value: %s)', $field, $type)
         );
     }
