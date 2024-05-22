@@ -17,13 +17,13 @@ declare(strict_types=1);
 
 namespace Instride\Bundle\PimcoreElementManagerBundle\DuplicateChecker\Constraints\Normalizer;
 
-use Pimcore\Model\DataObject;
+use Pimcore\Model\DataObject\Listing\Concrete as Listing;
 use Pimcore\Model\Element\ElementInterface;
 
 class CompareConditionMySqlNormalizer
 {
     public function addForStringFields(
-        DataObject\Listing\Concrete $list,
+        Listing $list,
         string $field,
         string $value,
         array $duplicateCheckTrimmedFields = []
@@ -35,17 +35,17 @@ class CompareConditionMySqlNormalizer
         }
     }
 
-    public function addForDateFields(DataObject\Listing\Concrete $list, $field, \DateTime $value): void
+    public function addForDateFields(Listing $list, $field, \DateTime $value): void
     {
         $list->addConditionParam($field . ' = ?', $value->getTimestamp());
     }
 
-    public function addForSingleRelationFields(DataObject\Listing\Concrete $list, $field, ElementInterface $value): void
+    public function addForSingleRelationFields(Listing $list, $field, ElementInterface $value): void
     {
         $list->addConditionParam($field . '__id = ?', $value->getId());
     }
 
-    public function addForMultiRelationFields(DataObject\Listing\Concrete $list, $field, $value): void
+    public function addForMultiRelationFields(Listing $list, $field, $value): void
     {
         $ids = [];
 

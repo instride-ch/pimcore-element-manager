@@ -17,7 +17,14 @@ declare(strict_types=1);
 
 namespace Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\Similarity;
 
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+
 interface SimilarityCheckerFactoryInterface
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function getInstance(string $identifier): SimilarityCheckerInterface;
 }

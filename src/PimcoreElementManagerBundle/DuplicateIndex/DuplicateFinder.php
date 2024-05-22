@@ -19,6 +19,7 @@ namespace Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex;
 
 use CoreShop\Component\Resource\Factory\FactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\Similarity\SimilarityCheckerFactoryInterface;
 use Instride\Bundle\PimcoreElementManagerBundle\Metadata\DuplicatesIndex\GroupMetadataInterface;
 use Instride\Bundle\PimcoreElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
@@ -40,6 +41,9 @@ class DuplicateFinder implements DuplicateFinderInterface
         private readonly FactoryInterface $potentialDuplicateFactory
     ) {}
 
+    /**
+     * @inheritDoc
+     */
     public function findPotentialDuplicate(MetadataInterface $metadata): void
     {
         $this->potentialDuplicateRepository->deleteAll();
@@ -95,10 +99,8 @@ class DuplicateFinder implements DuplicateFinderInterface
         return \array_merge($soundex, $metaphone);
     }
 
-    protected function findFuzzyDuplicatesByAlgorithm(
-        MetadataInterface $metadata,
-        string $algorithm
-    ): array {
+    protected function findFuzzyDuplicatesByAlgorithm(MetadataInterface $metadata, string $algorithm): array
+    {
         $duplicates = $this->duplicateRepository->findExactByAlgorithm($metadata->getClassName(), $algorithm);
         $result = [];
 
@@ -119,10 +121,8 @@ class DuplicateFinder implements DuplicateFinderInterface
         return $result;
     }
 
-    protected function checkForDuplicate(
-        MetadataInterface $metadata,
-        array $duplicateObjects
-    ): array {
+    protected function checkForDuplicate(MetadataInterface $metadata, array $duplicateObjects): array
+    {
         $grouped = [];
 
         foreach ($duplicateObjects as $duplicateObject) {
@@ -144,10 +144,8 @@ class DuplicateFinder implements DuplicateFinderInterface
         return \array_merge(...$result);
     }
 
-    private function checkForDuplicatesInGroup(
-        GroupMetadataInterface $group,
-        array $duplicateObjects
-    ): array {
+    private function checkForDuplicatesInGroup(GroupMetadataInterface $group, array $duplicateObjects): array
+    {
         $result = [];
 
         foreach ($duplicateObjects as $duplicateObject1) {

@@ -26,9 +26,6 @@ class ContainerDataTransformerFactory implements DataTransformerFactoryInterface
 
     public function __construct(private readonly ContainerInterface $container) {}
 
-    /**
-     * @inheritDoc
-     */
     public function getInstance(string $identifier): DataTransformerInterface
     {
         if (!isset($this->dataTransformers[$identifier])) {

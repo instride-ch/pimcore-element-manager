@@ -154,6 +154,6 @@ class DuplicatesIndexWorker implements DuplicatesIndexWorkerInterface
 
     protected function isRelevantForIndex(Concrete $concrete): bool
     {
-        return $concrete->getPublished();
+        return $concrete->isPublished();
     }
 }

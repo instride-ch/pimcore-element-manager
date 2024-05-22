@@ -17,9 +17,13 @@ declare(strict_types=1);
 
 namespace Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Instride\Bundle\PimcoreElementManagerBundle\Metadata\DuplicatesIndex\MetadataInterface;
 
 interface DuplicateFinderInterface
 {
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findPotentialDuplicate(MetadataInterface $metadata);
 }

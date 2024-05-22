@@ -27,7 +27,7 @@ class UniqueKeySaveHandler implements PostObjectSaveHandlerInterface
     /**
      * @throws \Exception
      */
-    public function preSave(Concrete $object, array $options): void
+    public function preSave(Concrete $object): void
     {
         $object->setKey(Service::getUniqueKey($object));
     }

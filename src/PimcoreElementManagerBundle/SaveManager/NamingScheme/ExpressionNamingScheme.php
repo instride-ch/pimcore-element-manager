@@ -70,8 +70,11 @@ class ExpressionNamingScheme implements NamingSchemeInterface
         if ($options['initial_key_mapping']) {
             $request = $this->requestStack->getMainRequest();
 
-            if (null !== $request && $this->matchesPimcoreContext($request, PimcoreContextResolver::CONTEXT_ADMIN) &&
-                $object->getKey() && $object->getId() === 0
+            if (
+                null !== $request &&
+                $this->matchesPimcoreContext($request, PimcoreContextResolver::CONTEXT_ADMIN) &&
+                $object->getKey() &&
+                $object->getId() === 0
             ) {
                 $setter = \sprintf('set%s', \ucfirst($options['initial_key_mapping']));
 

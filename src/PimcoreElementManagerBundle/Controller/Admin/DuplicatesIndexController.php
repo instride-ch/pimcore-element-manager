@@ -22,12 +22,18 @@ use Instride\Bundle\PimcoreElementManagerBundle\Metadata\DuplicatesIndex\Metadat
 use Instride\Bundle\PimcoreElementManagerBundle\Metadata\DuplicatesIndex\MetadataRegistryInterface;
 use Instride\Bundle\PimcoreElementManagerBundle\Model\PotentialDuplicateInterface;
 use Instride\Bundle\PimcoreElementManagerBundle\Repository\PotentialDuplicateRepositoryInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Webmozart\Assert\Assert;
 
 class DuplicatesIndexController extends ResourceController
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function listAction(Request $request): JsonResponse
     {
         return $this->viewHandler->handle($this->getMetadataRegistry()->all(), [
@@ -35,6 +41,10 @@ class DuplicatesIndexController extends ResourceController
         ]);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function getAction(Request $request): JsonResponse
     {
         $this->isGrantedOr403();
@@ -55,6 +65,11 @@ class DuplicatesIndexController extends ResourceController
         );
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \Exception
+     */
     public function getPotentialDuplicatesAction(Request $request): JsonResponse
     {
         $declined = $request->get('declined', false);
@@ -124,7 +139,11 @@ class DuplicatesIndexController extends ResourceController
             $listResult[] = $toResult;
         }
 
-        return $this->viewHandler->handle(['total' => $count * 2, 'data' => $listResult, 'success' => true], ['group' => 'Detailed']);
+        return $this->viewHandler->handle([
+            'total' => $count * 2,
+            'data' => $listResult,
+            'success' => true
+        ], ['group' => 'Detailed']);
     }
 
     public function declineDuplicationAction(Request $request): JsonResponse
@@ -161,6 +180,10 @@ class DuplicatesIndexController extends ResourceController
         return $this->viewHandler->handle(['success' => true]);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     protected function findByClassNameOr404(string $className): MetadataInterface
     {
         if (!$this->getMetadataRegistry()->has($className)) {
@@ -170,8 +193,12 @@ class DuplicatesIndexController extends ResourceController
         return $this->getMetadataRegistry()->get($className);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     private function getMetadataRegistry(): MetadataRegistryInterface
     {
-        return $this->get(MetadataRegistryInterface::class);
+        return $this->container->get(MetadataRegistryInterface::class);
     }
 }

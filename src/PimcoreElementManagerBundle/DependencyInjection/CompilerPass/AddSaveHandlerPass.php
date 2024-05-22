@@ -28,18 +28,23 @@ class AddSaveHandlerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container): void
     {
-        foreach ($container->findTaggedServiceIds('pimcore_element_manager.save_handler', true) as $id => $attributes) {
+        $services = $container->findTaggedServiceIds('pimcore_element_manager.save_handler', true);
+
+        foreach ($services as $id => $attributes) {
             if (!isset($attributes[0]['className'])) {
-                throw new \InvalidArgumentException(\sprintf('Tagged Service `%s` needs to have `className` attribute.', $id));
+                throw new \InvalidArgumentException(
+                    \sprintf('Tagged Service `%s` needs to have `className` attribute.', $id)
+                );
             }
 
             $className = $attributes[0]['className'];
+            $saveManagerName = \sprintf('save_manager.%s', \strtolower($className));
 
-            if (!$container->hasDefinition(\sprintf('save_manager.%s', \strtolower($className)))) {
+            if (!$container->hasDefinition($saveManagerName)) {
                 continue;
             }
 
-            $saveManagerDefinition = $container->getDefinition(\sprintf('save_manager.%s', \strtolower($className)));
+            $saveManagerDefinition = $container->getDefinition($saveManagerName);
             $saveManagerDefinition->addMethodCall('addSaveHandler', [new Reference($id)]);
         }
     }

@@ -78,7 +78,13 @@ class PimcoreElementManagerExtension extends AbstractModelExtension
         $container->setDefinition(ObjectSaveManagers::class, $objectSaveManagers);
 
         foreach ($config['classes'] as $className => $classConfig) {
-            $this->registerSaveManagerConfiguration($container, $className, $classConfig ?? [], $loader, $objectSaveManagers);
+            $this->registerSaveManagerConfiguration(
+                $container,
+                $className,
+                $classConfig ?? [],
+                $loader,
+                $objectSaveManagers
+            );
             $this->registerDuplicateIndexConfiguration(
                 $container,
                 $className,

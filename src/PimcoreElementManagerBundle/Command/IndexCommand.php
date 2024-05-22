@@ -12,7 +12,8 @@ declare(strict_types=1);
  * files that are distributed with this source code.
  *
  * @copyright 2024 instride AG (https://instride.ch)
- * @license   https://github.com/instride-ch/pimcore-element-manager/blob/main/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
+ * @license   https://github.com/instride-ch/pimcore-element-manager/blob/main/gpl-3.0.txt GNU General Public License
+ *            version 3 (GPLv3)
  */
 
 namespace Instride\Bundle\PimcoreElementManagerBundle\Command;
@@ -20,6 +21,7 @@ namespace Instride\Bundle\PimcoreElementManagerBundle\Command;
 use CoreShop\Component\Pimcore\BatchProcessing\BatchListing;
 use Doctrine\ORM\NonUniqueResultException;
 use Pimcore\Model\DataObject\AbstractObject;
+use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\DataObject\Listing;
 use Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\DuplicateFinderInterface;
 use Instride\Bundle\PimcoreElementManagerBundle\DuplicateIndex\DuplicatesIndexWorkerInterface;
@@ -64,13 +66,16 @@ class IndexCommand extends Command
 
             $batchList = new BatchListing($list, $perLoop);
 
-            $output->writeln(\sprintf('<info>Processing %s Objects of class "%s"</info>', $batchList->count(), $class));
+            $output->writeln(
+                \sprintf('<info>Processing %s Objects of class "%s"</info>', $batchList->count(), $class)
+            );
             $progress = new ProgressBar($output, $batchList->count());
             $progress->setFormat(
                 '%current%/%max% [%bar%] %percent:3s%% (%elapsed:6s%/%estimated:-6s%) %memory:6s%: %message%'
             );
             $progress->start();
 
+            /** @var Concrete $object */
             foreach ($batchList as $object) {
                 $progress->setMessage(\sprintf('Index %s (%s)', $object->getFullPath(), $object->getId()));
                 $progress->advance();
