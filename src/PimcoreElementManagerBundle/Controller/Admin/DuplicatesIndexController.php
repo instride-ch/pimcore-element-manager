@@ -181,8 +181,8 @@ class DuplicatesIndexController extends ResourceController
     }
 
     /**
-     * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
      */
     protected function findByClassNameOr404(string $className): MetadataInterface
     {
@@ -197,7 +197,7 @@ class DuplicatesIndexController extends ResourceController
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    private function getMetadataRegistry(): MetadataRegistryInterface
+    private function getMetadataRegistry()
     {
         return $this->container->get(MetadataRegistryInterface::class);
     }
