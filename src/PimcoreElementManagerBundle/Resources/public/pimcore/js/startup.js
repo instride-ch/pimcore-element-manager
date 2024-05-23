@@ -1,5 +1,5 @@
 /**
- * Data Definitions.
+ * Pimcore Element Manager.
  *
  * LICENSE
  *
@@ -11,43 +11,35 @@
  * @license   https://github.com/instride-ch/pimcore-element-manager/blob/main/gpl-3.0.txt GNU General Public License version 3 (GPLv3)
  */
 
-pimcore.registerNS('pimcore_element_manager.*');
-pimcore.registerNS('pimcore_element_manager.duplication_index.*');
-pimcore.registerNS('pimcore.plugin.pimcore_element_manager');
-
-pimcore.plugin.pimcore_element_manager = Class.create(pimcore.plugin.admin, {
-    getClassName: function() {
-        return 'pimcore.plugin.pimcore_element_manager';
-    },
-
-    initialize: function() {
-        pimcore.plugin.broker.registerPlugin(this);
-    },
-
-    pimcoreReady: function(params, broker) {
+class PimcoreElementManager {
+    init() {
         const user = pimcore.globalmanager.get('user');
 
         if (user.isAllowed('plugins')) {
             const duplicationsMenu = new Ext.Action({
+                id: 'pimcore_element_manager_duplication_indexes',
                 text: t('pimcore_element_manager_duplication_indexes'),
                 iconCls: 'pimcore_element_manager_duplication_nav_icon_indexes',
-                handler: this.openDuplications,
+                handler: this.openDuplicationIndexes.bind(this),
             });
 
-            layoutToolbar.settingsMenu.add(duplicationsMenu);
+            if (layoutToolbar.settingsMenu) {
+                layoutToolbar.settingsMenu.add(duplicationsMenu);
+            }
 
             coreshop.global.addStore('pimcore_element_manager_duplication_indexes', 'pimcore_element_manager/potential_duplicates');
         }
-    },
+    }
 
-    openDuplications: function() {
+    openDuplicationIndexes() {
         try {
             pimcore.globalmanager.get('pimcore_element_manager_duplication_indexes_panel').activate();
         } catch (e) {
             pimcore.globalmanager.add('pimcore_element_manager_duplication_indexes_panel', new pimcore_element_manager.duplication_index.panel());
         }
-    },
-});
+    }
+}
 
-new pimcore.plugin.pimcore_element_manager();
+const pimcoreElementManagerHandler = new PimcoreElementManager();
 
+document.addEventListener(pimcore.events.pimcoreReady, pimcoreElementManagerHandler.init.bind(pimcoreElementManagerHandler));
