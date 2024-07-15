@@ -74,7 +74,7 @@ class ExpressionNamingScheme implements NamingSchemeInterface
                 null !== $request &&
                 $this->matchesPimcoreContext($request, PimcoreContextResolver::CONTEXT_ADMIN) &&
                 $object->getKey() &&
-                $object->getId() === 0
+                !$object->getId()
             ) {
                 $setter = \sprintf('set%s', \ucfirst($options['initial_key_mapping']));
 
@@ -97,20 +97,20 @@ class ExpressionNamingScheme implements NamingSchemeInterface
             $key = $namingScheme;
         }
 
-        $object->setKey($key);
-        $parentPath = $this->correctPath($parentPath);
-
-        if (!$options['skip_path_for_variant'] || $object->getType() !== AbstractObject::OBJECT_TYPE_VARIANT) {
-            $object->setParent(Service::createFolderByPath($parentPath));
-        }
-
-        if (!$object->getKey()) {
+        if (!$key) {
             $className = \strtolower(\ltrim(\preg_replace(
                 '/[A-Z]([A-Z](?![a-z]))*/',
                 '_$0',
                 $object->getClassName()
             ), '_'));
-            $object->setKey(uniqid(\sprintf('%s_', $className), true));
+            $key = uniqid(\sprintf('%s_', $className), true);
+        }
+
+        $object->setKey($key);
+        $parentPath = $this->correctPath($parentPath);
+
+        if (!$options['skip_path_for_variant'] || $object->getType() !== AbstractObject::OBJECT_TYPE_VARIANT) {
+            $object->setParent(Service::createFolderByPath($parentPath));
         }
 
         $object->setKey(Service::getUniqueKey($object));
