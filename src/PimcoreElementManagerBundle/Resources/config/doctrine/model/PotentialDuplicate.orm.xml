@@ -10,7 +10,7 @@
         </id>
         <field name="declined" type="boolean" column="declined">
             <options>
-                <option name="default">false</option>
+                <option name="default">0</option>
             </options>
         </field>
         <field name="creationDate" type="date" column="creationDate">
